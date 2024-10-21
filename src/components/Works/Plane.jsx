@@ -1,0 +1,180 @@
+import { React, useEffect, useMemo } from 'react';
+import { useThree } from '@react-three/fiber';
+import { useTexture, Image as DreiImage } from '@react-three/drei';
+import { useMediaQueryCheck } from '../../hooks/useMediaQueryCheck';
+import PropTypes from 'prop-types';
+import gsap from 'gsap';
+
+export function Plane ({ index, material, texture, width, height, active, activeIndex, isBack, setIsReady, ...props }) {
+    const { viewport } = useThree();
+    const tex = useTexture(texture);
+    const { isMobile } = useMediaQueryCheck(991);
+
+    useEffect(() => {
+        if (material.current[index].material) {
+            material.current[index].material.uniforms.uZoomScale.value.x = isMobile
+                ? viewport.width / 1.2 / width
+                : viewport.width / 2 / width;
+            material.current[index].material.uniforms.uZoomScale.value.y = isMobile
+                ? viewport.height / 1.6 / height
+                : viewport.height / height;
+            gsap.to(material.current[index].material.uniforms.uProgress, {
+                value: active ? 1 : 0,
+                duration: isBack ? 0 : 2.5,
+                onComplete: () => {
+                    if (active && !isBack) setIsReady(true);
+                },
+            });
+            gsap.to(material.current[index].material.uniforms.uRes.value, {
+                x: active && isMobile ? viewport.width / 1.1 : active && !isMobile ? viewport.width / 2 : width,
+                y: active && isMobile ? viewport.height / 1.5 : active && !isMobile ? viewport.height : height,
+                duration: isBack ? 0 : 2.5,
+            });
+            if (active || isBack) {
+                material.current[index].material.uniforms.isActive.value = 1;
+            } else {
+                material.current[index].material.uniforms.isActive.value = 0;
+            }
+        }
+    }, [viewport, active]);
+
+    const shaderArgs = useMemo(
+        () => ({
+            uniforms: {
+                uProgress: { value: 0 },
+                uZoomScale: { value: { x: 1, y: 1 } },
+                uTex: { value: tex },
+                uRes: { value: { x: 1, y: 1 } },
+                uImageRes: {
+                    value: { x: tex.source.data.width, y: tex.source.data.height },
+                },
+                time: { value: 0 },
+                distort: { value: isMobile ? 0.6 : 0.1 },
+                shift: { value: 0 },
+                isActive: { value: 1 },
+            },
+            vertexShader: /* glsl */ `
+                varying vec2 vUv;
+                varying float vDistort;
+                uniform float uProgress;
+                uniform vec2 uZoomScale;
+                uniform float shift;
+                uniform float time;
+                uniform float distort;
+                uniform float isActive;
+            
+                // Perlin noise function
+                float rand(vec2 co){
+                    return fract(sin(dot(co.xy,vec2(12.9898,78.233))) * 43758.5453);
+                }
+
+                float noise(vec2 p){
+                    vec2 ip = floor(p);
+                    vec2 u = fract(p);
+                    u = u*u*(3.0-2.0*u);
+
+                    float res = mix(
+                        mix(rand(ip),rand(ip+vec2(1.0,0.0)),u.x),
+                        mix(rand(ip+vec2(0.0,1.0)),rand(ip+vec2(1.0,1.0)),u.x),u.y);
+                    return res*res;
+                }
+
+                void main() {
+                vUv = uv;
+                // vDistort = (position.y * 10.0 + time) * distort;
+                vDistort = noise(position.xy * 0.5 + vec2(time)) * distort;
+                
+                vec3 pos = position + normal * vDistort;
+                // vec3 transformed = position + normal * vDistort;
+
+                float angle = uProgress * 3.14159265 / 2.;
+                float wave = cos(angle);
+                float c = sin(length(uv - .5) * 15. + uProgress * 12.) * .5 + .5;
+                pos.y += (1.0 - isActive) * (sin(uv.x * 3.1415926535897932384626433832795) * shift * 1.0) * 0.125;
+                pos.x *= mix(1., uZoomScale.x + wave * c, uProgress);
+                pos.y *= mix(1., uZoomScale.y + wave * c, uProgress);
+            
+                gl_Position = projectionMatrix * modelViewMatrix * vec4( pos, 1.0 );
+                }
+            `,
+            fragmentShader: /* glsl */ `
+                uniform sampler2D uTex;
+                uniform vec2 uRes;
+                uniform vec2 uZoomScale;
+                uniform vec2 uImageRes;
+
+                /*------------------------------
+                Background Cover UV
+                --------------------------------
+                u = basic UV
+                s = screensize
+                i = image size
+                ------------------------------*/
+                vec2 CoverUV(vec2 u, vec2 s, vec2 i) {
+                    float rs = s.x / s.y; // Aspect screen size
+                    float ri = i.x / i.y; // Aspect image size
+                    vec2 st = rs < ri ? vec2(i.x * s.y / i.y, s.y) : vec2(s.x, i.y * s.x / i.x); // New st
+                    vec2 o = (rs < ri ? vec2((st.x - s.x) / 2.0, 0.0) : vec2(0.0, (st.y - s.y) / 2.0)) / st; // Offset
+                    return u * s / st + o;
+                }
+
+                varying vec2 vUv;
+                void main() {
+                    vec2 uv = CoverUV(vUv, uRes, uImageRes);
+                    vec3 tex = texture2D(uTex, uv).rgb;
+                    gl_FragColor = vec4( tex, 1.0 );
+                }
+            `,
+        }),
+        [tex]
+    );
+
+    const handlePointerEnter = e => {
+        if (material.current[activeIndex].material) {
+            gsap.to(material.current[activeIndex].material.uniforms.distort, {
+                value: 0.5,
+                duration: 1,
+                overwrite: true,
+            });
+        }
+    };
+
+    const handlePointerLeave = () => {
+        if (material.current[activeIndex].material) {
+            gsap.to(material.current[activeIndex].material.uniforms.distort, {
+                value: 0.1,
+                duration: 0.8,
+                overwrite: true,
+            });
+        }
+    };
+
+    return (
+        <DreiImage
+            onPointerEnter={handlePointerEnter}
+            // onPointerMove={handlePointerMove}
+            onPointerLeave={handlePointerLeave}
+            ref={node => {
+                material.current[index] = node;
+            }}
+            texture={tex}
+            renderOrder={-1}
+            {...props}
+        >
+            <planeGeometry args={[width, height, 30, 30]} transparent />
+            <shaderMaterial args={[shaderArgs]} transparent />
+        </DreiImage>
+    );
+}
+
+Plane.propTypes = {
+    texture: PropTypes.string,
+    width: PropTypes.number,
+    height: PropTypes.number,
+    active: PropTypes.bool,
+    isBack: PropTypes.bool,
+    index: PropTypes.number,
+    activeIndex: PropTypes.number,
+    material: PropTypes.object,
+    setIsReady: PropTypes.func,
+};

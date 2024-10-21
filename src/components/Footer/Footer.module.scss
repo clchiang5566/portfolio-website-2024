@@ -1,0 +1,85 @@
+@import '../../styles/utils.scss';
+
+.el {
+  width: 100%;
+  min-height: 90vh;
+  padding: 280px 0 280px 0;
+  color: #313131;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  position: relative;
+  margin: 0 auto;
+  @include tablet {
+    padding: 200px 20px 140px 20px;
+    min-height: 70vh;
+  }
+  .headline {
+    font-size: 54px;
+    font-weight: bold;
+    position: relative;
+    z-index: 1;
+    letter-spacing: 3px;
+    @include tablet {
+      font-size: 32px;
+      text-align: center;
+    }
+  }
+  .links {
+    display: flex;
+    font-size: 18px;
+    margin-top: 10px;
+    @include tablet {
+      font-size: 14px;
+    }
+    b {
+      margin: 0 10px;
+      padding-top: 10px;
+    }
+  }
+  :global .button {
+    // margin-top: 20px;
+    padding: 7px 0;
+    position: relative;
+    display: inline-block;
+    overflow: hidden;
+  @include mobile {
+    margin-top: 0;
+  }	
+    a {
+      font-size: 14px;
+      letter-spacing: 1px;
+      position: relative;
+      color: $color-text;
+      cursor: pointer;
+      padding-bottom: 12px;
+          white-space: nowrap;
+      &:hover :global .button__graphic--slide {
+        transform: translate3d(-66.6%, 0, 0);
+    }
+    @include mobile {
+      font-size: 12px;
+    }
+    @include mobile-m {
+      font-size: 10px;
+    }
+    }
+  &__graphic {
+      position: absolute;
+      top: 0;
+      left: 0;
+      pointer-events: none;
+      fill: none;
+      stroke: #000;
+      stroke-width: 1px;
+  }
+
+  &__graphic--slide {
+      top: -3px;
+      stroke-width: 2px;
+      transition: transform 0.7s;
+      transition-timing-function: cubic-bezier(0, 0.25, 0.5, 1);
+  }
+  }
+}

@@ -1,0 +1,49 @@
+@import '../../styles/utils.scss';
+
+.el {
+  width: 100%;
+  margin: 0 auto;
+  position: relative;
+  z-index: 1;
+  border: 1px solid;
+  border-radius: 16px;
+  overflow: hidden;
+  // padding: 0 7px;
+  @include tablet {
+    padding: 0;
+  }
+  .modal {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+  }
+  .videoFrame {
+    position: relative;
+    width: 100%;
+    // width: 100%;
+    max-width: 100%;
+    height: 0;
+    padding-top: 56.2%;
+
+    &.mp4 {
+      padding-top: 62.8%;
+    }
+
+    iframe {
+      width: 100%;
+      height: 100%;
+      position: relative;
+    }
+    .video {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+    }
+  }
+  :global(.vjs-poster) {
+    background-size: cover;
+    // display: inline-block !important;
+  }
+}

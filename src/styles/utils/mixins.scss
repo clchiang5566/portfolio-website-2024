@@ -1,0 +1,76 @@
+//* for iphone 5s/se1
+@mixin mobile-m {
+  @media screen and (max-width: $mobile-m-bp) {
+    @content;
+  }
+}
+
+@mixin mobile {
+  @media screen and (max-width: $mobile-bp) {
+    @content;
+  }
+}
+
+@mixin tablet {
+  @media screen and (max-width: $tablet-bp) {
+    @content;
+  }
+}
+
+@mixin desktop {
+  @media screen and (max-width: $desktop-bp) {
+    @content;
+  }
+}
+
+@mixin desktop-m {
+  @media screen and (max-width: $desktop-sm-bp) {
+    @content;
+  }
+}
+
+@mixin desktop-l {
+  @media screen and (max-width: $desktop-md-bp) {
+    @content;
+  }
+}
+
+@mixin link($color) {
+  & {
+    color: $color;
+    text-decoration: none;
+    @content;
+    &:visited,
+    &:active,
+    &:focus {
+      color: $color;
+    }
+  }
+}
+
+@mixin linkAnimation() {
+  & {
+    animation-name: backgroundColorPalette;
+    animation-duration: 1s;
+    animation-iteration-count: infinite;
+    animation-direction: alternate;
+  }
+}
+
+@keyframes backgroundColorPalette {
+  0% {
+    background: #ee6055;
+  }
+  25% {
+    background: #57f6b4;
+  }
+  50% {
+    background: #aaf683;
+  }
+  75% {
+    background: #ffd97d;
+  }
+  100% {
+    background: #ff9b85;
+  }
+}

@@ -1,0 +1,48 @@
+.container {
+  width: 300px;
+  padding: 1em;
+  margin: 1em auto;
+
+  .formContainer {
+    padding-top: 10px;
+    padding-bottom: 10px;
+    .formItem {
+      display: flex;
+      flex-direction: column;
+
+      label {
+        margin-bottom: 2px;
+        font-size: 0.9em;;
+      }
+
+      input {
+        width: 100%;
+        border: 1px solid #Dedede;
+        border-radius: 4px;
+        height: 1.1876em;
+        margin: 0;
+        display: block;
+        padding: 6px 0 7px;
+        min-width: 0;
+        background: none;
+        box-sizing: content-box;
+        letter-spacing: inherit;
+        animation-duration: 10ms;
+        -webkit-tap-highlight-color: transparent;
+        padding: 18.5px 14px;
+
+        &:hover, &:active {
+          border-color: #333;
+        }
+
+        margin-bottom: 5px;
+
+      }
+    }
+  }
+  button {
+    border: 1px solid #dedede;
+    border-radius: 4px;
+    padding: 6px 16px;
+  }
+}

@@ -1,0 +1,36 @@
+//*** Responsive breakpoints ***//
+$mobile-m-bp: 389px; // below portrait
+$mobile-bp: 599px; // mobile
+$tablet-bp: 767px; // tablet medium
+$desktop-bp: 1024px; // below mini desktop
+$desktop-sm-bp: 1199px; // below small desktop
+$desktop-md-bp: 1441px; // below middle desktop
+
+//*** Container Max-Width ***//
+$container-fr: 640px;
+$container-tb: 800px;
+$container-mi: 1078px;
+$container-inner: 1236px;
+$container-xs: 860px;
+$container-sm: 1300px;
+$container-md: 1440px;
+$container-fhd: 1920px;
+
+//*** Container Padding ***//
+$container-p: 50px;
+$mobile-padding: 20px;
+
+//*** Colors ***//
+$color-blue: #272560;
+$color-orange: #E67C25;
+$color-text: #313131; // $color-blue
+$color-secondary: #3A74B4;
+$color-grey: #f7f7f7;
+
+//*** Font ***//
+$f-body: 'Montserrat', 'Lato', 'Helvetica Neue', Helvetica, 'Noto Sans TC', sans-serif;
+$f-heading: 'Montserrat',serif;
+
+//*** Z-Index ***//
+$z-header: 100000000;
+$z-header-item: 101;

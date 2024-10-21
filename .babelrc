@@ -1,0 +1,23 @@
+{
+  "presets": [
+    [
+      "next/babel",
+      {
+        "preset-env": {
+          "targets": {
+            "ie": "11"
+          },
+          "useBuiltIns": "usage",
+          "corejs": {
+            "version": 3,
+            "proposals": true
+          },
+          "forceAllTransforms": true
+        }
+      }
+    ]
+  ],
+  "plugins": [
+    "babel-plugin-macros"
+  ]
+}
