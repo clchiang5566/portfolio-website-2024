@@ -1,0 +1,68 @@
+const images = [
+    {
+        title: 'Taiwan \nStreet \nAnother \nWorld',
+        subtitle: ['#WEBSITE', '#WEBVR', '#GAME'],
+        link: '/works/taiwan-street-another-world',
+        image: '/images/img6.jpg',
+        bgColor: '#aaf683',
+        texture: '/models/down/Material_body.png',
+    },
+    {
+        title: 'TATA \nCommunications \nWebsite',
+        subtitle: ['#BUSINESE', '#WEBSITE', '#WEBGL'],
+        link: '/works/tata-communications-website',
+        image: '/images/img9.jpg',
+        bgColor: '#cce1f3',
+        texture: '/models/down/Material_body_blue.png',
+    },
+    {
+        title: 'Delonghi \nCoffee \nLounge',
+        subtitle: ['#FACEPRINT', '#KIOSK', '#IOT'],
+        link: '/works/delonghi-coffee-lounge',
+        image: '/images/img10.jpg',
+        bgColor: '#ff9b85',
+        texture: '/models/down/Material_body_pink.png',
+    },
+    {
+        title: 'KitKat \nChocolatory \nEcommerce \nExperience',
+        subtitle: ['#WEBSITE', '#WEBGL', '#ECOMMERCE'],
+        link: '/works/kitkat-chocolatory-ecommerce-experience',
+        image: '/images/img1.jpg',
+        bgColor: '#ee6055',
+        texture: '/models/down/Material_body_red.png',
+    },
+    {
+        title: 'Tomorrow \nOffical \nWebsite',
+        subtitle: ['#ADVERTISEMENT', '#WEBSITE', '#WEBGL'],
+        link: '/works/tomorrow-official-website',
+        image: '/images/img2.jpg',
+        bgColor: '#ffd97d',
+        texture: '/models/down/Material_body_yellow.png',
+    },
+    {
+        title: 'NIO \nReview \nOf the year',
+        subtitle: ['#DATAVISUALIZATION', '#INTERACTIVEANIMATION', '#MOBILE'],
+        link: '/works/nio-review-of-the-year',
+        image: '/images/img11.jpg',
+        bgColor: '#aaf683',
+        texture: '/models/down/Material_body.png',
+    },
+    {
+        title: 'The Road \nTo \nHBL',
+        subtitle: ['#INTERACTIVEANIMATION', '#MOBILE', '#STORY'],
+        link: '/works/the-road-to-hbl',
+        image: '/images/img3.jpg',
+        bgColor: '#57f6b4',
+        texture: '/models/down/Material_body_green.png',
+    },
+    {
+        title: 'Truth \nis \nTimberland',
+        subtitle: ['#MOBILE', '#GAME', '#WEBGL'],
+        link: '/works/truth-is-timberland',
+        image: '/images/img4.jpg',
+        bgColor: '#ff9b85',
+        texture: '/models/down/Material_body_pink.png',
+    },
+];
+
+export default images;

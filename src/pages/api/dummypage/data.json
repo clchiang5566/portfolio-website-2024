@@ -1,0 +1,92 @@
+{
+    "id": "d0585371-7ac1-4198-ac01-2dd5eb97393f",
+    "name": "CL CHIANG",
+    "SEO": {
+        "pageTitle": "CL CHIANG",
+        "pageDescription": "This website is a commemorative edition of my work on the tenth year and a collection of works for graduate school application. It selects four pieces of different stages in the past six years, as well as four other personal works, the full content of which is expected to be produced by the end of March, and what I have at the moment is the concept and description.3",
+        "pageUrl": "https://clchiang.com/",
+        "pageKeywords": "portfolio",
+        "pageOgTitle": "CL CHIANG",
+        "pageOgDescription": "This website is a commemorative edition of my work on the tenth year and a collection of works for graduate school application. It selects four pieces of different stages in the past six years, as well as four other personal works, the full content of which is expected to be produced by the end of March, and what I have at the moment is the concept and description.",
+        "pageOgImage": "https://d3rt6nwh9j9e55.cloudfront.net/media/ohxd54wt/logo.png"
+    },
+    "global": {
+        "header": {
+            "logo": {
+                "alt": "",
+                "enText1": "Chung",
+                "enText2": "Lung",
+                "enText3": "Chiang",
+                "chText4": "江",
+                "chText5": "忠",
+                "chText6": "龍"
+            },
+            "navigation": [
+                {
+                    "text": "works",
+                    "link": "/works"
+                },
+                {
+                    "text": "about",
+                    "link": "/about"
+                }
+            ]
+        }
+    },
+    "contents": [
+        {
+            "type": "heroBanner",
+            "title": "Multiplying the potential of companies and people.",
+            "cta": {
+                "text": "Meet our people",
+                "link": {
+                    "target": "",
+                    "url": "/people/meet-our-people/"
+                }
+            },
+            "image": {
+                "url": "",
+                "alt": ""
+            },
+            "mobileImage": {
+                "url": "https://d3rt6nwh9j9e55.cloudfront.net/media/ystao4mi/rectangle-20366.png",
+                "alt": ""
+            },
+            "video": {
+                "url": "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4"
+            },
+            "mobileVideo": {
+                "url": "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerEscapes.mp4"
+            }
+        },
+        {
+            "type": "banner",
+            "title": "Life at Permira",
+            "description": "Partnership. Integrity. Creativity. Our values and the basis for a dynamic and rewarding work environment. Take a look at the diverse perspective and backgrounds of our team.",
+            "image": {
+                "url": "https://d3rt6nwh9j9e55.cloudfront.net/media/ksbh2p4j/shutterstock_1874363077.jpg",
+                "alt": ""
+            },
+            "mobileImage": {
+                "url": "https://d3rt6nwh9j9e55.cloudfront.net/media/ksbh2p4j/shutterstock_1874363077.jpg",
+                "alt": ""
+            },
+            "cta": [
+                {
+                    "text": "LEARN MORE ABOUT LIFE AT PERMIRA",
+                    "link": {
+                        "target": "",
+                        "url": "/people/life-at-permira-1/"
+                    }
+                },
+                {
+                    "text": "EXPLORE OUR LINKEDIN",
+                    "link": {
+                        "target": "_blank",
+                        "url": "https://www.linkedin.com/company/permira/"
+                    }
+                }
+            ]
+        }
+    ]
+}

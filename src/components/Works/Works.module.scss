@@ -1,0 +1,93 @@
+@import '../../styles/utils.scss';
+
+.el {
+    width: 100vw;
+    height: 100vh;
+    position: fixed;
+    top: 0;
+    left: 0;
+    transition: all 0.2s ease-in-out;
+    .container {
+		max-width: $desktop-sm-bp;
+		margin: 100px auto 0 auto;
+
+	  }
+	  .header {
+		  width: 100%;
+		  height: calc( 100vh - 90px);
+		  z-index: 1;
+		  @include tablet {
+			  height: calc( 100vh - 60px);
+		  }
+	  }
+    & > div {
+        width: 100%;
+        height: 100%;
+    }
+	:global .group {
+		opacity: 0;
+		transition: all 0.4s ease-in-out;
+	}
+	:global .show {
+		opacity: 1;
+	}
+	:global .title {
+		font-size: 16px;
+		// text-stroke: .5px #000;
+		// -webkit-text-stroke: .5px #000;
+		color: #313131;
+		// word-wrap: break-word;
+		// word-break: keep-all;
+		font-weight: bold;
+		@include mobile {
+			font-size: 12px;
+		}
+		@include mobile-m {
+			font-size: 10px;
+		}
+	}
+    :global .button {
+    	margin-top: 20px;
+    	padding: 7px 0;
+    	position: relative;
+    	display: inline-block;
+    	overflow: hidden;
+		@include mobile {
+			margin-top: 0;
+		}	
+    	a {
+    		font-size: 14px;
+    		letter-spacing: 1px;
+    		position: relative;
+    		color: $color-text;
+    		cursor: pointer;
+    		padding-bottom: 12px;
+            white-space: nowrap;
+    		&:hover :global .button__graphic--slide {
+			    transform: translate3d(-66.6%, 0, 0);
+			}
+			@include mobile {
+				font-size: 12px;
+			}
+			@include mobile-m {
+				font-size: 10px;
+			}
+    	}
+		&__graphic {
+		    position: absolute;
+		    top: 0;
+		    left: 0;
+		    pointer-events: none;
+		    fill: none;
+		    stroke: #000;
+		    stroke-width: 1px;
+		}
+
+		&__graphic--slide {
+		    top: -3px;
+		    stroke-width: 2px;
+		    transition: transform 0.7s;
+		    transition-timing-function: cubic-bezier(0, 0.25, 0.5, 1);
+		}
+    }
+}
