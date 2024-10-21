@@ -58,13 +58,20 @@ const Shape = ({ isLoaded, handleClick }) => {
             point.noiseOffsetX += noiseStep;
             point.noiseOffsetY += noiseStep;
         }
-        requestId.current = requestAnimationFrame(animate);
+
+        if (typeof window !== 'undefined') {
+            requestId.current = requestAnimationFrame(animate);
+        }
     };
 
     useEffect(() => {
-        requestId.current = requestAnimationFrame(animate);
+        if (typeof window !== 'undefined') {
+            requestId.current = requestAnimationFrame(animate);
+        }
         return () => {
-            cancelAnimationFrame(requestId.current);
+            if (typeof window !== 'undefined') {
+                cancelAnimationFrame(requestId.current);
+            }
         };
     }, []);
 

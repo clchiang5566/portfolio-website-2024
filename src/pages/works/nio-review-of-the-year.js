@@ -4,11 +4,9 @@ import Head from 'next/head';
 import { NextSeo } from 'next-seo';
 import { wrapper } from '../../redux/store';
 import Layout from '../../layout';
-// import { getPage } from '../redux/page/page.action';
-// import { pageGetData } from '../redux/page/page.selector';
 import data from '../../pages/api/dummypage/data.json';
 import WorksDetail from '../../components/WorksDetail';
-import Contents from '../../pages/api/data/data/nio';
+import Contents from '../../pages/api/data/nio';
 
 const WorksDetailPage = ({ Global, Seo }) => {
     return (

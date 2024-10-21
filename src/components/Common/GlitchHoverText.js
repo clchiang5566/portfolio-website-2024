@@ -13,7 +13,9 @@ const GlitchHoverText = ({ text, duration = 1500, frameInterval = 1 }) => {
     const randomChar = () => charset[Math.floor(Math.random() * charset.length)];
 
     const resetAnimation = () => {
-        cancelAnimationFrame(animationRef.current);
+        if (typeof window !== 'undefined') {
+            cancelAnimationFrame(animationRef.current);
+        }
         startTimeRef.current = null;
         setDisplayText(text);
         frameCountRef.current = 0;
@@ -24,7 +26,7 @@ const GlitchHoverText = ({ text, duration = 1500, frameInterval = 1 }) => {
         const elapsedTime = currentTime - startTimeRef.current;
         const progress = Math.min(elapsedTime / duration, 1);
         const textLength = text.length;
-        const correctChars = Math.floor(progress * textLength); // 根据进度计算正确字符的数量
+        const correctChars = Math.floor(progress * textLength);
 
         if (frameCountRef.current % frameInterval === 0) {
             let result = '';
@@ -41,7 +43,9 @@ const GlitchHoverText = ({ text, duration = 1500, frameInterval = 1 }) => {
         frameCountRef.current++;
 
         if (progress < 1) {
-            animationRef.current = requestAnimationFrame(glitchTextAnimation);
+            if (typeof window !== 'undefined') {
+                animationRef.current = requestAnimationFrame(glitchTextAnimation);
+            }
         } else {
             setDisplayText(text);
         }
@@ -50,9 +54,15 @@ const GlitchHoverText = ({ text, duration = 1500, frameInterval = 1 }) => {
     useEffect(() => {
         if (isHovered.current) {
             resetAnimation();
-            animationRef.current = requestAnimationFrame(glitchTextAnimation);
+            if (typeof window !== 'undefined') {
+                animationRef.current = requestAnimationFrame(glitchTextAnimation);
+            }
         }
-        return () => cancelAnimationFrame(animationRef.current);
+        return () => {
+            if (typeof window !== 'undefined') {
+                cancelAnimationFrame(animationRef.current);
+            }
+        };
     }, [text]);
 
     return (
@@ -60,7 +70,9 @@ const GlitchHoverText = ({ text, duration = 1500, frameInterval = 1 }) => {
             onMouseEnter={() => {
                 isHovered.current = true;
                 resetAnimation();
-                animationRef.current = requestAnimationFrame(glitchTextAnimation);
+                if (typeof window !== 'undefined') {
+                    animationRef.current = requestAnimationFrame(glitchTextAnimation);
+                }
             }}
             onMouseLeave={() => {
                 isHovered.current = false;
@@ -73,10 +85,10 @@ const GlitchHoverText = ({ text, duration = 1500, frameInterval = 1 }) => {
     );
 };
 
-export default GlitchHoverText;
-
 GlitchHoverText.propTypes = {
     text: PropTypes.string,
     duration: PropTypes.number,
     frameInterval: PropTypes.number,
 };
+
+export default GlitchHoverText;

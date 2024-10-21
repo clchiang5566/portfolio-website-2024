@@ -6,7 +6,7 @@ import { wrapper } from '../../redux/store';
 import Layout from '../../layout';
 import data from '../../pages/api/dummypage/data.json';
 import WorksDetail from '../../components/WorksDetail';
-import Contents from './data/kitkat';
+import Contents from '../../pages/api/data/kitkat';
 
 const WorksDetailPage = ({ Global, Seo }) => {
     return (

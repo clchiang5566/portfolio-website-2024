@@ -2,7 +2,6 @@ import { useEffect, useRef } from 'react';
 import { throttle } from 'lodash';
 
 const GlitchText = ({ text, duration = 1500, frameInterval = 1, onUpdate }) => {
-    // const [displayText, setDisplayText] = useState('');
     const charset = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789@#$%^&*()_+=-<>?';
     const animationRef = useRef(null);
     const startTimeRef = useRef(null);
@@ -11,9 +10,10 @@ const GlitchText = ({ text, duration = 1500, frameInterval = 1, onUpdate }) => {
     const randomChar = () => charset[Math.floor(Math.random() * charset.length)];
 
     const resetAnimation = () => {
-        cancelAnimationFrame(animationRef.current);
+        if (typeof window !== 'undefined') {
+            cancelAnimationFrame(animationRef.current);
+        }
         startTimeRef.current = null;
-        // setDisplayText('');
         frameCountRef.current = 0;
     };
 
@@ -35,16 +35,16 @@ const GlitchText = ({ text, duration = 1500, frameInterval = 1, onUpdate }) => {
                     result += randomChar();
                 }
             }
-            // setDisplayText(result);
             if (onUpdate) onUpdate(result);
         }
 
         frameCountRef.current++;
 
         if (progress < 1) {
-            animationRef.current = requestAnimationFrame(glitchTextAnimation);
+            if (typeof window !== 'undefined') {
+                animationRef.current = requestAnimationFrame(glitchTextAnimation);
+            }
         } else {
-            // setDisplayText(text);
             if (onUpdate) onUpdate(text);
         }
     }, 10);
@@ -52,8 +52,14 @@ const GlitchText = ({ text, duration = 1500, frameInterval = 1, onUpdate }) => {
     useEffect(() => {
         if (!text) return;
         resetAnimation();
-        animationRef.current = requestAnimationFrame(glitchTextAnimation);
-        return () => cancelAnimationFrame(animationRef.current);
+        if (typeof window !== 'undefined') {
+            animationRef.current = requestAnimationFrame(glitchTextAnimation);
+        }
+        return () => {
+            if (typeof window !== 'undefined') {
+                cancelAnimationFrame(animationRef.current);
+            }
+        };
     }, [text]);
 
     return null;
