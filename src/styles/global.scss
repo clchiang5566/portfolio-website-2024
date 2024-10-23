@@ -5,12 +5,17 @@
   box-sizing: border-box;
   outline: none;
   -webkit-tap-highlight-color:rgba(255,255,255,0);
-  // scroll-margin-top: 150px;
-  // @include tablet {
-  //   scroll-margin-top: 255px;
-  // }
+  margin:0;
+  padding:0;
+  border:0;
+  list-style:none;
+  -webkit-box-sizing:border-box;
+  -moz-box-sizing:border-box;
+  box-sizing:border-box;
 }
 
+article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, section, main{display:block;}
+html, body, body > canvas { height: 100%; margin: 0; padding: 0; }
 html, body {
   width: 100%;
   // overscroll-behavior-y: none;
@@ -26,6 +31,8 @@ body {
   line-height: 1.25;
   color: $color-text;
   overflow-x: clip;
+  min-height: 100vh;
+  padding-bottom: env(safe-area-inset-bottom);
 }
 
 // #__next {

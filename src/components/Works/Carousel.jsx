@@ -44,13 +44,14 @@ export function Carousel ({ setBgColor, setCurrentTexture, setPosterActive }) {
     const [isReady, setIsReady] = useState(false);
     const [isBack, setIsBack] = useState(works?.isBack);
     const [isScroll, setIsScroll] = useState(false);
+    const [isImageShow, setImageShow] = useState(true);
     const prevActivePlane = usePrevious(works?.isBack ? index : null);
     const { viewport, size } = useThree();
     const progress = useRef(index ? Math.round((100 / 8) * (index + 1)) : 0);
     const startY = useRef(0);
     const isDown = useRef(false);
     const speedWheel = 0.006;
-    const speedDrag = -0.009;
+    const speedDrag = -0.01;
     const oldProgress = useRef(0);
     const speed = useRef(0);
     const $items = useMemo(() => {
@@ -151,9 +152,10 @@ export function Carousel ({ setBgColor, setCurrentTexture, setPosterActive }) {
     useEffect(() => {
         if (isBack) setCurrentTexture(images[currentIndex]?.texture);
         setTimeout(() => {
-            setIsReady(true);
-        }, 1000);
+            setImageShow(true);
+        }, 100);
         setTimeout(() => {
+            setIsReady(true);
             if (works?.isBack) {
                 setIsBack(false);
                 setActivePlane(null);

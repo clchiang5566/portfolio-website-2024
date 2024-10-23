@@ -57,9 +57,11 @@ const CustomShaderMaterial = shaderMaterial(
 
     float fbm(vec2 st, float time) {
         float amplitude = 0.5;
-        int octavesValue = int(octaves + (sin(time * speed) * 0.5));
-        float lacunarityValue = lacunarity + (sin(time * speed + 1.0) * 0.5);
-        float gain = minGain + (sin(time * speed + 2.0) * 0.5 + 0.5) * (maxGain - minGain);
+        
+        // int octavesValue = int(octaves + (sin(time * speed) * 0.2)); // 減少振幅
+        int octavesValue = int(octaves);
+        float lacunarityValue = lacunarity + (sin(time * speed + 1.0) * 0.4); // 控制lacunarity變化幅度
+        float gain = minGain + (sin(time * speed + 2.0) * 0.2 + 0.5) * (maxGain - minGain); // 緩和增益變化
 
         float value = 0.0;
         for (int i = 0; i < octavesValue; i++) {
@@ -71,12 +73,12 @@ const CustomShaderMaterial = shaderMaterial(
     }
 
     void main() {
-    vec2 uv = v_texcoord;
+        vec2 uv = v_texcoord;
 
-    float n = fbm(uv * 5.0 + vec2(0.0, time * direction * speed), time);
-    vec3 color = (n > 0.5) ? textureColor : bgColor;
+        float n = fbm(uv * 5.0 + vec2(0.0, time * direction * speed), time);
+        vec3 color = (n > 0.5) ? textureColor : bgColor;
 
-    gl_FragColor = vec4(color, 1.0);
+        gl_FragColor = vec4(color, 1.0);
     }
   `
 );
@@ -108,7 +110,7 @@ function ShaderPlane ({ color, isHome }) {
             <planeGeometry args={[viewport.width * 2, viewport.height * 2]} renderOrder={-3} />
             <customShaderMaterial
                 ref={materialRef}
-                speed={0.2}
+                speed={0.3}
                 direction={-1}
                 grainIntensity={0}
                 octaves={2}
