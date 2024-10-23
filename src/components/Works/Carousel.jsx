@@ -41,10 +41,9 @@ export function Carousel ({ setBgColor, setCurrentTexture, setPosterActive }) {
     const { isMobile } = useMediaQueryCheck(991);
     const [activePlane, setActivePlane] = useState(works?.isBack ? index : null); // null
     const [currentIndex, setCurrentIndex] = useState(index);
-    const [isReady, setIsReady] = useState(false);
+    const [isTextReady, setTextReady] = useState(false);
     const [isBack, setIsBack] = useState(works?.isBack);
     const [isScroll, setIsScroll] = useState(false);
-    const [isImageShow, setImageShow] = useState(true);
     const [textShow, setTextShow] = useState(false);
     const prevActivePlane = usePrevious(works?.isBack ? index : null);
     const { viewport, size } = useThree();
@@ -84,7 +83,7 @@ export function Carousel ({ setBgColor, setCurrentTexture, setPosterActive }) {
             y: isMobile
                 ? (index - active) * -planeSettings.height
                 : (index - active) * -(planeSettings.height + planeSettings.gap),
-            duration: isBack || isReady === false ? 0 : 2,
+            duration: isBack || isTextReady === false ? 0 : 2,
         });
     };
 
@@ -153,13 +152,6 @@ export function Carousel ({ setBgColor, setCurrentTexture, setPosterActive }) {
     useEffect(() => {
         if (isBack) setCurrentTexture(images[currentIndex]?.texture);
         setTimeout(() => {
-            // setImageShow(true);
-            setIsReady(true);
-        }, 1000);
-        setTimeout(() => {
-            setTextShow(true);
-        }, 1200);
-        setTimeout(() => {
             if (works?.isBack) {
                 setIsBack(false);
                 setActivePlane(null);
@@ -201,6 +193,8 @@ export function Carousel ({ setBgColor, setCurrentTexture, setPosterActive }) {
                         index={i}
                         color={images[currentIndex]?.bgColor}
                         material={material}
+                        setTextReady={setTextReady}
+                        setTextShow={setTextShow}
                     />
                 ))}
             </group>
@@ -220,96 +214,95 @@ export function Carousel ({ setBgColor, setCurrentTexture, setPosterActive }) {
         return (
             activePlane == null && (
                 <>
-                    {isReady &&
-                        images[currentIndex]?.subtitle.map((text, index) => (
-                            <group
-                                key={index}
-                                position={[
-                                    -viewport.width / 2 + pixelToUnitWidth * 1.2,
-                                    isMobile
-                                        ? -viewport.height / 2 +
-                                          (viewport.height / 10) * 1.15 +
-                                          index * pixelToUnitWidth
-                                        : -viewport.height / 2 +
-                                          (index + 1) * pixelToUnitWidth +
-                                          index * pixelToUnitWidth * 1.2,
-                                    0,
-                                ]}
+                    {images[currentIndex]?.subtitle.map((text, index) => (
+                        <group
+                            key={index}
+                            position={[
+                                -viewport.width / 2 + pixelToUnitWidth * 1.2,
+                                isMobile
+                                    ? -viewport.height / 2 +
+                                        (viewport.height / 10) * 1.15 +
+                                        index * pixelToUnitWidth
+                                    : -viewport.height / 2 +
+                                        (index + 1) * pixelToUnitWidth +
+                                        index * pixelToUnitWidth * 1.2,
+                                0,
+                            ]}
+                        >
+                            <mesh
+                                ref={node => {
+                                    textBackgroundRef.current[index] = node;
+                                }}
                             >
-                                <mesh
-                                    ref={node => {
-                                        textBackgroundRef.current[index] = node;
-                                    }}
-                                >
-                                    {textShow && <planeGeometry args={[1, 1]} />}
-                                    {textShow && <meshBasicMaterial color={images[currentIndex]?.bgColor} />}
-                                </mesh>
-                                <Text
-                                    ref={node => {
-                                        textRef.current[index] = node;
-                                    }}
-                                    fontSize={isMobile ? 0.02 : 0.03}
-                                    letterSpacing={isMobile ? 0.25 : 0.4}
-                                    color='#313131'
-                                    anchorX='left'
-                                    anchorY='bottom'
-                                    lineHeight={isMobile ? 2.2 : 1.8}
-                                    onSync={text => {
-                                        const size = text.geometry.boundingBox.getSize(new THREE.Vector3());
-                                        const position = text.geometry.boundingBox.getCenter(new THREE.Vector3());
-                                        if (textBackgroundRef.current[index]) {
-                                            textBackgroundRef.current[index].scale.set(
-                                                size.x + 0.03,
-                                                size.y + 0.012,
-                                                0
-                                            );
-                                            textBackgroundRef.current[index].position.set(position.x, position.y, 0);
-                                        }
-                                    }}
-                                >
-                                    {animatedTexts[index]}
-                                </Text>
-                                <GlitchText
-                                    text={images[currentIndex]?.subtitle[index]}
-                                    duration={1000}
-                                    onUpdate={updatedText => updateText(index, updatedText)}
-                                />
-                            </group>
-                        ))}
-                        <group position={[viewport.width / 2 - pixelToUnitWidth * 1.2, viewport.height / 2 - 0.22, 0]}>
-                            <mesh ref={numberBackgroundRef}>
                                 {textShow && <planeGeometry args={[1, 1]} />}
                                 {textShow && <meshBasicMaterial color={images[currentIndex]?.bgColor} />}
                             </mesh>
                             <Text
-                                ref={numberRef}
-                                fontSize={isMobile ? 0.025 : 0.03}
+                                ref={node => {
+                                    textRef.current[index] = node;
+                                }}
+                                fontSize={isMobile ? 0.02 : 0.03}
                                 letterSpacing={isMobile ? 0.25 : 0.4}
                                 color='#313131'
-                                anchorX='right'
-                                anchorY='top'
-                                lineHeight={isMobile ? 2.2 : 1.6}
+                                anchorX='left'
+                                anchorY='bottom'
+                                lineHeight={isMobile ? 2.2 : 1.8}
                                 onSync={text => {
                                     const size = text.geometry.boundingBox.getSize(new THREE.Vector3());
                                     const position = text.geometry.boundingBox.getCenter(new THREE.Vector3());
-                                    if (numberBackgroundRef.current) {
-                                        numberBackgroundRef.current.scale.set(size.x + 0.04, size.y + 0.02, 0);
-                                        numberBackgroundRef.current.position.set(position.x, position.y, 0);
+                                    if (textBackgroundRef.current[index]) {
+                                        textBackgroundRef.current[index].scale.set(
+                                            size.x + 0.03,
+                                            size.y + 0.012,
+                                            0
+                                        );
+                                        textBackgroundRef.current[index].position.set(position.x, position.y, 0);
                                     }
                                 }}
                             >
-                                {number}
+                                {animatedTexts[index]}
                             </Text>
                             <GlitchText
-                                text={
-                                    isMobile
-                                        ? `${currentIndex + 1} / ${images.length}`
-                                        : `${currentIndex + 1}\n/\n${images.length}`
-                                }
+                                text={images[currentIndex]?.subtitle[index]}
                                 duration={1000}
-                                onUpdate={updatedText => setNumber(updatedText)}
+                                onUpdate={updatedText => updateText(index, updatedText)}
                             />
                         </group>
+                    ))}
+                    <group position={[viewport.width / 2 - pixelToUnitWidth * 1.2, viewport.height / 2 - 0.22, 0]}>
+                        <mesh ref={numberBackgroundRef}>
+                            {textShow && <planeGeometry args={[1, 1]} />}
+                            {textShow && <meshBasicMaterial color={images[currentIndex]?.bgColor} />}
+                        </mesh>
+                        <Text
+                            ref={numberRef}
+                            fontSize={isMobile ? 0.025 : 0.03}
+                            letterSpacing={isMobile ? 0.25 : 0.4}
+                            color='#313131'
+                            anchorX='right'
+                            anchorY='top'
+                            lineHeight={isMobile ? 2.2 : 1.6}
+                            onSync={text => {
+                                const size = text.geometry.boundingBox.getSize(new THREE.Vector3());
+                                const position = text.geometry.boundingBox.getCenter(new THREE.Vector3());
+                                if (numberBackgroundRef.current) {
+                                    numberBackgroundRef.current.scale.set(size.x + 0.04, size.y + 0.02, 0);
+                                    numberBackgroundRef.current.position.set(position.x, position.y, 0);
+                                }
+                            }}
+                        >
+                            {number}
+                        </Text>
+                        <GlitchText
+                            text={
+                                isMobile
+                                    ? `${currentIndex + 1} / ${images.length}`
+                                    : `${currentIndex + 1}\n/\n${images.length}`
+                            }
+                            duration={1000}
+                            onUpdate={updatedText => setNumber(updatedText)}
+                        />
+                    </group>
                 </>
             )
         );
@@ -319,7 +312,7 @@ export function Carousel ({ setBgColor, setCurrentTexture, setPosterActive }) {
         <group>
             {renderPlaneEvents()}
             {renderSlider()}
-            {isReady && renderText()}
+            {isTextReady && renderText()}
         </group>
     );
 }

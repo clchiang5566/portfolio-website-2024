@@ -7,7 +7,7 @@ import { useMediaQueryCheck } from '../../hooks/useMediaQueryCheck';
 import { useRouter } from 'next/router';
 import { useDispatch } from 'react-redux';
 import { addWorks } from '../../redux/works/works.action';
-// import { EmergingImage } from './EmergingImage';
+import { EmergingImage } from './EmergingImage';
 import PropTypes from 'prop-types';
 
 export function CarouselItem ({
@@ -21,11 +21,14 @@ export function CarouselItem ({
     isBack,
     material,
     color,
+    setTextReady,
+    setTextShow
 }) {
     const $root = useRef();
     const textRef = useRef();
     const [isActive, setIsActive] = useState(index === activeIndex && isBack);
-    const [isReady, setIsReady] = useState(false);
+    const [isReady, setIsReady] = useState(isBack);
+    const [isImageShow, setImageShow] = useState(true);
     const dispatch = useDispatch();
     const { isMobile } = useMediaQueryCheck(991);
     const router = useRouter();
@@ -72,11 +75,17 @@ export function CarouselItem ({
                     gsap.to(textRef.current.material, {
                         opacity: 1,
                         duration: 1,
-                        ease: 'power2.inOut'
+                        ease: 'power2.inOut',
+                        onComplete: () => {
+                            setTextReady(true)
+                            setTimeout(() => {
+                                setTextShow(true)
+                            }, 300);
+                        }
                     });
                 }
             },
-            isBack ? 1500 : 1000
+            1500
         );
     }, []);
 
@@ -98,31 +107,35 @@ export function CarouselItem ({
             }}
             position={isMobile ? [width * (index * 1.5), 0.5, 0] : [width * (index * 2), 0, 0]}
         >
-            {/* <EmergingImage
-                index={index}
-                material={material}
-                width={width}
-                height={height}
-                url={item.image}
-                active={isActive}
-                activeIndex={activeIndex}
-                isBack={isBack}
-                setIsReady={setIsReady}
-                color={color}
-                type={1}
-            /> */}
-            <Plane
-                index={index}
-                material={material}
-                width={width}
-                height={height}
-                texture={item.image}
-                active={isActive}
-                activeIndex={activeIndex}
-                isBack={isBack}
-                setIsReady={setIsReady}
-                transparent
-            />
+            {isImageShow ? (
+                <EmergingImage
+                    index={index}
+                    material={material}
+                    width={width}
+                    height={height}
+                    url={item.image}
+                    active={isActive}
+                    activeIndex={activeIndex}
+                    isBack={isBack}
+                    setIsReady={setIsReady}
+                    setImageShow={setImageShow}
+                    color={color}
+                    type={1}
+                />
+            ) : (
+                <Plane
+                    index={index}
+                    material={material}
+                    width={width}
+                    height={height}
+                    texture={item.image}
+                    active={isActive}
+                    activeIndex={activeIndex}
+                    isBack={isBack}
+                    setIsReady={setIsReady}
+                    transparent
+                />
+            )}
             <Text
                 position={[0, 0, 1]}
                 fontSize={isMobile && activeIndex === 1 ? 0.04 : isMobile ? 0.06 : 0.13}
@@ -154,4 +167,6 @@ CarouselItem.propTypes = {
     isBack: PropTypes.bool,
     material: PropTypes.object,
     color: PropTypes.string,
+    setTextReady: PropTypes.number,
+    setTextShow: PropTypes.number
 };

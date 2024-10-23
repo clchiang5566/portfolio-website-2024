@@ -52,11 +52,11 @@ export function Model ({ url, texturePath }) {
                 tl.to(materials, {
                     opacity: 1,
                     duration: 1,
-                    onUpdate: () => {
-                        materials.forEach(material => {
-                            material.needsUpdate = true;
-                        });
-                    },
+                    // onUpdate: () => {
+                    //     materials.forEach(material => {
+                    //         material.needsUpdate = true;
+                    //     });
+                    // },
                     onComplete: () => {
                         scene.traverse(child => {
                             if (child.isMesh && child.material) {
@@ -65,7 +65,7 @@ export function Model ({ url, texturePath }) {
                         });
                     },
                 });
-            }, 1500);
+            }, 2500);
         }
 
         if (group.current) {

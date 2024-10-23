@@ -219,7 +219,7 @@ const EmergeMaterial = shaderMaterial(
 
 extend({ EmergeMaterial });
 
-export function EmergingImage ({ url, activeIndex, index, type, color, ...props }) {
+export function EmergingImage ({ width, height, url, activeIndex, index, type, color, setImageShow, ...props }) {
     const [refMesh, setRefMesh] = useState(null);
     const [texture, setTexture] = useState(null);
     const [textureSize, setTextureSize] = useState([0, 0]);
@@ -231,18 +231,9 @@ export function EmergingImage ({ url, activeIndex, index, type, color, ...props 
         new THREE.TextureLoader().loadAsync(url).then(data => {
             setTextureSize([data.source.data.width, data.source.data.height]);
             setTexture(data);
+            setIsIntersecting(true);
         });
     }, []);
-
-    useEffect(() => {
-        if (activeIndex === index) {
-            setIsIntersecting(true);
-        } else {
-            setTimeout(() => {
-                setIsIntersecting(false);
-            }, 300);
-        }
-    }, [activeIndex]);
 
     useEffect(() => {
         if (refMesh) {
@@ -257,25 +248,28 @@ export function EmergingImage ({ url, activeIndex, index, type, color, ...props 
                 uEffectProgress: isIntersecting ? 1 : 0,
                 duration: 2,
                 ease: 'none',
+                onComplete: () => {
+                  setImageShow(false)
+                }
             });
         }
     }, [isIntersecting, type]);
 
     useLayoutEffect(() => {
         if (refMesh) {
-            setElementSize([0.6, 0.8]);
-            refMesh?.scale.set(0.6, 0.8, 1);
+            setElementSize([width, height]);
+            refMesh?.scale.set(width, height, 1);
             setIsIntersecting(true);
         }
     }, [refMesh]);
 
     useEffect(() => {
-        setElementSize([0.6, 0.8]);
-        refMesh?.scale.set(0.6, 0.8, 1);
+        setElementSize([width, height]);
+        refMesh?.scale.set(width, height, 1);
     }, [screenSize]);
 
     return (
-        <DreiImage ref={setRefMesh} texture={texture} renderOrder={-1} {...props}>
+        <mesh ref={setRefMesh} {...props}>
             <planeGeometry args={[1, 1]} />
             <emergeMaterial
                 uFillColor={new THREE.Color(color)}
@@ -283,14 +277,17 @@ export function EmergingImage ({ url, activeIndex, index, type, color, ...props 
                 uTextureSize={new THREE.Vector2(textureSize[0], textureSize[1])}
                 uElementSize={new THREE.Vector2(elementSize[0], elementSize[1])}
             />
-        </DreiImage>
+        </mesh>
     );
 }
 
 EmergingImage.propTypes = {
-    url: PropTypes.string,
-    color: PropTypes.string,
-    activeIndex: PropTypes.number,
-    index: PropTypes.number,
-    type: PropTypes.number,
+  width: PropTypes.string,
+  height: PropTypes.string,
+  url: PropTypes.string,
+  color: PropTypes.string,
+  activeIndex: PropTypes.number,
+  index: PropTypes.number,
+  type: PropTypes.number,
+  setImageShow: PropTypes.func
 };
