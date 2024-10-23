@@ -1,4 +1,4 @@
-import { React, Suspense, useState } from 'react';
+import { React, Suspense, useState, useEffect } from 'react';
 import { Environment } from '@react-three/drei';
 import { Canvas } from '@react-three/fiber';
 import { Carousel } from './Carousel';
@@ -12,13 +12,17 @@ import style from './Works.module.scss';
 import { Model } from './Model';
 import { useMediaQueryCheck } from '../../hooks/useMediaQueryCheck';
 
-export function Works () {
+export function Works ({ setThemeColor }) {
     const state = useSelector(state => state);
     const works = getWorks(state)[0];
     const [bgColor, setBgColor] = useState(works?.color && works.isBack ? `${works.color}` : '#aaf683');
     const [currentTexture, setCurrentTexture] = useState('/models/down/Material_body.png');
     const [posterActive, setPosterActive] = useState(false);
     const { isMobile } = useMediaQueryCheck(991);
+
+    useEffect(() => {
+        setThemeColor(bgColor)
+    }, [works, bgColor]);
 
     return (
         <>
@@ -52,10 +56,5 @@ export function Works () {
 }
 
 Works.propTypes = {
-    type: PropTypes.string,
-    items: PropTypes.array,
-    m: PropTypes.string,
-    urls: PropTypes.array,
-    color: PropTypes.string,
-    headline: PropTypes.string,
+    setThemeColor: PropTypes.func,
 };

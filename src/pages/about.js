@@ -17,6 +17,7 @@ const AboutPage = ({ Global, Seo }) => {
                 <link rel='shortcut icon' href={Global?.favicon?.url} />
                 <meta name='title' content={Seo.pageTitle} />
                 <meta name='keywords' content={Seo.pageKeywords} />
+                <meta name='theme-color' content='#ffff4f' />
                 <meta property='og:url' content={Seo.pageUrl} />
                 <meta property='og:title' content={Seo.pageOgTitle} />
                 <meta property='og:description' content={Seo.pageOgDescription} />

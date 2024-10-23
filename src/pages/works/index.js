@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import Head from 'next/head';
 import { NextSeo } from 'next-seo';
@@ -8,19 +8,21 @@ import data from '../../pages/api/dummypage/data.json';
 import { Works } from '../../components/Works';
 
 const WorksPage = ({ Global, Seo }) => {
+    const [themeColor, setThemeColor] = useState('');
     return (
-        <Layout {...Global}>
+        <Layout {...Global} color={themeColor}>
             <NextSeo title={Seo.pageTitle} description={Seo.pageDescription} canonical={Seo.pageUrl} />
             <Head>
                 <link rel='shortcut icon' href={Global?.favicon?.url} />
                 <meta name='title' content={Seo.pageTitle} />
                 <meta name='keywords' content={Seo.pageKeywords} />
+                <meta name='theme-color' content={themeColor} />
                 <meta property='og:url' content={Seo.pageUrl} />
                 <meta property='og:title' content={Seo.pageOgTitle} />
                 <meta property='og:description' content={Seo.pageOgDescription} />
                 <meta property='og:image' content={Seo.pageOgImage} />
             </Head>
-            <Works />
+            <Works setThemeColor={setThemeColor} />
         </Layout>
     );
 };
