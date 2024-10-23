@@ -72,7 +72,7 @@ export function CarouselItem ({
                     gsap.to(textRef.current.material, {
                         opacity: 1,
                         duration: 1,
-                        ease: 'power2.inOut',
+                        ease: 'power2.inOut'
                     });
                 }
             },

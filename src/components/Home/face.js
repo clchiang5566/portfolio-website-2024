@@ -41,7 +41,7 @@ const Face = ({ event, isLoaded }) => {
         if (isLoaded) {
             setTimeout(() => {
                 setIsShow(true);
-            }, 1000);
+            }, 300);
         }
     }, [isLoaded]);
 

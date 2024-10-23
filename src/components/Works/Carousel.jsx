@@ -45,6 +45,7 @@ export function Carousel ({ setBgColor, setCurrentTexture, setPosterActive }) {
     const [isBack, setIsBack] = useState(works?.isBack);
     const [isScroll, setIsScroll] = useState(false);
     const [isImageShow, setImageShow] = useState(true);
+    const [textShow, setTextShow] = useState(false);
     const prevActivePlane = usePrevious(works?.isBack ? index : null);
     const { viewport, size } = useThree();
     const progress = useRef(index ? Math.round((100 / 8) * (index + 1)) : 0);
@@ -152,10 +153,13 @@ export function Carousel ({ setBgColor, setCurrentTexture, setPosterActive }) {
     useEffect(() => {
         if (isBack) setCurrentTexture(images[currentIndex]?.texture);
         setTimeout(() => {
-            setImageShow(true);
-        }, 100);
-        setTimeout(() => {
+            // setImageShow(true);
             setIsReady(true);
+        }, 1000);
+        setTimeout(() => {
+            setTextShow(true);
+        }, 1200);
+        setTimeout(() => {
             if (works?.isBack) {
                 setIsBack(false);
                 setActivePlane(null);
@@ -237,8 +241,8 @@ export function Carousel ({ setBgColor, setCurrentTexture, setPosterActive }) {
                                         textBackgroundRef.current[index] = node;
                                     }}
                                 >
-                                    <planeGeometry args={[1, 1]} />
-                                    <meshBasicMaterial color={images[currentIndex]?.bgColor} />
+                                    {textShow && <planeGeometry args={[1, 1]} />}
+                                    {textShow && <meshBasicMaterial color={images[currentIndex]?.bgColor} />}
                                 </mesh>
                                 <Text
                                     ref={node => {
@@ -272,11 +276,10 @@ export function Carousel ({ setBgColor, setCurrentTexture, setPosterActive }) {
                                 />
                             </group>
                         ))}
-                    {isReady && (
                         <group position={[viewport.width / 2 - pixelToUnitWidth * 1.2, viewport.height / 2 - 0.22, 0]}>
                             <mesh ref={numberBackgroundRef}>
-                                <planeGeometry args={[1, 1]} />
-                                <meshBasicMaterial color={images[currentIndex]?.bgColor} />
+                                {textShow && <planeGeometry args={[1, 1]} />}
+                                {textShow && <meshBasicMaterial color={images[currentIndex]?.bgColor} />}
                             </mesh>
                             <Text
                                 ref={numberRef}
@@ -307,7 +310,6 @@ export function Carousel ({ setBgColor, setCurrentTexture, setPosterActive }) {
                                 onUpdate={updatedText => setNumber(updatedText)}
                             />
                         </group>
-                    )}
                 </>
             )
         );
