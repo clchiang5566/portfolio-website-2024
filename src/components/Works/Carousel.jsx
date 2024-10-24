@@ -220,12 +220,10 @@ export function Carousel ({ setBgColor, setCurrentTexture, setPosterActive }) {
                             position={[
                                 -viewport.width / 2 + pixelToUnitWidth * 1.2,
                                 isMobile
-                                    ? -viewport.height / 2 +
-                                        (viewport.height / 10) * 1.15 +
-                                        index * pixelToUnitWidth
+                                    ? -viewport.height / 2 + (viewport.height / 10) * 1.15 + index * pixelToUnitWidth
                                     : -viewport.height / 2 +
-                                        (index + 1) * pixelToUnitWidth +
-                                        index * pixelToUnitWidth * 1.2,
+                                      (index + 1) * pixelToUnitWidth +
+                                      index * pixelToUnitWidth * 1.2,
                                 0,
                             ]}
                         >
@@ -251,11 +249,7 @@ export function Carousel ({ setBgColor, setCurrentTexture, setPosterActive }) {
                                     const size = text.geometry.boundingBox.getSize(new THREE.Vector3());
                                     const position = text.geometry.boundingBox.getCenter(new THREE.Vector3());
                                     if (textBackgroundRef.current[index]) {
-                                        textBackgroundRef.current[index].scale.set(
-                                            size.x + 0.03,
-                                            size.y + 0.012,
-                                            0
-                                        );
+                                        textBackgroundRef.current[index].scale.set(size.x + 0.03, size.y + 0.012, 0);
                                         textBackgroundRef.current[index].position.set(position.x, position.y, 0);
                                     }
                                 }}

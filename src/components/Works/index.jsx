@@ -21,21 +21,18 @@ export function Works ({ setThemeColor }) {
     const { isMobile } = useMediaQueryCheck(991);
 
     useEffect(() => {
-        setThemeColor(bgColor)
+        setThemeColor(bgColor);
     }, [works, bgColor]);
 
     return (
         <>
             <Head>
-                <style>{`html { overflow: hidden; } canvas { border: ${isMobile ? '15px' : '20px'} solid ${bgColor} }`}</style>
+                <style>{`html { overflow: hidden; } canvas { border: ${
+                    isMobile ? '15px' : '20px'
+                } solid ${bgColor} }`}</style>
             </Head>
             <div className={style.el} style={{ background: `${bgColor}` }}>
-                <Canvas
-                    scalemultiplier={0.01}
-                    eventPrefix='client'
-                    flat
-                    camera={{ fov: 14 }}
-                >
+                <Canvas scalemultiplier={0.01} eventPrefix='client' flat camera={{ fov: 14 }}>
                     <Lens scale='0.16'>
                         <WebGLBackground color={bgColor} />
                         <Suspense>

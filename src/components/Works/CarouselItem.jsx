@@ -22,7 +22,7 @@ export function CarouselItem ({
     material,
     color,
     setTextReady,
-    setTextShow
+    setTextShow,
 }) {
     const $root = useRef();
     const textRef = useRef();
@@ -69,24 +69,21 @@ export function CarouselItem ({
             opacity: 0,
             duration: 0,
         });
-        setTimeout(
-            () => {
-                if (textRef.current) {
-                    gsap.to(textRef.current.material, {
-                        opacity: 1,
-                        duration: 1,
-                        ease: 'power2.inOut',
-                        onComplete: () => {
-                            setTextReady(true)
-                            setTimeout(() => {
-                                setTextShow(true)
-                            }, 300);
-                        }
-                    });
-                }
-            },
-            1500
-        );
+        setTimeout(() => {
+            if (textRef.current) {
+                gsap.to(textRef.current.material, {
+                    opacity: 1,
+                    duration: 1,
+                    ease: 'power2.inOut',
+                    onComplete: () => {
+                        setTextReady(true);
+                        setTimeout(() => {
+                            setTextShow(true);
+                        }, 300);
+                    },
+                });
+            }
+        }, 1500);
     }, []);
 
     useEffect(() => {
@@ -163,5 +160,5 @@ CarouselItem.propTypes = {
     material: PropTypes.object,
     color: PropTypes.string,
     setTextReady: PropTypes.number,
-    setTextShow: PropTypes.number
+    setTextShow: PropTypes.number,
 };

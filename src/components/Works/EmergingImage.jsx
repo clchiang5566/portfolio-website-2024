@@ -3,7 +3,7 @@ import gsap from 'gsap';
 import { useGSAP } from '@gsap/react';
 import * as THREE from 'three';
 import useScreenSize from './useScreenSize';
-import { shaderMaterial, Image as DreiImage } from '@react-three/drei';
+import { shaderMaterial } from '@react-three/drei';
 import { extend } from '@react-three/fiber';
 import PropTypes from 'prop-types';
 
@@ -219,7 +219,7 @@ const EmergeMaterial = shaderMaterial(
 
 extend({ EmergeMaterial });
 
-export function EmergingImage ({ width, height, url, activeIndex, index, type, color, setImageShow, ...props }) {
+export function EmergingImage ({ width, height, url, type, color, setImageShow, ...props }) {
     const [refMesh, setRefMesh] = useState(null);
     const [texture, setTexture] = useState(null);
     const [textureSize, setTextureSize] = useState([0, 0]);
@@ -249,8 +249,8 @@ export function EmergingImage ({ width, height, url, activeIndex, index, type, c
                 duration: 2,
                 ease: 'none',
                 onComplete: () => {
-                  setImageShow(false)
-                }
+                    setImageShow(false);
+                },
             });
         }
     }, [isIntersecting, type]);
@@ -282,12 +282,10 @@ export function EmergingImage ({ width, height, url, activeIndex, index, type, c
 }
 
 EmergingImage.propTypes = {
-  width: PropTypes.string,
-  height: PropTypes.string,
-  url: PropTypes.string,
-  color: PropTypes.string,
-  activeIndex: PropTypes.number,
-  index: PropTypes.number,
-  type: PropTypes.number,
-  setImageShow: PropTypes.func
+    width: PropTypes.string,
+    height: PropTypes.string,
+    url: PropTypes.string,
+    color: PropTypes.string,
+    type: PropTypes.number,
+    setImageShow: PropTypes.func,
 };

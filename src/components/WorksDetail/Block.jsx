@@ -100,5 +100,5 @@ Block.propTypes = {
     content: PropTypes.array,
     text: PropTypes.string,
     relevant: PropTypes.array,
-    color: PropTypes.string
+    color: PropTypes.string,
 };

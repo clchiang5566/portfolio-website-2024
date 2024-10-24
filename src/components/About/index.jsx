@@ -55,7 +55,9 @@ export default function About ({ headline, content, image, index, color }) {
                             <div className={style.content}>
                                 <section className={style.text}>
                                     <h3>
-                                        <Subtitle outlineWidth wobble>ABOUT ME</Subtitle>
+                                        <Subtitle outlineWidth wobble>
+                                            ABOUT ME
+                                        </Subtitle>
                                     </h3>
                                     <div className={style.frame}>
                                         <p>
@@ -81,7 +83,9 @@ export default function About ({ headline, content, image, index, color }) {
                                 </section>
                                 <section className={style.text}>
                                     <h3>
-                                        <Subtitle outlineWidth wobble>ABOUT THIS WEBSITE</Subtitle>
+                                        <Subtitle outlineWidth wobble>
+                                            ABOUT THIS WEBSITE
+                                        </Subtitle>
                                     </h3>
                                     <div className={style.frame}>
                                         <p>

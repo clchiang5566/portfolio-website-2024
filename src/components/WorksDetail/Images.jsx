@@ -1,8 +1,8 @@
 import React, { useRef, useState, useMemo, useEffect, Suspense } from 'react';
-import { UseCanvas, useScrollRig, useImageAsTexture, useScrollbar, useTracker } from '@14islands/r3f-scroll-rig';
+import { UseCanvas, useScrollRig, useImageAsTexture } from '@14islands/r3f-scroll-rig';
 import { ParallaxScrollScene } from '@14islands/r3f-scroll-rig/powerups';
-import { useMediaQueryCheck } from '../../hooks/useMediaQueryCheck';
-import { Image as DreiImage, useTexture } from '@react-three/drei';
+// import { useMediaQueryCheck } from '../../hooks/useMediaQueryCheck';
+import { Image as DreiImage } from '@react-three/drei';
 import { useFrame, useThree } from '@react-three/fiber';
 import { lerp } from '../../utils/common';
 import gsap from 'gsap';
@@ -48,21 +48,21 @@ export function Images ({ src, parallaxSpeed, color, ...props }) {
 Images.propTypes = {
     src: PropTypes.string,
     parallaxSpeed: PropTypes.number,
-    color: PropTypes.string
+    color: PropTypes.string,
 };
 
 function WebglImage ({ el, img, src, color, scrollState, ...props }) {
     const [imageShow, setImageShow] = useState(true);
     const [isVisible, setIsVisible] = useState(false);
     const [elementSize, setElementSize] = useState([0, 0]);
-    const tex = useImageAsTexture(img);
+    // const tex = useImageAsTexture(img);
     const { viewport, size } = useThree();
-    const pxToUnits = (px) => (px / size.width) * viewport.width;
+    const pxToUnits = px => (px / size.width) * viewport.width;
 
     useEffect(() => {
         const observer = new IntersectionObserver(
-            (entries) => {
-                entries.forEach((entry) => {
+            entries => {
+                entries.forEach(entry => {
                     setIsVisible(entry.isIntersecting);
                 });
             },
@@ -81,25 +81,35 @@ function WebglImage ({ el, img, src, color, scrollState, ...props }) {
     }, []);
 
     useEffect(() => {
-        const width = pxToUnits(img.current.offsetWidth)
-        const height = pxToUnits(img.current.offsetHeight)
+        const width = pxToUnits(img.current.offsetWidth);
+        const height = pxToUnits(img.current.offsetHeight);
         setElementSize([width, height]);
     }, [viewport]);
 
     return (
         <>
-            {(isVisible && imageShow) && <EmergingImage width={elementSize[0]} height={elementSize[1]} url={src} setImageShow={setImageShow} color={color} type={1} {...props} /> }
-            {imageShow === false && <CustomImage imgRef={img} url={src} scrollState={scrollState} {...props} /> }
+            {isVisible && imageShow && (
+                <EmergingImage
+                    width={elementSize[0]}
+                    height={elementSize[1]}
+                    url={src}
+                    setImageShow={setImageShow}
+                    color={color}
+                    type={1}
+                    {...props}
+                />
+            )}
+            {imageShow === false && <CustomImage imgRef={img} url={src} scrollState={scrollState} {...props} />}
         </>
     );
 }
 
 WebglImage.propTypes = {
-    imgRef: PropTypes.any,
-    url: PropTypes.string,
+    el: PropTypes.any,
+    img: PropTypes.any,
+    src: PropTypes.string,
     scrollState: PropTypes.object,
-    dir: PropTypes.number,
-    color: PropTypes.string
+    color: PropTypes.string,
 };
 
 function CustomImage ({ imgRef, url, scrollState, ...props }) {
@@ -150,7 +160,7 @@ function CustomImage ({ imgRef, url, scrollState, ...props }) {
 
     useEffect(() => {
         const aspectRatio = getAspectRatio(tex.source.data.width, tex.source.data.height);
-        console.log(aspectRatio)
+        console.log(aspectRatio);
         if ($mesh.current) {
             $mesh.current.uniforms.uZoomScale.value.x = 1;
             $mesh.current.uniforms.uZoomScale.value.y = 1;
@@ -264,14 +274,7 @@ function CustomImage ({ imgRef, url, scrollState, ...props }) {
     );
 
     return (
-        <DreiImage
-            ref={ref}
-            texture={tex}
-            {...props}
-            renderOrder={-1}
-            position={[0, 0, 0]}
-            transparent
-        >
+        <DreiImage ref={ref} texture={tex} {...props} renderOrder={-1} position={[0, 0, 0]} transparent>
             <planeGeometry args={[1, 1, 128, 128]} />
             <shaderMaterial ref={$mesh} attach='material' transparent args={[shaderArgs]} />
         </DreiImage>
