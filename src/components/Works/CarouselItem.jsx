@@ -27,8 +27,8 @@ export function CarouselItem ({
     const $root = useRef();
     const textRef = useRef();
     const [isActive, setIsActive] = useState(index === activeIndex && isBack);
-    const [isReady, setIsReady] = useState(isBack);
-    const [isImageShow, setImageShow] = useState(true);
+    const [isReady, setIsReady] = useState(false);
+    const [isImageShow, setImageShow] = useState(!isBack);
     const dispatch = useDispatch();
     const { isMobile } = useMediaQueryCheck(991);
     const router = useRouter();
@@ -90,7 +90,9 @@ export function CarouselItem ({
     }, []);
 
     useEffect(() => {
-        if (isReady) router.push(item.link);
+        if (isReady) {
+            router.push(item.link);
+        }
     }, [isReady]);
 
     useFrame((state, delta) => {
@@ -109,15 +111,9 @@ export function CarouselItem ({
         >
             {isImageShow ? (
                 <EmergingImage
-                    index={index}
-                    material={material}
                     width={width}
                     height={height}
                     url={item.image}
-                    active={isActive}
-                    activeIndex={activeIndex}
-                    isBack={isBack}
-                    setIsReady={setIsReady}
                     setImageShow={setImageShow}
                     color={color}
                     type={1}
@@ -133,7 +129,6 @@ export function CarouselItem ({
                     activeIndex={activeIndex}
                     isBack={isBack}
                     setIsReady={setIsReady}
-                    transparent
                 />
             )}
             <Text

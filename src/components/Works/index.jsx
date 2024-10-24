@@ -27,7 +27,7 @@ export function Works ({ setThemeColor }) {
     return (
         <>
             <Head>
-                <style>{'html { overflow: hidden; }'}</style>
+                <style>{`html { overflow: hidden; } canvas { border: ${isMobile ? '15px' : '20px'} solid ${bgColor} }`}</style>
             </Head>
             <div className={style.el} style={{ background: `${bgColor}` }}>
                 <Canvas
@@ -35,7 +35,6 @@ export function Works ({ setThemeColor }) {
                     eventPrefix='client'
                     flat
                     camera={{ fov: 14 }}
-                    style={{ border: `${isMobile ? '15px' : '20px'} solid ${bgColor}` }}
                 >
                     <Lens scale='0.16'>
                         <WebGLBackground color={bgColor} />

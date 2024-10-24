@@ -3,10 +3,10 @@ import style from './WorksDetail.module.scss';
 import { SmartLink } from '../SmartLink';
 import Player from '../Player';
 import { BodyCopy, Subtitle } from '../Common/Text';
-import { Poster } from './Poster';
+import { Images } from './Images';
 import PropTypes from 'prop-types';
 
-export function Block ({ type, headline, video, images, content, text, relevant, ...props }) {
+export function Block ({ type, headline, video, images, content, text, relevant, color, ...props }) {
     return (
         <>
             {type === 'text' ? (
@@ -68,7 +68,7 @@ export function Block ({ type, headline, video, images, content, text, relevant,
                 <section className={style.images}>
                     {images.map((img, j) => (
                         <section className={style.image} key={j}>
-                            <Poster src={img.image.url} alt={img.image?.alt} />
+                            <Images src={img.image.url} alt={img.image?.alt} color={color} />
                         </section>
                     ))}
                 </section>
@@ -100,4 +100,5 @@ Block.propTypes = {
     content: PropTypes.array,
     text: PropTypes.string,
     relevant: PropTypes.array,
+    color: PropTypes.string
 };
