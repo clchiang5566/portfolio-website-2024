@@ -20,7 +20,7 @@ export function Images ({ src, parallaxSpeed, color, ...props }) {
             <div ref={el} {...props}>
                 <Image
                     className='imageHidden'
-                    // decode='async'
+                    decode='async'
                     ref={img}
                     src={src}
                     layout='responsive'
