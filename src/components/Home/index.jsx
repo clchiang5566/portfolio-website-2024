@@ -6,12 +6,14 @@ import { Lens } from '../Common/Lens';
 import PropTypes from 'prop-types';
 import Face from './face';
 import Shape from './shape';
-import { Header } from './Header';
 import { WebGLBackground } from '../Common/WebGLBackground';
 import FontFaceObserver from 'fontfaceobserver';
 import { toggleMusicPlaying, toggleModelFloating, toggleModelActive } from '../../redux/home/home.action';
 import { selectIsFloating, selectIsActive } from '../../redux/home/home.selector';
 import { useSelector, useDispatch } from 'react-redux';
+import dynamic from 'next/dynamic';
+
+const Header = dynamic(() => import('./Header').then(mod => mod.Header), { ssr: false });
 
 export default function Home () {
     const dispatch = useDispatch();
@@ -40,7 +42,7 @@ export default function Home () {
             .then(() => {
                 setTimeout(() => {
                     setIsLoaded(true);
-                }, 500);
+                }, 300);
             })
             .catch(() => {
                 console.error('error');

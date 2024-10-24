@@ -1,4 +1,4 @@
-import { React, Suspense, useState } from 'react';
+import { React, Suspense, useState, useEffect } from 'react';
 import { Environment } from '@react-three/drei';
 import { Canvas } from '@react-three/fiber';
 import { Carousel } from './Carousel';
@@ -12,7 +12,7 @@ import style from './Works.module.scss';
 import { Model } from './Model';
 import { useMediaQueryCheck } from '../../hooks/useMediaQueryCheck';
 
-export function Works () {
+export function Works ({ setThemeColor }) {
     const state = useSelector(state => state);
     const works = getWorks(state)[0];
     const [bgColor, setBgColor] = useState(works?.color && works.isBack ? `${works.color}` : '#aaf683');
@@ -20,19 +20,19 @@ export function Works () {
     const [posterActive, setPosterActive] = useState(false);
     const { isMobile } = useMediaQueryCheck(991);
 
+    useEffect(() => {
+        setThemeColor(bgColor);
+    }, [works, bgColor]);
+
     return (
         <>
             <Head>
-                <style>{'html { overflow: hidden; }'}</style>
+                <style>{`html { overflow: hidden; } canvas { border: ${
+                    isMobile ? '15px' : '20px'
+                } solid ${bgColor} }`}</style>
             </Head>
             <div className={style.el} style={{ background: `${bgColor}` }}>
-                <Canvas
-                    scalemultiplier={0.01}
-                    eventPrefix='client'
-                    flat
-                    camera={{ fov: 14 }}
-                    style={{ border: `${isMobile ? '15px' : '20px'} solid ${bgColor}` }}
-                >
+                <Canvas scalemultiplier={0.01} eventPrefix='client' flat camera={{ fov: 14 }}>
                     <Lens scale='0.16'>
                         <WebGLBackground color={bgColor} />
                         <Suspense>
@@ -52,10 +52,5 @@ export function Works () {
 }
 
 Works.propTypes = {
-    type: PropTypes.string,
-    items: PropTypes.array,
-    m: PropTypes.string,
-    urls: PropTypes.array,
-    color: PropTypes.string,
-    headline: PropTypes.string,
+    setThemeColor: PropTypes.func,
 };

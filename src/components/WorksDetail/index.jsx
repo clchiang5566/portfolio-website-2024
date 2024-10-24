@@ -179,7 +179,7 @@ export default function WorksDetail ({ title, subtitle, content, image, index, c
                     </div>
                     <div className={style.content}>
                         {content.map((item, i) => (
-                            <Block {...item} key={i} />
+                            <Block {...item} color={color} key={i} />
                         ))}
                     </div>
                     <Footer color={color} texturePath={footerTexture}>

@@ -55,7 +55,7 @@ export function Text ({
                                 font={font}
                                 glyphGeometryDetail={16}
                                 renderOrder={-1}
-                                outlineWidth={outlineWidth || 0}
+                                outlineWidth={outlineWidth ? 0.01 : 0}
                                 outlineColor={outlineWidth ? '#313131' : ''}
                                 color={color}
                                 {...props}
