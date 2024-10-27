@@ -8,7 +8,7 @@ import { lerp } from '../../utils/common';
 import gsap from 'gsap';
 import PropTypes from 'prop-types';
 import Image from 'next/image';
-import { EmergingImage } from '../Works/EmergingImage';
+import { EmergingImage } from './EmergingImage';
 
 export function Images ({ src, parallaxSpeed, color, ...props }) {
     const el = useRef();
@@ -160,7 +160,6 @@ function CustomImage ({ imgRef, url, scrollState, ...props }) {
 
     useEffect(() => {
         const aspectRatio = getAspectRatio(tex.source.data.width, tex.source.data.height);
-        console.log(aspectRatio);
         if ($mesh.current) {
             $mesh.current.uniforms.uZoomScale.value.x = 1;
             $mesh.current.uniforms.uZoomScale.value.y = 1;

@@ -109,7 +109,7 @@ export default function About ({ headline, content, image, index, color }) {
                                 </section>
                             </div>
                         </div>
-                        <Footer texturePath='/texture/nomarl/Material_body.png'>Let&apos;s Creative Together !</Footer>
+                        <Footer texturePath='/texture/nomarl/Material_body.png'>Let&apos;s Create Together !</Footer>
                     </section>
                 )}
             </SmoothScrollbar>

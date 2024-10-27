@@ -57,7 +57,7 @@ const Contents = {
                         url: '/images/delonghi/img4.jpg',
                         alt: '',
                     },
-                },
+                }
             ],
         },
         {
@@ -65,6 +65,22 @@ const Contents = {
             video: {
                 headline: 'Showcase',
                 url: 'https://vimeo.com/704024898',
+            },
+        },
+        {
+            type: 'links',
+            relevant: {
+                headline: 'Relevant Links',
+                content: [
+                    {
+                        text: 'The Art of (Brand) Transformation, with De’Longhi and Landor & Fitch',
+                        link: 'https://www.brandingmag.com/radu-dandu/the-art-of-brand-transformation-with-delonghi-and-landor-fitch/',
+                    },
+                    {
+                        text: 'De’Longhi Launches New Immersive Coffee Experience With Landor & Fitch',
+                        link: 'https://www.bandt.com.au/delonghi-launches-new-immersive-coffee-experience-with-landor-fitch/',
+                    }
+                ],
             },
         },
     ],

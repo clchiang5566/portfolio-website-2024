@@ -34,7 +34,7 @@ const Contents = {
         {
             type: 'text',
             text:
-                'I was responsible for the all front-end development including a lot of animation effects on its official website.',
+                'I was responsible for the front-end development including a lot of animation effects on its official website.',
         },
         {
             type: 'images',

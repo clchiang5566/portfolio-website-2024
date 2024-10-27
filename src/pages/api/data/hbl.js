@@ -51,6 +51,24 @@ const Contents = {
                         alt: '',
                     },
                 },
+                {
+                    image: {
+                        url: '/images/hbl/3.png',
+                        alt: '',
+                    },
+                },
+                {
+                    image: {
+                        url: '/images/hbl/4.png',
+                        alt: '',
+                    },
+                },
+                {
+                    image: {
+                        url: '/images/hbl/5.png',
+                        alt: '',
+                    },
+                },
             ],
         },
         {
@@ -72,10 +90,6 @@ const Contents = {
                     {
                         text: 'The Road to HBL - Clio Awards Bronze Award',
                         link: 'https://clios.com/sports/winner/social-media/nike-china/the-road-to-hbl-57101',
-                    },
-                    {
-                        text: 'The Road to HBL - Cannes Lions Digital Craft Shortlist',
-                        link: '',
                     },
                     {
                         text: 'The Road To HBL - The Webby Awards',

@@ -34,7 +34,7 @@ const Contents = {
         {
             type: 'text',
             text:
-                'In this digital experience, we follow the main idea and tell the story with a timberlane-wearing heart. I have participated in the development of all programs, and I needed to work closely with the two animators to ensure good performance by producing and testing at the same time. We finished this 3D game experience in a short time.',
+                'In this digital experience, we follow the main idea and tell the story with a timberlane-wearing heart. I have participated in the development of all programs, and I needed to work closely withanimators to ensure good performance by producing and testing at the same time. We finished this 3D game experience in a short time.',
         },
         {
             type: 'images',
