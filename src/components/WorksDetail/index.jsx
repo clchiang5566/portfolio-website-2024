@@ -38,8 +38,15 @@ export default function WorksDetail ({ title, subtitle, content, image, index, c
             }
         };
 
+        const handleBack = () => {
+            dispatch(resetWorks());
+            dispatch(addWorks(index, color, true));
+        };
+
+        window.addEventListener('popstate', handleBack);
         router.events.on('routeChangeStart', handleRouteChange);
         return () => {
+            window.removeEventListener('popstate', handleBack);
             router.events.off('routeChangeStart', handleRouteChange);
         };
     }, [router]);

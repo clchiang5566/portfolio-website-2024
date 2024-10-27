@@ -8,7 +8,7 @@ import { lerp } from '../../utils/common';
 import gsap from 'gsap';
 import PropTypes from 'prop-types';
 import Image from 'next/image';
-import { EmergingImage } from './EmergingImage';
+import { EffectImage } from './EffectImage';
 
 export function Images ({ src, parallaxSpeed, color, ...props }) {
     const el = useRef();
@@ -89,7 +89,7 @@ function WebglImage ({ el, img, src, color, scrollState, ...props }) {
     return (
         <>
             {isVisible && imageShow && (
-                <EmergingImage
+                <EffectImage
                     width={elementSize[0]}
                     height={elementSize[1]}
                     url={src}

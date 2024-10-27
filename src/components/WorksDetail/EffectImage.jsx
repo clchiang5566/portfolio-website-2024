@@ -7,7 +7,7 @@ import { shaderMaterial } from '@react-three/drei';
 import { extend } from '@react-three/fiber';
 import PropTypes from 'prop-types';
 
-const EmergeMaterial = shaderMaterial(
+const EffectMaterial = shaderMaterial(
     {
         uEffectTime: 0,
         uFillColor: new THREE.Color('#f60'),
@@ -217,9 +217,9 @@ const EmergeMaterial = shaderMaterial(
       `
 );
 
-extend({ EmergeMaterial });
+extend({ EffectMaterial });
 
-export function EmergingImage ({ width, height, url, type, color, setImageShow, ...props }) {
+export function EffectImage ({ width, height, url, type, color, setImageShow, ...props }) {
     const [refMesh, setRefMesh] = useState(null);
     const [texture, setTexture] = useState(null);
     const [textureSize, setTextureSize] = useState([0, 0]);
@@ -271,7 +271,7 @@ export function EmergingImage ({ width, height, url, type, color, setImageShow, 
     return (
         <mesh ref={setRefMesh} {...props}>
             <planeGeometry args={[1, 1]} />
-            <emergeMaterial
+            <effectMaterial
                 uFillColor={new THREE.Color(color)}
                 uTexture={texture}
                 uTextureSize={new THREE.Vector2(textureSize[0], textureSize[1])}
@@ -281,7 +281,7 @@ export function EmergingImage ({ width, height, url, type, color, setImageShow, 
     );
 }
 
-EmergingImage.propTypes = {
+EffectImage.propTypes = {
     width: PropTypes.string,
     height: PropTypes.string,
     url: PropTypes.string,

@@ -41,19 +41,31 @@ const Contents = {
             images: [
                 {
                     image: {
-                        url: '/images/tomorrow/1.png',
+                        url: '/images/tomorrow/1.jpg',
                         alt: '',
                     },
                 },
                 {
                     image: {
-                        url: '/images/tomorrow/2.png',
+                        url: '/images/tomorrow/2.jpg',
                         alt: '',
                     },
                 },
                 {
                     image: {
-                        url: '/images/tomorrow/3.png',
+                        url: '/images/tomorrow/3.jpg',
+                        alt: '',
+                    },
+                },
+                {
+                    image: {
+                        url: '/images/tomorrow/4.jpg',
+                        alt: '',
+                    },
+                },
+                {
+                    image: {
+                        url: '/images/tomorrow/5.jpg',
                         alt: '',
                     },
                 },
