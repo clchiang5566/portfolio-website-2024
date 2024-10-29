@@ -20,6 +20,7 @@ function TVModel ({ scrollState, ...props }) {
         const vid = document.createElement('video');
         vid.src = '/video/test.mp4';
         vid.crossOrigin = 'Anonymous';
+        vid.setAttribute('playsinline', '')
         vid.loop = true;
         vid.muted = true;
         vid.play();
