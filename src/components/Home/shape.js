@@ -107,7 +107,8 @@ const Shape = ({ isLoaded, handleClick }) => {
                             dur='12s'
                             repeatCount='indefinite'
                         />
-                        A Freelance Creative Developer Who Is Studying And Traveling Hard This Year. A Freelance Creative Developer Who Is Studying And Traveling Hard This Year.
+                        A Freelance Creative Developer Who Is Studying And Traveling Hard This Year. A Freelance
+                        Creative Developer Who Is Studying And Traveling Hard This Year.
                     </textPath>
                 </text>
             </svg>

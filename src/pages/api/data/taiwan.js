@@ -79,12 +79,13 @@ const Contents = {
                     },
                     {
                         text: 'Taiwan’s ‘living hell’ traffic is a tourism problem, say critics',
-                        link:
-                            'https://edition.cnn.com/travel/article/taiwan-traffic-war-tourism-intl-hnk/index.html',
+                        link: 'https://edition.cnn.com/travel/article/taiwan-traffic-war-tourism-intl-hnk/index.html',
                     },
                     {
-                        text: 'Minister of transportation said “it will take 100years to fully renovate sidewalks across the whole country”',
-                        link: 'https://www.reddit.com/r/taiwan/comments/122ea4l/minister_of_transportation_said_it_will_take/'
+                        text:
+                            'Minister of transportation said “it will take 100years to fully renovate sidewalks across the whole country”',
+                        link:
+                            'https://www.reddit.com/r/taiwan/comments/122ea4l/minister_of_transportation_said_it_will_take/',
                     },
                     {
                         text: '台湾在留邦人安全の手引き 9.交通事故対策 - 日本外務省',
