@@ -1,8 +1,7 @@
-import React from 'react'; // { useState, useEffect }
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { SmartLink } from '../SmartLink';
-// import { useRouter } from 'next/router';
-// import { useRouter } from 'next/router';
+import { useRouter } from 'next/router';
 // import { useMediaQuery } from '@react-hook/media-query';
 import { useSelector, useDispatch } from 'react-redux';
 import { toggleMusicPlaying } from '../../redux/home/home.action';
@@ -14,43 +13,42 @@ import style from './Header.module.scss';
 const Header = props => {
     const { navigation } = props;
     const dispatch = useDispatch();
-    // const [minimize, setMinimize] = useState(false);
+    const [minimize, setMinimize] = useState(false);
     const isPlaying = useSelector(selectIsPlaying);
-    // const router = useRouter();
+    const router = useRouter();
 
     const handleMusicClick = () => {
         dispatch(toggleMusicPlaying(!isPlaying));
     };
 
-    // useEffect(() => {
-    //     let prevScrollpos = window.pageYOffset;
+    useEffect(() => {
+        let prevScrollpos = window.pageYOffset;
 
-    //     const handleWindowScroll = () => {
-    //         const currentScrollPos = window.pageYOffset;
+        const handleWindowScroll = () => {
+            const currentScrollPos = window.pageYOffset;
 
-    //         if (prevScrollpos > currentScrollPos) {
-    //             setMinimize(false);
-    //         } else {
-    //             setMinimize(true);
-    //         }
+            if (prevScrollpos > currentScrollPos) {
+                setMinimize(false);
+            } else {
+                setMinimize(true);
+            }
 
-    //         if (currentScrollPos < 100) {
-    //             setMinimize(false);
-    //         }
+            if (currentScrollPos < 100) {
+                setMinimize(false);
+            }
 
-    //         prevScrollpos = currentScrollPos;
-    //     };
+            prevScrollpos = currentScrollPos;
+        };
 
-    //     window.addEventListener('scroll', () => handleWindowScroll());
+        window.addEventListener('scroll', () => handleWindowScroll());
 
-    //     return () => {
-    //         window.removeEventListener('scroll', () => handleWindowScroll());
-    //     };
-    // }, [router.asPath]);
-    // minimize ? style.minimize : null
+        return () => {
+            window.removeEventListener('scroll', () => handleWindowScroll());
+        };
+    }, [router.asPath]);
 
     return (
-        <header className={style.el}>
+        <header className={[style.el, minimize ? style.minimize : null].join(' ')}>
             <div className={[style.container, 'container'].join(' ')}>
                 <div className={style.logo}>
                     <div className={style.name}>

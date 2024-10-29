@@ -7,7 +7,7 @@ import PropTypes from 'prop-types';
 
 export function Lens ({ children, damping = 0.14, scale = 0.12, ...props }) {
     const ref = useRef();
-    const { nodes } = useGLTF('/glb/lens-transformed2.glb');
+    const { nodes } = useGLTF('/models/lens-transformed2.glb');
     const buffer = useFBO();
     const viewport = useThree(state => state.viewport);
     const [scene] = useState(() => new THREE.Scene());
@@ -28,6 +28,7 @@ export function Lens ({ children, damping = 0.14, scale = 0.12, ...props }) {
         ref.current.rotation.y = Math.cos(time.current * 0.6) * Math.PI * 0.3;
         ref.current.rotation.z = Math.sin(time.current * 0.5) * Math.PI * 0.3;
         ref.current.position.z = Math.sin(time.current * 0.1) * 0.1;
+
         const scaleVariation =
             Math.min(viewport.width, viewport.height) * scale * (1 + Math.sin(time.current * 0.5) * 0.1);
         ref.current.scale.set(scaleVariation, scaleVariation, scaleVariation);
@@ -72,4 +73,4 @@ Lens.propTypes = {
     scale: PropTypes.string,
 };
 
-useGLTF.preload('/glb/lens-transformed2.glb');
+useGLTF.preload('/models/lens-transformed2.glb');

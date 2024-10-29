@@ -117,7 +117,7 @@ function ShaderPlane ({ color, isHome }) {
                 lacunarity={1}
                 minGain={0.9} // 0.1
                 maxGain={1} // 1
-                bgColor={isHome ? 'blue' : lightenHex(color, 40)} // #103dad
+                bgColor={isHome ? '#4169e1' : lightenHex(color, 40)} // #103dad
                 textureColor={isHome ? '#57f6b4' : lightenHex(color, 20)}
             />
         </mesh>

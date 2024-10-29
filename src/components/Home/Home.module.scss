@@ -24,11 +24,11 @@
       height: 100vh;
       top: 0;
       left: 0;
-      border: 20px solid blue;
+      border: 20px solid #4169e1;
       padding-bottom: constant(safe-area-inset-bottom);
       padding-bottom: env(safe-area-inset-bottom);
       @include tablet {
-        border: 15px solid blue;
+        border: 15px solid #4169e1;
       }
     }
     .arrow {
@@ -122,7 +122,7 @@
   position: absolute;
   width: 400px;
   text-align: center;
-  transform: scale(0.8);
+  transform: scale(0.7);
   transform-origin: center;
   pointer-events: none;
   font-family: 'Lato', 'Helvetica Neue', Helvetica, 'Noto Sans TC', sans-serif;
@@ -131,7 +131,7 @@
   display: flex;
   color: #000;
   @include tablet {
-      transform: scale(0.45);
+      transform: scale(0.4);
   }
   &.show {
     opacity: 1;
@@ -218,7 +218,7 @@
     height: 130px;
     width: 80px;
     border-radius: 75%;
-    background-color: blue;
+    background-color: #4169e1;
   }
 
   .pupil{
