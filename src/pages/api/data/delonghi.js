@@ -29,7 +29,12 @@ const Contents = {
         {
             type: 'text',
             text:
-                'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industrys standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.',
+                'De’Longhi Australia has opened the doors to its very first Coffee Lounge, a physical space designed for Australians to enhance their at-home coffee experience. It is designed to cater to Australians from beginner level interested to start their bean to cup journey in the home, to the more advanced trying their hand at being a home barista and those keen to further deepen their knowledge and skills.',
+        },
+        {
+            type: 'text',
+            text:
+                'I only did part of the front-end development in this project. I mainly want to use it to present my experience in kiosk. This digital experience is suitable for various retail scenarios. It can also integrate various software and hardware technologies, such as AI, IoT, face recognition, etc., to achieve diverse applications.',
         },
         {
             type: 'images',
@@ -52,12 +57,6 @@ const Contents = {
                         alt: '',
                     },
                 },
-                {
-                    image: {
-                        url: '/images/delonghi/img4.jpg',
-                        alt: '',
-                    },
-                }
             ],
         },
         {
