@@ -42,19 +42,31 @@ const Contents = {
                 {
                     image: {
                         url: '/images/tata/img1.jpg',
-                        alt: '111',
+                        alt: '1',
                     },
                 },
                 {
                     image: {
                         url: '/images/tata/img2.jpg',
-                        alt: '222',
+                        alt: '2',
                     },
                 },
                 {
                     image: {
                         url: '/images/tata/img3.jpg',
-                        alt: '333',
+                        alt: '3',
+                    },
+                },
+                {
+                    image: {
+                        url: '/images/tata/img4.jpg',
+                        alt: '4',
+                    },
+                },
+                {
+                    image: {
+                        url: '/images/tata/img5.jpg',
+                        alt: '5',
                     },
                 },
             ],

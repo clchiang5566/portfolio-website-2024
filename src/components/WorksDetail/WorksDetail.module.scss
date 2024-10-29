@@ -265,13 +265,16 @@
             }
         }
         .video {
-            margin-top: 50px;
+            margin-top: 70px;
             margin-bottom: 50px;
             padding: 0 20px;
             @include tablet {
-                margin-top: 40px;
+                margin-top: 50px;
                 margin-bottom: 40px;
                 padding: 0 15px;     
+            }
+            h3 {
+                margin-left: -18px;
             }
             .player {
                 width: calc(100% - 80px);
@@ -302,6 +305,7 @@
                 flex-direction: row;
                 justify-content: flex-end;
                 position: relative;
+                margin-right: 20px;
                 z-index: 1;
                 @include tablet {
                     margin-top: -8px;
@@ -360,6 +364,10 @@
             }
         }
         .links {
+            margin-top: 20px;
+            @include tablet {
+                margin-top: 0px;
+            }
             .content {
                 border: 1px solid;
                 border-radius: 16px;
@@ -373,7 +381,7 @@
             }
             .link {
                 font-size: 16px;
-                margin-bottom: 10px;
+                margin: 10px 0;
                 letter-spacing: 2px;
                 a {
                     color: $color-text;

@@ -46,6 +46,24 @@ const Contents = {
                         alt: '',
                     },
                 },
+                {
+                    image: {
+                        url: '/images/kitkat/img3.jpg',
+                        alt: '',
+                    },
+                },
+                {
+                    image: {
+                        url: '/images/kitkat/img4.jpg',
+                        alt: '',
+                    },
+                },
+                {
+                    image: {
+                        url: '/images/kitkat/img5.jpg',
+                        alt: '',
+                    },
+                },
             ],
         },
         {

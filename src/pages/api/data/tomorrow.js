@@ -34,26 +34,38 @@ const Contents = {
         {
             type: 'text',
             text:
-                'I was responsible for the all front-end development including a lot of animation effects on its official website.',
+                'I was responsible for the front-end development including a lot of animation effects on its official website.',
         },
         {
             type: 'images',
             images: [
                 {
                     image: {
-                        url: '/images/tomorrow/1.png',
+                        url: '/images/tomorrow/1.jpg',
                         alt: '',
                     },
                 },
                 {
                     image: {
-                        url: '/images/tomorrow/2.png',
+                        url: '/images/tomorrow/2.jpg',
                         alt: '',
                     },
                 },
                 {
                     image: {
-                        url: '/images/tomorrow/3.png',
+                        url: '/images/tomorrow/3.jpg',
+                        alt: '',
+                    },
+                },
+                {
+                    image: {
+                        url: '/images/tomorrow/4.jpg',
+                        alt: '',
+                    },
+                },
+                {
+                    image: {
+                        url: '/images/tomorrow/5.jpg',
                         alt: '',
                     },
                 },

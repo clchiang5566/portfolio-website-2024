@@ -1,7 +1,7 @@
 const initialState = {
     isPlaying: false,
     isFloating: false,
-    isActive: false,
+    isZoom: false,
 };
 
 export const homeReducer = (state = initialState, action) => {
@@ -20,6 +20,11 @@ export const homeReducer = (state = initialState, action) => {
             return {
                 ...state,
                 isActive: action.payload.isActive,
+            };
+        case 'TV_ACTIVE':
+            return {
+                ...state,
+                isZoom: action.payload.isZoom,
             };
         default:
             return state;
