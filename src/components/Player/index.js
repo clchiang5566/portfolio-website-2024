@@ -6,6 +6,8 @@ import videojs from 'video.js';
 import './videojs-vimeo.cjs';
 import 'video.js/dist/video-js.min.css';
 import 'videojs-youtube/dist/Youtube.min.js';
+import { useDispatch } from 'react-redux';
+import { toggleMusicPlaying } from '../../redux/home/home.action';
 // import { getCookieConsentValue } from 'react-cookie-consent';
 
 //* style
@@ -24,6 +26,7 @@ const iOS = () => {
 const Player = ({ link, poster, isAutoPlay, onPlay }) => {
     const [playing, setPlaying] = useState(isAutoPlay);
     const videoEl = useRef(null);
+    const dispatch = useDispatch();
 
     const videoPlay = link => {
         const vjsPlayer = videojs(videoEl.current, {
@@ -56,8 +59,11 @@ const Player = ({ link, poster, isAutoPlay, onPlay }) => {
         });
 
         vjsPlayer.on('play', e => {
+            setPlaying(true);
+            dispatch(toggleMusicPlaying(false));
             if (onPlay) {
                 onPlay();
+                dispatch(toggleMusicPlaying(false));
             }
             if (link.indexOf('vimeo') < 0 && link.indexOf('youtube') < 0 && isMobile) {
                 vjsPlayer.requestFullscreen();
@@ -69,9 +75,15 @@ const Player = ({ link, poster, isAutoPlay, onPlay }) => {
         if (link) videoPlay(link);
         document.querySelector('.vjs-big-play-button').addEventListener('click', () => {
             setPlaying(true);
+            dispatch(toggleMusicPlaying(false));
         });
+        // document.querySelector('.player button').addEventListener('click', () => {
+        //     setPlaying(true);
+        //     dispatch(toggleMusicPlaying(false));
+        // });
         document.querySelector('.vjs-poster').addEventListener('click', () => {
             setPlaying(true);
+            dispatch(toggleMusicPlaying(false));
         });
     }, []);
 

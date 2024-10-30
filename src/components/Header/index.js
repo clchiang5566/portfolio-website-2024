@@ -13,7 +13,7 @@ import style from './Header.module.scss';
 const Header = props => {
     const { navigation } = props;
     const dispatch = useDispatch();
-    const [minimize, setMinimize] = useState(false);
+    // const [minimize, setMinimize] = useState(false);
     const isPlaying = useSelector(selectIsPlaying);
     const router = useRouter();
 
@@ -21,34 +21,34 @@ const Header = props => {
         dispatch(toggleMusicPlaying(!isPlaying));
     };
 
-    useEffect(() => {
-        let prevScrollpos = window.pageYOffset;
+    // useEffect(() => {
+    //     let prevScrollpos = window.pageYOffset;
 
-        const handleWindowScroll = () => {
-            const currentScrollPos = window.pageYOffset;
+    //     const handleWindowScroll = () => {
+    //         const currentScrollPos = window.pageYOffset;
 
-            if (prevScrollpos > currentScrollPos) {
-                setMinimize(false);
-            } else {
-                setMinimize(true);
-            }
+    //         if (prevScrollpos > currentScrollPos) {
+    //             setMinimize(false);
+    //         } else {
+    //             setMinimize(true);
+    //         }
 
-            if (currentScrollPos < 100) {
-                setMinimize(false);
-            }
+    //         if (currentScrollPos < 100) {
+    //             setMinimize(false);
+    //         }
 
-            prevScrollpos = currentScrollPos;
-        };
+    //         prevScrollpos = currentScrollPos;
+    //     };
 
-        window.addEventListener('scroll', () => handleWindowScroll());
+    //     window.addEventListener('scroll', () => handleWindowScroll());
 
-        return () => {
-            window.removeEventListener('scroll', () => handleWindowScroll());
-        };
-    }, [router.asPath]);
-
+    //     return () => {
+    //         window.removeEventListener('scroll', () => handleWindowScroll());
+    //     };
+    // }, [router.asPath]);
+    // minimize ? style.minimize : null
     return (
-        <header className={[style.el, minimize ? style.minimize : null].join(' ')}>
+        <header className={style.el}>
             <div className={[style.container, 'container'].join(' ')}>
                 <div className={style.logo}>
                     <div className={style.name}>

@@ -159,6 +159,6 @@ CarouselItem.propTypes = {
     isBack: PropTypes.bool,
     material: PropTypes.object,
     color: PropTypes.string,
-    setTextReady: PropTypes.number,
-    setTextShow: PropTypes.number,
+    setTextReady: PropTypes.func,
+    setTextShow: PropTypes.func,
 };

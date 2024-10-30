@@ -78,6 +78,6 @@ Text.propTypes = {
     font: PropTypes.string,
     as: PropTypes.any,
     isHidden: PropTypes.bool,
-    outlineWidth: PropTypes.bool,
+    outlineWidth: PropTypes.any,
     color: PropTypes.string,
 };

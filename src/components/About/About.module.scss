@@ -15,7 +15,7 @@
     z-index: 2;
     @include tablet {
      right: 22px;
-     top: calc(100vh - 150px); 
+     top: calc(100vh - 80px); 
     }
     .triangle {
        width: 0;
@@ -65,11 +65,11 @@
       }
     }
     .videoMin {
-      height: 50vh;
-      padding-top: 40px;
-      padding-top: 40px;
+      height: 60vh;
+      padding-top: 50px;
+      padding-top: 50px;
       @include tablet {
-        height: 30vh;
+        height: 40vh;
         padding-top: 0;
         padding-top: 0;
       }
@@ -170,7 +170,7 @@
         border-radius: 16px;
         padding: 60px 40px;
         @include tablet {
-          padding: 25px;
+          padding: 30px 20px;
         }
         .images {
           width: 100%;
@@ -213,7 +213,7 @@
         }
         p {
            font-size: 18px;
-           font-weight: 400;
+           font-weight: 500;
            letter-spacing: 1px;
            line-height: 2;
            margin-bottom: 20px;

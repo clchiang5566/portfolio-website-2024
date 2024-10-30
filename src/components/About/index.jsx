@@ -79,9 +79,10 @@ export default function About ({ headline, content, image, index, color }) {
                                             I have 10 years of working experience in digital products with the APAC area
                                             teams, and have served many local and international brands, hundreds of
                                             websites. I have some particular interests in graphics programming (GLSL
-                                            shader, game development, etc.), the aesthetics of mathematics and new type
+                                            shader, AR/VR/MR, game development, etc.), the aesthetics of mathematics and new type
                                             of interaction.
                                         </p>
+                                        <p>I am currently learning more tools to realize the ideas in my mind.</p>
                                     </div>
                                 </section>
                                 <section className={style.text}>
@@ -116,9 +117,9 @@ export default function About ({ headline, content, image, index, color }) {
                                             This website is a commemorative edition of my work on the tenth year (2013 -
                                             2023) and a collection of works. It selects some pieces of different stages
                                             in the past six years. These works represent the results of my different
-                                            types of work experience and global cross-border teamwork. You also can see
-                                            some of the other works through the TV below.
+                                            types of work experience and global cross-border teamwork.
                                         </p>
+                                        <p>You also can see some of the other works through the TV below.</p>
                                     </div>
                                 </section>
                                 <div className={style.televisionContainer} ref={tvEl}>
