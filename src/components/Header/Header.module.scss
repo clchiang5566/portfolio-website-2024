@@ -98,18 +98,26 @@ $menuHeightMinimized: 60px;
         color: $color-text;
       }
       &-item {
+        width: 97px;
         margin-left: 20px;
         text-transform: uppercase;
         cursor: pointer;
         letter-spacing: 5px;
         padding-left: 4px;
+        @include tablet {
+          width: 92px;
+        }
         &:first-child { 
+          width: initial;
           display: flex;
           align-items: center;
           position: relative;
           padding-right: 8px;
           padding-top: 2px;
           padding-bottom: 2px;
+          @include tablet {
+            width: initial;
+          }
           &::before {
             content: " ";
             width: 1.2px;

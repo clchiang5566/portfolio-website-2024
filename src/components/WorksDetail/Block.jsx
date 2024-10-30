@@ -99,6 +99,6 @@ Block.propTypes = {
     images: PropTypes.array,
     content: PropTypes.array,
     text: PropTypes.string,
-    relevant: PropTypes.array,
+    relevant: PropTypes.any,
     color: PropTypes.string,
 };

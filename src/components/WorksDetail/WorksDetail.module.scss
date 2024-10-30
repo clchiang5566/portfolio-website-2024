@@ -237,10 +237,9 @@
             }
             p {
                 font-size: 18px;
-                line-height: 1.8;
+                line-height: 2;
                 @include tablet {
                     font-size: 16px;
-                    line-height: 1.8;
                 }
             }
         }
@@ -248,7 +247,7 @@
             margin-top: 80px;
             margin-bottom: 40px;
             @include tablet {
-                margin-top: 40px;
+                margin-top: 60px;
                 margin-bottom: 40px;
             }
         }
@@ -280,7 +279,7 @@
                 width: calc(100% - 80px);
                 position: relative;
                 @include tablet {
-                    width: calc(100% - 20px);
+                    width: calc(100% - 40px);
                 }
                 .frame {
                     width: 100%;
@@ -293,8 +292,8 @@
                     top: 80px;
                     left: 80px;
                     @include tablet {
-                        top: 15px;
-                        left: 15px;
+                        top: 30px;
+                        left: 30px;
                     }
                 }
             }
@@ -349,15 +348,22 @@
                 display: flex;
                 justify-content: space-between;
                 margin-bottom: 10px;
+                font-size: 18px;
+                @include tablet {
+                    font-size: 16px;
+                }
                 &:last-child {
                     margin-bottom: 20px;
                 }
             }
             .line {
                 width: 50%;
-                font-size: 16px;
+                font-size: 18px;
                 // letter-spacing: 1px;
-                line-height: 1.8;
+                line-height: 2;
+                @include tablet {
+                    font-size: 16px;
+                }
                 &:last-child {
                     text-align: right;
                 }
