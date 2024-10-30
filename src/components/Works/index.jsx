@@ -29,20 +29,15 @@ export function Works ({ setThemeColor }) {
             <Head>
                 <style>{`html { overflow: hidden; } canvas { border: ${
                     isMobile ? '15px' : '20px'
-                } solid ${bgColor} }`}</style>
+                } solid #4169e1 }`}</style>
             </Head>
             <div className={style.el} style={{ background: `${bgColor}` }}>
                 <Canvas scalemultiplier={0.01} eventPrefix='client' flat camera={{ fov: 14 }}>
                     <Lens scale='0.16'>
-                        <WebGLBackground color={bgColor} />
+                        <WebGLBackground isHome />
                         <Suspense>
                             <Environment files='../env/empty_warehouse_01_1k.hdr' />
-                            <Carousel
-                                setBgColor={setBgColor}
-                                setCurrentTexture={setCurrentTexture}
-                                setPosterActive={setPosterActive}
-                            />
-                            {!posterActive && <Model url='/models/down/scene.gltf' texturePath={currentTexture} />}
+                            <Model url='/models/down/scene.gltf' texturePath={currentTexture} />
                         </Suspense>
                     </Lens>
                 </Canvas>

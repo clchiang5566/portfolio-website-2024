@@ -27,8 +27,7 @@ export function Lens ({ children, damping = 0.14, scale = 0.12, ...props }) {
         ref.current.rotation.x = Math.sin(time.current * 0.7) * Math.PI * 0.3;
         ref.current.rotation.y = Math.cos(time.current * 0.6) * Math.PI * 0.3;
         ref.current.rotation.z = Math.sin(time.current * 0.5) * Math.PI * 0.3;
-        ref.current.position.z = Math.sin(time.current * 0.1) * 0.1;
-
+        ref.current.position.z = Math.sin(time.current * 0.1) * -0.3;
         const scaleVariation =
             Math.min(viewport.width, viewport.height) * scale * (1 + Math.sin(time.current * 0.5) * 0.1);
         ref.current.scale.set(scaleVariation, scaleVariation, scaleVariation);
@@ -42,12 +41,12 @@ export function Lens ({ children, damping = 0.14, scale = 0.12, ...props }) {
     return (
         <>
             {createPortal(children, scene)}
-            <mesh scale={[viewport.width, viewport.height, 1]}>
+            <mesh scale={[viewport.width, viewport.height, 0]}>
                 <planeGeometry />
                 <meshBasicMaterial map={buffer.texture} />
             </mesh>
             <mesh
-                scale={Math.min(viewport.width, viewport.height) * scale}
+                scale={Math.min(viewport.width, viewport.height) * 0}
                 ref={ref}
                 geometry={nodes.Cylinder.geometry}
                 {...props}
@@ -73,4 +72,4 @@ Lens.propTypes = {
     scale: PropTypes.string,
 };
 
-useGLTF.preload('/models/lens-transformed2.glb');
+useGLTF.preload('/glb/lens-transformed2.glb');

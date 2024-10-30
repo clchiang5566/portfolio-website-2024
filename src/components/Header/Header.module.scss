@@ -10,6 +10,7 @@ $menuHeightMinimized: 60px;
   z-index: 10;// $z-header;
   background-color: transparent;
   transition: all 0.3s ease-in-out;
+  display: none;
   & > .container {
     padding: 30px 45px;
     height: 100px;

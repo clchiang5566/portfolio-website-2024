@@ -94,12 +94,12 @@ export function Model ({ url, texturePath }) {
 
     useEffect(() => {
         if (group.current) {
-            const scale = isMobile ? viewport.height * 0.18 : viewport.height * 0.4;
+            const scale = isMobile ? viewport.height * 0.18 : viewport.height * 0.6;
             group.current.scale.set(scale, scale, scale);
 
             const position = isMobile
                 ? [viewport.width / 2 - scale - scale / 10, -viewport.height / 2 + scale, 0]
-                : [viewport.width / 2 - scale - scale / 10, -viewport.height / 2 + scale / 2, 0];
+                : [0, 0, 0];
             group.current.position.set(...position);
             // group.current.rotation.set([0,0,0]);
         }
@@ -110,22 +110,21 @@ export function Model ({ url, texturePath }) {
             mixer.current.update(delta);
         }
         if (group.current) {
-            group.current.rotation.y += 0.01;
+            // group.current.rotation.y += 0.01;
         }
     });
 
     return (
         <group ref={group}>
-            <Float speed={6}>
                 <PresentationControls
-                    config={{ mass: 5, tension: 1500 }}
-                    snap={{ mass: 5, tension: 1500 }}
+                    config={{ mass: 100, tension: 1500 }}
+                    snap={{ mass: 100, tension: 1500 }}
                     polar={[-Math.PI / 2, Math.PI / 2]}
                     azimuth={[-Infinity, Infinity]}
+                    rotation={[0.5, -0.7, 0]}
                 >
                     <primitive object={scene} scale={0.004} />
                 </PresentationControls>
-            </Float>
         </group>
     );
 }

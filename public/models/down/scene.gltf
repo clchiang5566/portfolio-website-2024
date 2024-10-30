@@ -113,9 +113,9 @@
 			"uri":"material.jpg"
 		},
 		{
-			"mimeType":"image/png",
+			"mimeType":"image/jpg",
 			"name":"Material_body",
-			"uri":"Material_body.png"
+			"uri":"Material_body.jpg"
 		}
 	],
 	"accessors":[

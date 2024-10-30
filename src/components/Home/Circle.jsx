@@ -25,11 +25,7 @@ export function Circle ({ setIsActive, headerEl, ...props }) {
     const dispatch = useDispatch();
 
     const urls = [
-        '/models/dance/scene1.gltf',
-        '/models/dance/scene2.gltf',
-        '/models/dance/scene3.gltf',
-        '/models/dance/scene1.gltf',
-        '/models/dance/scene3.gltf',
+        '/models/down/scene.gltf',
     ];
     const timeOffsets = useRef(urls.map(() => Math.random() * 1000));
     const { onScroll } = useScrollbar();
@@ -151,21 +147,7 @@ export function Circle ({ setIsActive, headerEl, ...props }) {
                     key={index}
                     index={index}
                     url={url}
-                    position={[
-                        isMobile ? index * 0.7 - 0.5 : index * 2.5 - 3.5,
-                        isMobile && index === 2
-                            ? 3
-                            : isMobile && (index === 0 || index === 4)
-                            ? 1
-                            : isMobile && (index === 1 || index === 3)
-                            ? -2
-                            : index === 2
-                            ? 2.5
-                            : index === 0 || index === 4
-                            ? 1
-                            : -1,
-                        isMobile ? index - 4 : 0,
-                    ]}
+                    position={[0,0,0]}
                     scale={scale}
                     isFloating={isFloating}
                     isTwist={isTwist}

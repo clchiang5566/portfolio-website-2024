@@ -124,16 +124,14 @@ export function Model ({ url, position, index, scale, isFloating, isTwist, twist
     if (!scene) return null;
 
     return (
-        <group ref={group} position={position}>
+        <group ref={group} position={position} rotate={[0.5,0,0]}>
             <PresentationControls
                 config={{ mass: 5, tension: 1500 }}
                 snap={{ mass: 5, tension: 1500 }}
                 polar={[-Math.PI / 2, Math.PI / 2]}
                 azimuth={[-Infinity, Infinity]}
             >
-                <Float speed={3} floatIntensity={10} rotationIntensity={rotationIntensity}>
                     <primitive object={scene} scale={[scale, scale, scale]} />
-                </Float>
             </PresentationControls>
         </group>
     );

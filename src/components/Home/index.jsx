@@ -78,19 +78,10 @@ export default function Home () {
             </GlobalCanvas>
             <SmoothScrollbar enabled={enabled} config={{ syncTouch: true }} />
             <section ref={headerEl}>
-                <div className={[style.container, 'container'].join(' ')}>
-                    {isLoaded && <Shape isLoaded={isLoaded} handleClick={handleClick} />}
-                    {isLoaded && <Face event={mouseMove} isLoaded={isLoaded} />}
-                </div>
                 <div className={style.headerContainer}>
                     <Header headerEl={headerEl} />
                 </div>
             </section>
-            <div className={style.arrow}>
-                <div className={style.triangle} />
-                <div className={style.triangle} />
-                <div className={style.triangle} />
-            </div>
         </div>
     );
 }
