@@ -7,7 +7,6 @@
       position: relative;
       header {
         width: 100vw;
-        height: 600vh;
         display: flex;
         flex-direction: column;
         align-items: center;
@@ -17,7 +16,6 @@
           height: 100vh;
         }
         @include tablet {
-          height: 400vh;
         }
       }
     }
@@ -96,7 +94,7 @@
 }
 
 .shape {
-  width: 700px;
+  width: 640px;
   margin: 0 auto;
   position: absolute;
   display: flex;
@@ -109,8 +107,8 @@
   svg {
     width: 100%;
     height: 100%;
-    font-size: 10px;
-    letter-spacing: 0.5px;
+    font-size: 9px;
+    letter-spacing: 0.3px;
     // color: white;
     cursor: pointer;
     textPath {
@@ -138,7 +136,7 @@
   position: absolute;
   width: 400px;
   text-align: center;
-  transform: scale(0.68);
+  transform: scale(0.65);
   transform-origin: center;
   pointer-events: none;
   font-family: 'Lato', 'Helvetica Neue', Helvetica, 'Noto Sans TC', sans-serif;
