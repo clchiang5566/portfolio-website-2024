@@ -74,3 +74,39 @@
     background: #ff9b85;
   }
 }
+
+@keyframes homeColorPalette {
+  0% {
+    fill: #ee6055;
+  }
+  25% {
+    fill: #57f6b4;
+  }
+  50% {
+    fill: #aaf683;
+  }
+  75% {
+    fill: #ffd97d;
+  }
+  100% {
+    fill: #ff9b85;
+  }
+}
+
+@keyframes textColorPalette {
+  0% {
+    color: #ee6055;
+  }
+  25% {
+    color: #57f6b4;
+  }
+  50% {
+    color: #aaf683;
+  }
+  75% {
+    color: #ffd97d;
+  }
+  100% {
+    color: #ff9b85;
+  }
+}

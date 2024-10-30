@@ -3,11 +3,14 @@ import { spline } from './spline';
 import { createNoise2D } from 'simplex-noise';
 import style from './Home.module.scss';
 import PropTypes from 'prop-types';
+import { useSelector } from 'react-redux';
+import { selectIsFloating } from '../../redux/home/home.selector';
 
 const Shape = ({ isLoaded, handleClick }) => {
     const notInitial = useRef(false);
     const requestId = useRef();
     const [path, setPath] = useState(null);
+    const isFloating = useSelector(selectIsFloating);
     let noiseStep = 0.003;
 
     const map = (n, start1, end1, start2, end2) => {
@@ -94,7 +97,11 @@ const Shape = ({ isLoaded, handleClick }) => {
     }, [isLoaded]);
 
     return (
-        <div className={[style.shape, 'bg'].join(' ')} ref={notInitial} onClick={() => handleClick()}>
+        <div
+            className={[style.shape, 'bg', isFloating ? style.animation : null].join(' ')}
+            ref={notInitial}
+            onClick={() => handleClick()}
+        >
             <svg viewBox='0 0 210 210'>
                 <path id='wavepath' d={path} fillOpacity='0%' />
                 <text textAnchor='middle'>

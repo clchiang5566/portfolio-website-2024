@@ -1,4 +1,4 @@
-import React, { useState, useRef, } from 'react';
+import React, { useState, useRef } from 'react';
 import { useGLTF, Text } from '@react-three/drei';
 import { UseCanvas, useScrollRig, ScrollScene } from '@14islands/r3f-scroll-rig';
 import * as THREE from 'three';
@@ -20,7 +20,7 @@ function TVModel ({ scrollState, ...props }) {
         const vid = document.createElement('video');
         vid.src = '/video/test.mp4';
         vid.crossOrigin = 'Anonymous';
-        vid.setAttribute('playsinline', '')
+        vid.setAttribute('playsinline', '');
         vid.loop = true;
         vid.muted = true;
         vid.play();
@@ -61,12 +61,12 @@ function TVModel ({ scrollState, ...props }) {
                     color='white'
                     anchorX='center'
                     anchorY='middle'
-                    outlineWidth={0.006}
+                    outlineWidth={0.005}
                     outlineColor='#313131'
                     font='/fonts/Montserrat-Bold.woff'
-                    rotation={[0, Math.PI, 0]} // Rotate the text 180 degrees on the Y-axis
+                    rotation={[0, Math.PI, 0]}
                 >
-                    SUPER COOL SHAWREEL STILL WIP.
+                    SUPER COOL SHOWREEL STILL WIP.
                 </Text>
             )}
         </a.group>

@@ -2,7 +2,7 @@ const Contents = {
     title: 'Delonghi \nCoffee \nLounge',
     subtitle: '#KIOSK #FACEPRINT #IOT',
     color: '#ff9b85',
-    index: 2,
+    index: 1,
     image: {
         href: '/images/img10.jpg',
     },
@@ -17,11 +17,15 @@ const Contents = {
                     value: '2022',
                 },
                 {
-                    label: 'Type:',
-                    value: 'Retail',
+                    label: 'Client:',
+                    value: 'Delonghi Australia',
                 },
                 {
-                    label: 'Devices:',
+                    label: 'Agent:',
+                    value: 'Landor & Fitch',
+                },
+                {
+                    label: 'Type:',
                     value: 'Kiosk',
                 },
             ],
@@ -34,7 +38,7 @@ const Contents = {
         {
             type: 'text',
             text:
-                'I only did part of the front-end development in this project. I mainly want to use it to present my experience in kiosk. This digital experience is suitable for various retail scenarios. It can also integrate various software and hardware technologies, such as AI, IoT, face recognition, etc., to achieve diverse applications.',
+                'I only did part of the front-end development in this project. I mainly want to use it to present my experience in kiosk. This sort of digital experience is suitable for various retail scenarios. It can also integrate various software and hardware technologies, such as AI, IoT, face recognition, etc., to achieve diverse applications.',
         },
         {
             type: 'images',

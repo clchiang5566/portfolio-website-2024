@@ -1,5 +1,5 @@
 const Contents = {
-    title: 'Trust \nis \nTimberland',
+    title: 'Trust \nIs \nTimberland',
     subtitle: '#MOBILE #GAME #WEBGL',
     color: '#ff9b85',
     index: 7,
@@ -23,6 +23,10 @@ const Contents = {
                 {
                     label: 'Agent:',
                     value: 'W shanghai',
+                },
+                {
+                    label: 'Type:',
+                    value: 'H5',
                 },
             ],
         },

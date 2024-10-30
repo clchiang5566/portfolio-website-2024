@@ -51,7 +51,7 @@ export function Model ({ url, position, index, scale, isFloating, isTwist, twist
 
             gsap.to(loadedScene.children, {
                 opacity: 1,
-                duration: 2,
+                duration: 1.2,
                 delay: 1 + index * 0.3,
                 onUpdate: function () {
                     loadedScene.traverse(child => {

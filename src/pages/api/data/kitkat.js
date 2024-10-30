@@ -2,7 +2,7 @@ const Contents = {
     title: 'KitKat \nChocolatory \nEcommerce \nExperience',
     subtitle: '#WEBSITE #ECOMMERCE #WEBGL',
     color: '#ee6055',
-    index: 3,
+    index: 2,
     image: {
         href: '/images/img1.jpg',
     },
@@ -23,6 +23,10 @@ const Contents = {
                 {
                     label: 'Agent:',
                     value: 'Landor & Fitch',
+                },
+                {
+                    label: 'Type:',
+                    value: 'Website',
                 },
             ],
         },

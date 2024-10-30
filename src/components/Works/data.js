@@ -1,19 +1,19 @@
 const images = [
-    {
-        title: 'Taiwan \nStreet \nAnother \nWorld',
-        subtitle: ['#WEBSITE', '#WEBVR', '#GAME'],
-        link: '/works/taiwan-street-another-world',
-        image: '/images/img6.jpg',
-        bgColor: '#aaf683',
-        texture: '/models/down/Material_body.png',
-    },
+    // {
+    //     title: 'Taiwan \nStreet \nAnother \nWorld',
+    //     subtitle: ['#WEBSITE', '#WEBVR', '#GAME'],
+    //     link: '/works/taiwan-street-another-world',
+    //     image: '/images/img6.jpg',
+    //     bgColor: '#aaf683',
+    //     texture: '/models/down/Material_body.png',
+    // },
     {
         title: 'TATA \nCommunications \nWebsite',
         subtitle: ['#BUSINESE', '#WEBSITE', '#WEBGL'],
         link: '/works/tata-communications-website',
         image: '/images/img9.jpg',
         bgColor: '#cce1f3',
-        texture: '/models/down/Material_body_blue.png',
+        texture: '/models/down/Material_body.png',
     },
     {
         title: 'Delonghi \nCoffee \nLounge',
@@ -32,6 +32,14 @@ const images = [
         texture: '/models/down/Material_body_red.png',
     },
     {
+        title: 'Maxis \nMaze \nGame',
+        subtitle: ['#DEVICE', '#GAME', '#INTERACTION'],
+        link: '/works/maxis-maze-game',
+        image: '/images/img12.jpg',
+        bgColor: '#aaf683',
+        texture: '/models/down/Material_body_grass.png',
+    },
+    {
         title: 'Tomorrow \nOffical \nWebsite',
         subtitle: ['#ADVERTISEMENT', '#WEBSITE', '#WEBGL'],
         link: '/works/tomorrow-official-website',
@@ -45,7 +53,7 @@ const images = [
         link: '/works/nio-review-of-the-year',
         image: '/images/img11.jpg',
         bgColor: '#aaf683',
-        texture: '/models/down/Material_body.png',
+        texture: '/models/down/Material_body_grass.png',
     },
     {
         title: 'The Road \nTo \nHBL',

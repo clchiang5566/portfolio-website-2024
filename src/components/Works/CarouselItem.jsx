@@ -130,7 +130,7 @@ export function CarouselItem ({
             )}
             <Text
                 position={[0, 0, 1]}
-                fontSize={isMobile && activeIndex === 1 ? 0.04 : isMobile ? 0.06 : 0.13}
+                fontSize={isMobile && activeIndex === 0 ? 0.05 : isMobile ? 0.06 : 0.13}
                 color={color}
                 outlineWidth={0.001}
                 outlineColor='#313131'
