@@ -15,7 +15,7 @@ import { useMediaQueryCheck } from '../../hooks/useMediaQueryCheck';
 export function Works ({ setThemeColor }) {
     const state = useSelector(state => state);
     const works = getWorks(state)[0];
-    const [bgColor, setBgColor] = useState(works?.color && works.isBack ? `${works.color}` : '#aaf683');
+    const [bgColor, setBgColor] = useState(works?.color && works.isBack ? `${works.color}` : '#cce1f3');
     const [currentTexture, setCurrentTexture] = useState('/models/down/Material_body.png');
     const [posterActive, setPosterActive] = useState(false);
     const { isMobile } = useMediaQueryCheck(991);

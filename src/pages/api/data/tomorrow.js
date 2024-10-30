@@ -21,8 +21,8 @@ const Contents = {
                     value: 'Tomorrow',
                 },
                 {
-                    label: 'Agent:',
-                    value: 'Freelance',
+                    label: 'Type:',
+                    value: 'Website',
                 },
             ],
         },

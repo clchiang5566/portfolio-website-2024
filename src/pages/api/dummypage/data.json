@@ -8,9 +8,12 @@
         "pageKeywords": "portfolio",
         "pageOgTitle": "CL CHIANG",
         "pageOgDescription": "Me and myself, a big happy family.",
-        "pageOgImage": "https://d3rt6nwh9j9e55.cloudfront.net/media/ohxd54wt/logo.png"
+        "pageOgImage": "/meta.png"
     },
     "global": {
+        "favicon": {
+            "url": "/favicon.ico"
+        },
         "header": {
             "logo": {
                 "alt": "",

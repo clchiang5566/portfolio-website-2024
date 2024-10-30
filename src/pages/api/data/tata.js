@@ -14,11 +14,11 @@ const Contents = {
             content: [
                 {
                     label: 'Year:',
-                    value: '2022',
+                    value: '2023',
                 },
                 {
                     label: 'Client:',
-                    value: 'TATA India',
+                    value: 'TATA Communication',
                 },
                 {
                     label: 'Agent:',

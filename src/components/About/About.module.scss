@@ -24,7 +24,7 @@
        border-right: 16px solid transparent;
        border-left: 16px solid transparent;
        margin-bottom: 5px;
-       animation: arrow 2s ease-in-out infinite;
+       animation: arrow 2s ease-in-out infinite; 
        position: relative;
        border-radius: 2px;
        @include tablet {
@@ -165,10 +165,10 @@
         }
       }
       .frame {
-        background-color: hsl(60, 100%, 96%);
+        background-color: hsl(60, 100%, 97%);
         border: 1px solid;
         border-radius: 16px;
-        padding: 40px;
+        padding: 60px 40px;
         @include tablet {
           padding: 25px;
         }

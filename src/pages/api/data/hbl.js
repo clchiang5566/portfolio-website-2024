@@ -24,6 +24,10 @@ const Contents = {
                     label: 'Agent:',
                     value: 'R/GA',
                 },
+                {
+                    label: 'Type:',
+                    value: 'H5',
+                },
             ],
         },
         {

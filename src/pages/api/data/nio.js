@@ -21,6 +21,14 @@ const Contents = {
                     value: 'Website, Data',
                 },
                 {
+                    label: 'Client:',
+                    value: 'NIO inc.',
+                },
+                {
+                    label: 'Agent:',
+                    value: 'Madmonkey',
+                },
+                {
                     label: 'Devices:',
                     value: 'Mobile, App',
                 },
