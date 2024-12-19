@@ -2,7 +2,7 @@ const Contents = {
     title: 'TATA \nCommunications \nWebsite',
     subtitle: '#WEBSITE #BUSINESE #WEBGL',
     color: '#cce1f3',
-    index: 1,
+    index: 0,
     image: {
         href: '/images/img9.jpg',
     },

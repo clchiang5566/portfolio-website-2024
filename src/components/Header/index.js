@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react'; // useState, useEffect
 import PropTypes from 'prop-types';
 import { SmartLink } from '../SmartLink';
-import { useRouter } from 'next/router';
+// import { useRouter } from 'next/router';
 // import { useMediaQuery } from '@react-hook/media-query';
 import { useSelector, useDispatch } from 'react-redux';
 import { toggleMusicPlaying } from '../../redux/home/home.action';
@@ -15,7 +15,7 @@ const Header = props => {
     const dispatch = useDispatch();
     // const [minimize, setMinimize] = useState(false);
     const isPlaying = useSelector(selectIsPlaying);
-    const router = useRouter();
+    // const router = useRouter();
 
     const handleMusicClick = () => {
         dispatch(toggleMusicPlaying(!isPlaying));
