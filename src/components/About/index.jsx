@@ -37,10 +37,8 @@ export default function About ({ headline, content, image, index, color }) {
                 {globalChildren => (
                     <Lens>
                         <Background />
-                        <Suspense>
-                            <Environment files='/env/empty_warehouse_01_1k.hdr' />
-                            {globalChildren}
-                        </Suspense>
+                        <Environment files='/env/empty_warehouse_01_1k.hdr' />
+                        <Suspense>{globalChildren}</Suspense>
                     </Lens>
                 )}
             </GlobalCanvas>
@@ -67,22 +65,30 @@ export default function About ({ headline, content, image, index, color }) {
                                         </Subtitle>
                                     </h3>
                                     <div className={style.frame}>
+                                        <p>Hey, you can call me Lung.</p>
                                         <p>
-                                            Hi, please call me Lung, a meme lover, former Blockbuster clerk, a digital
-                                            fanatic and a dreamer who explores world heritage sites and cooking culture
-                                            worldwide, with infinite curiosity about the unknown. As a web-based
-                                            creative developer, I always try to strike a balance between technical
-                                            practices and creative approaches, to enjoy working together with various
-                                            talents in the creative industry.
+                                            I'm a meme lover, a former Blockbuster clerk, and a digital enthusiast. I
+                                            love exploring world heritage sites and learning about cooking cultures
+                                            around the world. I'm always curious about the unknown, whether it's
+                                            something new in digital or trying new flavors.
                                         </p>
                                         <p>
-                                            I have 10 years of working experience in digital products with the APAC area
-                                            teams, and have served many local and international brands, hundreds of
-                                            websites. I have some particular interests in graphics programming (GLSL
-                                            shader, AR/VR/MR, game development, etc.), the aesthetics of mathematics and new type
-                                            of interaction.
+                                            As a web-based creative developer, I work to balance technical practices and
+                                            creative approaches to deliver functional and visually compelling projects.
+                                            I enjoy collaborating with talented individuals in the creative industry,
+                                            which brings ideas and impactful results.
                                         </p>
-                                        <p>I am currently learning more tools to realize the ideas in my mind.</p>
+                                        <p>
+                                            With 10 years of experience working on digital products alongside APAC
+                                            teams, I have partnered with local and international brands to bring their
+                                            ideas to life, contributing to hundreds of websites, focusing on creating
+                                            digital solutions.
+                                        </p>
+                                        <p>
+                                            My interests span graphics programming (GLSL shaders, AR/VR, game
+                                            development, etc.), the aesthetics of mathematics, and exploring innovative
+                                            interaction techniques.
+                                        </p>
                                     </div>
                                 </section>
                                 <section className={style.text}>

@@ -1,15 +1,14 @@
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
-// import TagManager from 'react-gtm-module';
+import TagManager from 'react-gtm-module';
 import Header from '../components/Header';
 
 const Layout = ({ header, color, children }) => {
     useEffect(() => {
-        // ga_id: gaId
-        // const tagManagerArgs = {
-        //     gtmId: gaId,
-        // };
-        // TagManager.initialize(tagManagerArgs);
+        const tagManagerArgs = {
+            gtmId: 'GTM-K22B94M',
+        };
+        TagManager.initialize(tagManagerArgs);
     });
 
     return (
