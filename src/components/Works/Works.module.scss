@@ -7,6 +7,7 @@
     top: 0;
     left: 0;
     transition: all 0.2s ease-in-out;
+	cursor: pointer;
 	canvas {
 		width: 100%;
 		height: 100vh;
@@ -16,20 +17,7 @@
     .container {
 		max-width: $desktop-sm-bp;
 		margin: 100px auto 0 auto;
-
-	  }
-	  .header {
-		  width: 100%;
-		  height: calc( 100vh - 90px);
-		  z-index: 1;
-		  @include tablet {
-			  height: calc( 100vh - 60px);
-		  }
-	  }
-    & > div {
-        width: 100%;
-        height: 100%;
-    }
+	}
 	:global .group {
 		opacity: 0;
 		transition: all 0.4s ease-in-out;

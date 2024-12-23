@@ -13,15 +13,16 @@ export function Plane ({ index, material, texture, width, height, active, active
     useEffect(() => {
         if (material.current[index].material) {
             material.current[index].material.uniforms.uZoomScale.value.x = isMobile
-                ? viewport.width / 1.2 / width
+                ? viewport.width / width
                 : viewport.width / 2 / width;
             material.current[index].material.uniforms.uZoomScale.value.y = isMobile
-                ? viewport.height / 1.6 / height
+                ? viewport.height / height
                 : viewport.height / height;
             gsap.to(material.current[index].material.uniforms.uProgress, {
                 value: active ? 1 : 0,
                 duration: isBack ? 0 : 2.5,
                 onComplete: () => {
+                    console.log(active, !isBack)
                     if (active && !isBack) setIsReady(true);
                 },
             });
@@ -49,7 +50,7 @@ export function Plane ({ index, material, texture, width, height, active, active
                     value: { x: tex.source.data.width, y: tex.source.data.height },
                 },
                 time: { value: 0 },
-                distort: { value: isMobile ? 0.6 : 0.1 },
+                distort: { value: isMobile ? 0.8 : 0.4 },
                 shift: { value: 0 },
                 isActive: { value: 1 },
             },
@@ -90,7 +91,7 @@ export function Plane ({ index, material, texture, width, height, active, active
                 float angle = uProgress * 3.14159265 / 2.;
                 float wave = cos(angle);
                 float c = sin(length(uv - .5) * 15. + uProgress * 12.) * .5 + .5;
-                pos.y += (1.0 - isActive) * (sin(uv.x * 3.1415926535897932384626433832795) * shift * 1.0) * 0.125;
+                pos.y += (1.0 - isActive) * (sin(uv.x * 3.1415926535897932384626433832795) * shift * 3.0) * 0.125;
                 pos.x *= mix(1., uZoomScale.x + wave * c, uProgress);
                 pos.y *= mix(1., uZoomScale.y + wave * c, uProgress);
             
@@ -152,7 +153,6 @@ export function Plane ({ index, material, texture, width, height, active, active
     return (
         <DreiImage
             onPointerEnter={handlePointerEnter}
-            // onPointerMove={handlePointerMove}
             onPointerLeave={handlePointerLeave}
             ref={node => {
                 material.current[index] = node;

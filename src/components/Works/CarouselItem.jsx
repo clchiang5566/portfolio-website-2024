@@ -23,16 +23,19 @@ export function CarouselItem ({
     color,
     setTextReady,
     setTextShow,
+    clickData,
+    setClickData
 }) {
     const $root = useRef();
     const textRef = useRef();
     const [isActive, setIsActive] = useState(index === activeIndex && isBack);
     const [isReady, setIsReady] = useState(false);
+    const [isClicked, setIsClicked] = useState(false);
     const [isImageShow, setImageShow] = useState(!isBack);
-    const dispatch = useDispatch();
     const { isMobile } = useMediaQueryCheck(991);
     const router = useRouter();
     const materialRef = useRef();
+    const dispatch = useDispatch();
 
     useEffect(() => {
         if (activePlane === index) {
@@ -79,7 +82,7 @@ export function CarouselItem ({
                         setTextReady(true);
                         setTimeout(() => {
                             setTextShow(true);
-                        }, 300);
+                        }, 500);
                     },
                 });
             }
@@ -88,9 +91,18 @@ export function CarouselItem ({
 
     useEffect(() => {
         if (isReady) {
+            console.log('isReady')
             router.push(item.link);
         }
     }, [isReady]);
+
+    useEffect(() => {
+        if (clickData && !isClicked) {
+            console.log('isClick')
+            setIsClicked(true)
+            setActivePlane(index);
+        }
+    }, [clickData]);
 
     useFrame((state, delta) => {
         if (materialRef.current) {
@@ -101,10 +113,7 @@ export function CarouselItem ({
     return (
         <group
             ref={$root}
-            onClick={() => {
-                setActivePlane(index);
-            }}
-            position={isMobile ? [width * (index * 1.5), 0.5, 0] : [width * (index * 2), 0, 0]}
+            position={isMobile ? [width * (index * 2), 0, 0] : [width * (index * 2), 0, 0]}
         >
             {isImageShow ? (
                 <EmergingImage
@@ -129,20 +138,20 @@ export function CarouselItem ({
                 />
             )}
             <Text
-                position={[0, 0, 1]}
-                fontSize={isMobile && activeIndex === 0 ? 0.05 : isMobile ? 0.06 : 0.13}
+                ref={textRef}
+                position={[0, 0, 2]}
+                fontSize={isMobile && activeIndex === 0 ? 0.3 : isMobile ? 0.42 : 0.9}
                 color={color}
-                outlineWidth={0.001}
+                outlineWidth={0.01}
                 outlineColor='#313131'
                 maxWidth={isMobile ? 400 : 800}
-                lineHeight={isMobile ? 2.6 : 1.6}
-                letterSpacing={0.22}
+                lineHeight={isMobile ? 2.2 : 1.6}
+                letterSpacing={isMobile ? 0.2 : activeIndex === 0 ? 0.25 : 0.4}
                 textAlign={isMobile ? 'left' : 'left'}
                 font='/fonts/Montserrat-Bold.woff'
-                ref={textRef}
             >
                 {item.title}
-                <MeshWobbleMaterial factor={0.8} speed={1} />
+                <MeshWobbleMaterial factor={0.5} speed={1} />
             </Text>
         </group>
     );

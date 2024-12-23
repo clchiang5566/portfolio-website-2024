@@ -15,14 +15,14 @@ import * as THREE from 'three';
 import PropTypes from 'prop-types';
 
 const planeSettings = {
-    width: 0.6,
-    height: 0.8,
+    width: 3.75,
+    height: 5,
     gap: 3.5,
 };
 
 const planeMobileSettings = {
-    width: 0.45,
-    height: 0.6,
+    width: 3,
+    height: 4,
     gap: 3.5,
 };
 
@@ -31,7 +31,7 @@ gsap.defaults({
     ease: 'power3.out',
 });
 
-export function Carousel ({ setBgColor, setCurrentTexture, setPosterActive }) {
+export function Carousel ({ setBgColor, setCurrentTexture, setPosterActive,  wheelData, pointerData, clickData, setClickData }) {
     const [$root, setRoot] = useState();
     const $post = useRef();
     const state = useSelector(state => state);
@@ -50,7 +50,7 @@ export function Carousel ({ setBgColor, setCurrentTexture, setPosterActive }) {
     const progress = useRef(index ? Math.round((100 / 8) * (index + 1)) : 0);
     const startY = useRef(0);
     const isDown = useRef(false);
-    const speedWheel = 0.006;
+    const speedWheel = 0.009;
     const speedDrag = -0.01;
     const oldProgress = useRef(0);
     const speed = useRef(0);
@@ -79,10 +79,10 @@ export function Carousel ({ setBgColor, setCurrentTexture, setPosterActive }) {
             );
         }
         gsap.to(item.position, {
-            x: $items.length * -0.1 + piramidalIndex * 0.1,
+            x: $items.length * - 0.1 + piramidalIndex * 0.1,
             y: isMobile
-                ? (index - active) * -planeSettings.height
-                : (index - active) * -(planeSettings.height + planeSettings.gap),
+                ? (index - active) * - (planeSettings.height + planeSettings.gap)
+                : (index - active) * - (planeSettings.height + planeSettings.gap),
             duration: isBack || isTextReady === false ? 0 : 2,
         });
     };
@@ -115,31 +115,6 @@ export function Carousel ({ setBgColor, setCurrentTexture, setPosterActive }) {
         setCurrentIndex(i);
     };
 
-    const handleWheel = e => {
-        if (activePlane !== null) return;
-        const isVerticalScroll = Math.abs(e.deltaY) > Math.abs(e.deltaX);
-        const wheelProgress = isVerticalScroll ? e.deltaY : e.deltaX;
-        speed.current = isVerticalScroll ? e.deltaY : e.deltaX;
-        progress.current = progress.current + wheelProgress * speedWheel;
-    };
-
-    const handleDown = e => {
-        if (activePlane !== null) return;
-        isDown.current = true;
-        startY.current = e.clientY || (e.touches && e.touches[0].clientY) || 0;
-    };
-
-    const handleUp = () => {
-        isDown.current = false;
-    };
-
-    const handleMove = e => {
-        if (activePlane !== null || !isDown.current) return;
-        const y = e.clientY || (e.touches && e.touches[0].clientY) || 0;
-        const mouseProgress = (y - startY.current) * speedDrag;
-        progress.current = progress.current + mouseProgress;
-    };
-
     useEffect(() => {
         if (!$items) return;
         if (activePlane !== null && prevActivePlane === null) {
@@ -150,7 +125,7 @@ export function Carousel ({ setBgColor, setCurrentTexture, setPosterActive }) {
     }, [activePlane, $items]);
 
     useEffect(() => {
-        if (isBack) setCurrentTexture(images[currentIndex]?.texture);
+        if (isBack) { setCurrentTexture(images[currentIndex]?.texture); }
         setTimeout(() => {
             if (works?.isBack) {
                 setIsBack(false);
@@ -160,17 +135,48 @@ export function Carousel ({ setBgColor, setCurrentTexture, setPosterActive }) {
         }, 1500);
     }, []);
 
+    useEffect(() => {
+        if (wheelData !== null) {
+            if (activePlane !== null) return;
+            const isVerticalScroll = Math.abs(wheelData.deltaY) > Math.abs(wheelData.deltaX);
+            const wheelProgress = isVerticalScroll ? wheelData.deltaY : wheelData.deltaX;
+            speed.current = isVerticalScroll ? wheelData.deltaY : wheelData.deltaX;
+            progress.current = progress.current + wheelProgress * speedWheel;
+        }
+    }, [wheelData]);
+
+    useEffect(() => {
+        if (pointerData !== null) {
+            switch (pointerData.type) {
+                case "pointerdown":
+                    if (activePlane !== null) return;
+                    isDown.current = true;
+                    startY.current = pointerData.clientY || (pointerData.touches && pointerData.touches[0].clientY) || 0;
+                    break;
+                case "pointermove":
+                    if (activePlane !== null || !isDown.current) return;
+                    const y = pointerData.clientY || (pointerData.touches && pointerData.touches[0].clientY) || 0;
+                    const mouseProgress = (y - startY.current) * speedDrag;
+                    progress.current = progress.current + mouseProgress;
+                    break;
+                case "pointerup":
+                    isDown.current = false;
+                    break;
+                case "onPointerLeave":
+                    isDown.current = false;
+                    break;
+                case "onPointerCancel":
+                    isDown.current = false;
+                    break;
+                default:
+                    isDown.current = false;
+            }
+        }
+    }, [pointerData]);
+
     const renderPlaneEvents = () => {
         return (
-            <mesh
-                position={[0, 0, -0.01]}
-                onWheel={handleWheel}
-                onPointerDown={handleDown}
-                onPointerUp={handleUp}
-                onPointerMove={handleMove}
-                onPointerLeave={handleUp}
-                onPointerCancel={handleUp}
-            >
+            <mesh position={[0, 0, -0.01]}>
                 <planeGeometry args={[viewport.width, viewport.height]} />
                 <meshBasicMaterial opacity={0} transparent />
             </mesh>
@@ -188,13 +194,15 @@ export function Carousel ({ setBgColor, setCurrentTexture, setPosterActive }) {
                         activePlane={activePlane}
                         activeIndex={currentIndex}
                         isBack={isBack}
-                        key={i}
                         item={item}
                         index={i}
                         color={images[currentIndex]?.bgColor}
                         material={material}
+                        clickData={clickData}
+                        setClickData={setClickData}
                         setTextReady={setTextReady}
                         setTextShow={setTextShow}
+                        key={i}
                     />
                 ))}
             </group>
@@ -218,9 +226,9 @@ export function Carousel ({ setBgColor, setCurrentTexture, setPosterActive }) {
                         <group
                             key={index}
                             position={[
-                                -viewport.width / 2 + pixelToUnitWidth * 1.2,
+                                isMobile ? -viewport.width / 2 + pixelToUnitWidth : -viewport.width / 2 + pixelToUnitWidth * 1.2,
                                 isMobile
-                                    ? -viewport.height / 2 + (viewport.height / 10) * 1.15 + index * pixelToUnitWidth
+                                    ? -viewport.height / 2 + (index + 1) * pixelToUnitWidth 
                                     : -viewport.height / 2 +
                                       (index + 1) * pixelToUnitWidth +
                                       index * pixelToUnitWidth * 1.2,
@@ -239,17 +247,17 @@ export function Carousel ({ setBgColor, setCurrentTexture, setPosterActive }) {
                                 ref={node => {
                                     textRef.current[index] = node;
                                 }}
-                                fontSize={isMobile ? 0.02 : 0.03}
+                                fontSize={isMobile ? 0.12 : 0.18}
                                 letterSpacing={isMobile ? 0.25 : 0.4}
                                 color='#313131'
                                 anchorX='left'
                                 anchorY='bottom'
-                                lineHeight={isMobile ? 2.2 : 1.8}
+                                lineHeight={isMobile ? 1.2 : 1.8}
                                 onSync={text => {
                                     const size = text.geometry.boundingBox.getSize(new THREE.Vector3());
                                     const position = text.geometry.boundingBox.getCenter(new THREE.Vector3());
                                     if (textBackgroundRef.current[index]) {
-                                        textBackgroundRef.current[index].scale.set(size.x + 0.03, size.y + 0.012, 0);
+                                        textBackgroundRef.current[index].scale.set(size.x + 0.2, size.y + 0.2, 0);
                                         textBackgroundRef.current[index].position.set(position.x, position.y, 0);
                                     }
                                 }}
@@ -263,24 +271,24 @@ export function Carousel ({ setBgColor, setCurrentTexture, setPosterActive }) {
                             />
                         </group>
                     ))}
-                    <group position={[viewport.width / 2 - pixelToUnitWidth * 1.2, viewport.height / 2 - 0.22, 0]}>
+                    <group position={[isMobile ? viewport.width / 2 - pixelToUnitWidth : viewport.width / 2 - pixelToUnitWidth * 1.2, isMobile ? viewport.height / 2 - 1 : viewport.height / 2 - 1.7, 0]}>
                         <mesh ref={numberBackgroundRef}>
                             {textShow && <planeGeometry args={[1, 1]} />}
                             {textShow && <meshBasicMaterial color={images[currentIndex]?.bgColor} />}
                         </mesh>
                         <Text
                             ref={numberRef}
-                            fontSize={isMobile ? 0.025 : 0.03}
+                            fontSize={isMobile ? 0.12 : 0.18}
                             letterSpacing={isMobile ? 0.25 : 0.4}
                             color='#313131'
                             anchorX='right'
                             anchorY='top'
-                            lineHeight={isMobile ? 2.2 : 1.6}
+                            lineHeight={isMobile ? 1.6 : 1.6}
                             onSync={text => {
                                 const size = text.geometry.boundingBox.getSize(new THREE.Vector3());
                                 const position = text.geometry.boundingBox.getCenter(new THREE.Vector3());
                                 if (numberBackgroundRef.current) {
-                                    numberBackgroundRef.current.scale.set(size.x + 0.04, size.y + 0.02, 0);
+                                    numberBackgroundRef.current.scale.set(size.x + 0.2, size.y + 0.2, 0);
                                     numberBackgroundRef.current.position.set(position.x, position.y, 0);
                                 }
                             }}
@@ -317,4 +325,6 @@ Carousel.propTypes = {
     setBgColor: PropTypes.func,
     setCurrentTexture: PropTypes.func,
     setPosterActive: PropTypes.func,
+    wheelData: PropTypes.array, 
+    pointerData: PropTypes.array
 };
