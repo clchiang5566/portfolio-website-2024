@@ -6,6 +6,17 @@
     @include tablet {
         padding: 15px;
     }
+    .bg {
+        width: 100vw;
+        height: 100vh;
+        position: absolute;
+        top: 0;
+        left: 0;
+        transition: all 0.2s ease-in-out;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
     .container {
       max-width: $container-md;
       margin: 100px auto 0 auto;
@@ -24,11 +35,21 @@
         @include tablet {
             height: inherit;
         }
+        &.show {
+            .arrow {
+                opacity: 1;
+            }
+            .back {
+                opacity: 1;
+            }
+        }
         .arrow {
             position: absolute;
             right: 42px;
             top: calc(100vh - 100px); 
             z-index: 2;
+            opacity: 0;
+            transition: all 0.4s ease-in-out;
             @include tablet {
              right: 22px;
              top: calc(100vh - 80px); 
@@ -66,6 +87,8 @@
         font-size: 36px;
         margin-bottom: 100px;
         cursor: pointer;
+        opacity: 0;
+        transition: all 0.4s ease-in-out;
         @include tablet {
             width: 140px;
             height: 140px;
@@ -144,64 +167,6 @@
                 font-size: 18px;
                 margin-top: 30px;
                 margin-bottom: 30px;
-            }
-        }
-    }
-    .bg {
-        width: 100vw;
-        height: 100vh;
-        position: absolute;
-        top: 0;
-        left: 0;
-        transition: all 0.2s ease-in-out;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        & > div {
-            width: 50vw;
-            height: 106vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            overflow: hidden;
-            img {
-                width: auto;
-                height: 100%;
-                max-width: inherit;
-                max-height: inherit;
-            }
-            @include desktop-m {
-                width: 60vw;
-            }
-            @include tablet {
-                width: calc(100vw - 40px);
-                height: 120vw;
-                img {
-                    width: 100%;
-                    height: auto;
-                }
-            }
-        }
-        :global .title {
-            font-size: 36px;
-        }
-        :global .button {
-            margin-top: 20px;
-            padding: 7px 0;
-            position: relative;
-            display: inline-block;
-            overflow: hidden;
-            a {
-                font-size: 14px;
-                letter-spacing: 1px;
-                position: relative;
-                color: $color-text;
-                cursor: pointer;
-                padding-bottom: 12px;
-                white-space: nowrap;
-                &:hover :global .button__graphic--slide {
-                    transform: translate3d(-66.6%, 0, 0);
-                }
             }
         }
     }
@@ -398,4 +363,15 @@
             }
         }
     }
+}
+.bg {
+    width: 100vw;
+    height: 100vh;
+    // position: absolute;
+    // top: 0;
+    // left: 0;
+    transition: all 0.2s ease-in-out;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }

@@ -1,86 +1,117 @@
 import { React, Suspense, useState, useEffect, useRef } from 'react';
 import { GlobalCanvas, SmoothScrollbar } from '@14islands/r3f-scroll-rig';
 import { Environment } from '@react-three/drei';
-import { Canvas } from '@react-three/fiber';
-import { Carousel } from './Carousel';
-import PropTypes from 'prop-types';
-import { useSelector } from 'react-redux';
-import { getWorks } from '../../redux/works/works.selector';
+import { useSelector, useDispatch } from 'react-redux';
+import { setWheelData, setPointerData, setIsActive, setIsLoading, setIsSuccess, setIsDetailPage } from '../../redux/works/works.action';
+import { getCurrentColor, getDataUrl, getIsLoading, getIsSuccess, getIsCarousel,getIsActive } from '../../redux/works/works.selector';
 import { WebGLBackground } from '../Common/WebGLBackground';
 import { Lens } from '../Common/Lens';
 import Head from 'next/head';
-import style from './Works.module.scss';
-import { Model } from './Model';
+import style from '../WorksDetail/WorksDetail.module.scss';
 import { useMediaQueryCheck } from '../../hooks/useMediaQueryCheck';
+import { Header } from './Header';
+import { Content } from '../WorksDetail/Content';
 
-export function Works ({ setThemeColor }) {
+export function Works () {
     const eventSource = useRef();
-    const state = useSelector(state => state);
-    const works = getWorks(state)[0];
-    const [bgColor, setBgColor] = useState(works?.color && works.isBack ? `${works.color}` : '#cce1f3');
-    const [currentTexture, setCurrentTexture] = useState('/models/down/Material_body.png');
-    const [posterActive, setPosterActive] = useState(false);
-    const [wheelData, setWheelData] = useState(null);
-    const [pointerData, setPointerData] = useState(null);
-    const [clickData, setClickData] = useState(false);
+    const enabled = true;
+    const dispatch = useDispatch();
+    const currentColor = useSelector(getCurrentColor);
+    const [ isDetailPage, setIsDetailPage ] = useState(false);
     const { isMobile } = useMediaQueryCheck(991);
+    const isSuccess = useSelector(getIsSuccess);
+    const isLoading = useSelector(getIsLoading);
+    const isCarousel = useSelector(getIsCarousel);
+    const isActive = useSelector(getIsActive);
+    const dataUrl = useSelector(getDataUrl);
+    const [contents, setContents] = useState(null);
 
     useEffect(() => {
-        setThemeColor(bgColor);
-    }, [works, bgColor]);
+        if (!isSuccess && isLoading && dataUrl) {
+            const modules = {
+                tata: () => import('../../pages/api/data/tata'),
+                delonghi: () => import('../../pages/api/data/delonghi'),
+                kitkat: () => import('../../pages/api/data/kitkat'),
+                maxis: () => import('../../pages/api/data/maxis'),
+                tomorrow: () => import('../../pages/api/data/tomorrow'),
+                nio: () => import('../../pages/api/data/nio'),
+                hbl: () => import('../../pages/api/data/hbl'),
+                timberland: () => import('../../pages/api/data/timberland'),
+            };
+            const loadData = async () => {
+                try {
+                    console.log('isDetail')
+                    const module = await modules[dataUrl]();
+                    setContents(module.default);
+                    // dispatch(setIsDetailPage(true))
+                    setIsDetailPage(true)
+                    dispatch(setIsSuccess(false))
+                    dispatch(setIsLoading(false))
+                    dispatch(setIsActive(false))
+                } catch (error) {
+                    console.error('Failed to load module:', error);
+                }
+            }
+            loadData()
+        }
+    }, [isLoading])
+
+    useEffect(() => {
+        if (isCarousel) {
+            console.log('isCarousel')
+            dispatch(setIsLoading(false))
+            setIsDetailPage(false)
+            window.history.pushState(null, '', '/works')
+        }
+    }, [isCarousel])
 
     return (
         <>
             <Head>
                 <style>{`html { overflow: hidden; } canvas { border: ${
                     isMobile ? '15px' : '20px'
-                } solid ${bgColor} }`}</style>
+                } solid ${currentColor} }`}</style>
             </Head>
             <div 
                 ref={eventSource}
                 className={style.el}
-                style={{ background: `${bgColor}` }}
-                onWheel={(e) => setWheelData(e)}
-                onPointerMove={(e) => setPointerData(e)}
-                onPointerDown={(e) => setPointerData(e)}
-                onPointerUp={(e) => setPointerData(e)}
-                onPointerLeave={(e) => setPointerData(e)}
-                onPointerCancel={(e) => setPointerData(e)}
-                onClick={() => {
-                    if (!clickData) setClickData(true)
-                }}
+                onWheel={(e) => !isDetailPage ? dispatch(setWheelData(e)) : null}
+                onPointerMove={(e) => !isDetailPage ? dispatch(setPointerData(e)) : null}
+                onPointerDown={(e) => !isDetailPage ? dispatch(setPointerData(e)) : null}
+                onPointerUp={(e) => !isDetailPage ? dispatch(setPointerData(e)) : null}
+                onPointerLeave={(e) => !isDetailPage ? dispatch(setPointerData(e)) : null}
+                onPointerCancel={(e) => !isDetailPage ? dispatch(setPointerData(e)) : null}
+                onClick={() => { !isDetailPage ? dispatch(setIsActive(true)) : null }}
             >
                 <GlobalCanvas
                     debug={false}
                     scaleMultiplier={0.01}
+                    eventSource={eventSource}
                     eventPrefix='client'
                     flat
                     camera={{ fov: 14 }}
                 >
                     {globalChildren => (
                         <Lens>
-                            <WebGLBackground color={bgColor} />
+                            <WebGLBackground color={currentColor} />
                             <Suspense>
                                 <Environment files='../env/empty_warehouse_01_1k.hdr' />
-                                <Carousel
-                                    setBgColor={setBgColor}
-                                    setCurrentTexture={setCurrentTexture}
-                                    setPosterActive={setPosterActive}
-                                    wheelData={wheelData}
-                                    pointerData={pointerData}
-                                    clickData={clickData}
-                                    setClickData={setClickData}
-                                />
-                                {!posterActive && <Model url='/models/down/scene.gltf' texturePath={currentTexture} />}
+                                {globalChildren}
                             </Suspense>
                         </Lens>
                     )}
                 </GlobalCanvas>
+                <SmoothScrollbar enabled={enabled} config={{ syncTouch: true }}>
+                    {bind => (
+                        <section {...bind}>
+                            <Header />
+                            {isDetailPage && <Content contents={contents} />}                 
+                        </section>
+                    )}
+                </SmoothScrollbar>
             </div>
         </>
     );
 }
 
-Works.propTypes = {
-    setThemeColor: PropTypes.func,
-};
+Works.propTypes = {};

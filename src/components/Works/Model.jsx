@@ -6,9 +6,9 @@ import gsap from 'gsap';
 import * as THREE from 'three';
 import { useMediaQueryCheck } from '../../hooks/useMediaQueryCheck';
 
-export function Model ({ url, texturePath }) {
+export function Model ({  texturePath }) {
     const group = useRef();
-    const { scene, animations } = useGLTF(url);
+    const { scene, animations } = useGLTF('/models/down/scene.gltf');
     const { viewport } = useThree();
     const mixer = useRef();
     const [isShow, setIsShow] = useState(false);
@@ -131,6 +131,5 @@ export function Model ({ url, texturePath }) {
 }
 
 Model.propTypes = {
-    url: PropTypes.string,
     texturePath: PropTypes.string,
 };

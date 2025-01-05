@@ -81,9 +81,11 @@ function WebglImage ({ el, img, src, color, scrollState, ...props }) {
     }, []);
 
     useEffect(() => {
-        const width = pxToUnits(img.current.offsetWidth);
-        const height = pxToUnits(img.current.offsetHeight);
-        setElementSize([width, height]);
+        if (img.current) {
+            const width = pxToUnits(img.current?.offsetWidth);
+            const height = pxToUnits(img.current?.offsetHeight);
+            setElementSize([width, height]);
+        }
     }, [viewport]);
 
     return (

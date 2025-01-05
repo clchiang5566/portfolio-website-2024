@@ -1,12 +1,4 @@
 const images = [
-    // {
-    //     title: 'Taiwan \nStreet \nAnother \nWorld',
-    //     subtitle: ['#WEBSITE', '#WEBVR', '#GAME'],
-    //     link: '/works/taiwan-street-another-world',
-    //     image: '/images/img6.jpg',
-    //     bgColor: '#aaf683',
-    //     texture: '/models/down/Material_body.png',
-    // },
     {
         title: 'TATA \nCommunications \nWebsite',
         subtitle: ['#BUSINESE', '#WEBSITE', '#WEBGL'],
@@ -14,6 +6,7 @@ const images = [
         image: '/images/img9.jpg',
         bgColor: '#cce1f3',
         texture: '/models/down/Material_body.png',
+        dataUrl: 'tata',
     },
     {
         title: 'Delonghi \nCoffee \nLounge',
@@ -22,6 +15,7 @@ const images = [
         image: '/images/img10.jpg',
         bgColor: '#ff9b85',
         texture: '/models/down/Material_body_pink.png',
+        dataUrl: 'delonghi',
     },
     {
         title: 'KitKat \nChocolatory \nEcommerce \nExperience',
@@ -30,6 +24,7 @@ const images = [
         image: '/images/img1.jpg',
         bgColor: '#ee6055',
         texture: '/models/down/Material_body_red.png',
+        dataUrl: 'kitkat',
     },
     {
         title: 'Maxis \nMaze \nGame',
@@ -38,6 +33,7 @@ const images = [
         image: '/images/img12.jpg',
         bgColor: '#aaf683',
         texture: '/models/down/Material_body_grass.png',
+        dataUrl: 'maxis',
     },
     {
         title: 'Tomorrow \nOffical \nWebsite',
@@ -46,6 +42,7 @@ const images = [
         image: '/images/img2.jpg',
         bgColor: '#ffd97d',
         texture: '/models/down/Material_body_yellow.png',
+        dataUrl: 'tomorrow',
     },
     {
         title: 'NIO \nReview \nOf the year',
@@ -54,6 +51,7 @@ const images = [
         image: '/images/img11.jpg',
         bgColor: '#aaf683',
         texture: '/models/down/Material_body_grass.png',
+        dataUrl: 'nio',
     },
     {
         title: 'The Road \nTo \nHBL',
@@ -62,6 +60,7 @@ const images = [
         image: '/images/img3.jpg',
         bgColor: '#57f6b4',
         texture: '/models/down/Material_body_green.png',
+        dataUrl: 'hbl',
     },
     {
         title: 'Truth \nis \nTimberland',
@@ -70,6 +69,7 @@ const images = [
         image: '/images/img4.jpg',
         bgColor: '#ff9b85',
         texture: '/models/down/Material_body_pink.png',
+        dataUrl: 'timberland',
     },
 ];
 

@@ -5,8 +5,9 @@ import { Plane } from './Plane';
 import { Text, MeshWobbleMaterial } from '@react-three/drei';
 import { useMediaQueryCheck } from '../../hooks/useMediaQueryCheck';
 import { useRouter } from 'next/router';
-import { useDispatch } from 'react-redux';
-import { addWorks } from '../../redux/works/works.action';
+import { useDispatch, useSelector } from 'react-redux';
+import { getIsActive, getIsLoading, getIsCarousel } from '../../redux/works/works.selector';
+import { setDataUrl, setIsLoading, setIsSuccess  } from '../../redux/works/works.action';
 import { EmergingImage } from './EmergingImage';
 import PropTypes from 'prop-types';
 
@@ -18,32 +19,33 @@ export function CarouselItem ({
     activePlane,
     activeIndex,
     item,
-    isBack,
+    isPoster,
     material,
     color,
     setTextReady,
     setTextShow,
-    clickData,
-    setClickData
+    apiUrl,
 }) {
     const $root = useRef();
     const textRef = useRef();
-    const [isActive, setIsActive] = useState(index === activeIndex && isBack);
+    const [isAnimation, setIsAnimation] = useState(index === activeIndex && isPoster);
     const [isReady, setIsReady] = useState(false);
-    const [isClicked, setIsClicked] = useState(false);
-    const [isImageShow, setImageShow] = useState(!isBack);
+    // const [isClicked, setIsClicked] = useState(false);
+    const [isImageShow, setImageShow] = useState(!isPoster);
     const { isMobile } = useMediaQueryCheck(991);
     const router = useRouter();
     const materialRef = useRef();
     const dispatch = useDispatch();
+    const isActive = useSelector(getIsActive);
+    const isLoading = useSelector(getIsLoading);
+    const isCarousel = useSelector(getIsCarousel);
 
     useEffect(() => {
         if (activePlane === index) {
-            setIsActive(activePlane === index);
+            setIsAnimation(activePlane === index);
             $root.current.visible = true;
-            if (!isBack) {
+            if (!isPoster) {
                 setActivePlane(activeIndex);
-                dispatch(addWorks(activeIndex, false));
                 gsap.to(textRef.current.material, {
                     opacity: 0,
                     duration: 1,
@@ -52,7 +54,7 @@ export function CarouselItem ({
         } else if (activePlane !== null && activePlane !== index) {
             $root.current.visible = false;
         } else {
-            setIsActive(null);
+            setIsAnimation(false);
             $root.current.visible = true;
         }
     }, [activePlane]);
@@ -60,49 +62,65 @@ export function CarouselItem ({
     useEffect(() => {
         gsap.killTweensOf($root.current.position);
         gsap.to($root.current.position, {
-            z: isActive ? 0 : -0.01,
+            z: isAnimation ? 0 : -0.01,
             duration: 0.2,
             ease: 'power3.out',
-            delay: isActive ? 0 : 2,
+            delay: isAnimation ? 0 : 2,
         });
-    }, [isActive]);
+    }, [isAnimation]);
 
     useEffect(() => {
-        gsap.to(textRef.current.material, {
-            opacity: 0,
-            duration: 0,
-        });
-        setTimeout(() => {
-            if (textRef.current) {
-                gsap.to(textRef.current.material, {
-                    opacity: 1,
-                    duration: 1,
-                    ease: 'power2.inOut',
-                    onComplete: () => {
-                        setTextReady(true);
-                        setTimeout(() => {
-                            setTextShow(true);
-                        }, 500);
-                    },
-                });
-            }
-        }, 1500);
+        if (textRef.current?.material) {
+            gsap.to(textRef.current.material, {
+                opacity: 0,
+                duration: 0,
+            });
+            setTimeout(() => {
+                    gsap.to(textRef.current?.material, {
+                        opacity: 1,
+                        duration: 1,
+                        ease: 'power2.inOut',
+                        onComplete: () => {
+                            setTextReady(true);
+                            setTimeout(() => {
+                                setTextShow(true);
+                            }, 500);
+                        },
+                    });
+            }, 1500);
+        }
     }, []);
 
     useEffect(() => {
-        if (isReady) {
+        if (textRef.current?.material && isCarousel && index === activeIndex) {
+            console.log('title show')
+            gsap.to(textRef.current?.material, {
+                opacity: 1,
+                duration: 1,
+                ease: 'power2.inOut'
+            });
+        }
+    }, [isCarousel]);
+
+    useEffect(() => {
+        if (isReady && !isLoading) {
             console.log('isReady')
-            router.push(item.link);
+            dispatch(setIsSuccess(false))
+            dispatch(setIsLoading(true))
+            dispatch(setDataUrl(apiUrl))
+            window.history.pushState(null, '', item.link)
+            // setTimeout(() => {
+            //     setIsReady(false)
+            // }, 500);
         }
     }, [isReady]);
 
     useEffect(() => {
-        if (clickData && !isClicked) {
-            console.log('isClick')
-            setIsClicked(true)
-            setActivePlane(index);
+        if (isActive && activeIndex === index) {
+            console.log('isActive', 'isReady:',isReady,'isLoading:', isLoading, 'isPoster:', isPoster)
+            setActivePlane(activeIndex);
         }
-    }, [clickData]);
+    }, [isActive]);
 
     useFrame((state, delta) => {
         if (materialRef.current) {
@@ -131,13 +149,13 @@ export function CarouselItem ({
                     width={width}
                     height={height}
                     texture={item.image}
-                    active={isActive}
+                    active={isAnimation}
                     activeIndex={activeIndex}
-                    isBack={isBack}
+                    isPoster={isPoster}
                     setIsReady={setIsReady}
                 />
             )}
-            <Text
+            {!isPoster && <Text
                 ref={textRef}
                 position={[0, 0, 2]}
                 fontSize={isMobile && activeIndex === 0 ? 0.3 : isMobile ? 0.42 : 0.9}
@@ -152,7 +170,7 @@ export function CarouselItem ({
             >
                 {item.title}
                 <MeshWobbleMaterial factor={0.5} speed={1} />
-            </Text>
+            </Text>}
         </group>
     );
 }
@@ -165,9 +183,10 @@ CarouselItem.propTypes = {
     activePlane: PropTypes.number,
     activeIndex: PropTypes.number,
     item: PropTypes.object,
-    isBack: PropTypes.bool,
+    isPoster: PropTypes.bool,
     material: PropTypes.object,
     color: PropTypes.string,
     setTextReady: PropTypes.func,
     setTextShow: PropTypes.func,
+    apiUrl: PropTypes.string,
 };

@@ -5,13 +5,13 @@ import { useMediaQueryCheck } from '../../hooks/useMediaQueryCheck';
 import PropTypes from 'prop-types';
 import gsap from 'gsap';
 
-export function Plane ({ index, material, texture, width, height, active, activeIndex, isBack, setIsReady, ...props }) {
+export function Plane ({ index, material, texture, width, height, active, activeIndex, isPoster, setIsReady, ...props }) {
     const { viewport } = useThree();
     const tex = useTexture(texture);
     const { isMobile } = useMediaQueryCheck(991);
 
     useEffect(() => {
-        if (material.current[index].material) {
+        if (material.current[index].material && index === activeIndex) {
             material.current[index].material.uniforms.uZoomScale.value.x = isMobile
                 ? viewport.width / width
                 : viewport.width / 2 / width;
@@ -20,22 +20,26 @@ export function Plane ({ index, material, texture, width, height, active, active
                 : viewport.height / height;
             gsap.to(material.current[index].material.uniforms.uProgress, {
                 value: active ? 1 : 0,
-                duration: isBack ? 0 : 2.5,
+                duration: isPoster ? 0 : 2.5,
                 onComplete: () => {
-                    console.log(active, !isBack)
-                    if (active && !isBack) setIsReady(true);
+                    console.log('isAnimation', 'active:',active, 'isPoster:',isPoster)
+                    if (active && !isPoster) {
+                        setIsReady(true);
+                    } else {
+                        setIsReady(false);
+                    }
                 },
             });
             gsap.to(material.current[index].material.uniforms.uRes.value, {
                 x: active && isMobile ? viewport.width / 1.1 : active && !isMobile ? viewport.width / 2 : width,
                 y: active && isMobile ? viewport.height / 1.5 : active && !isMobile ? viewport.height : height,
-                duration: isBack ? 0 : 2.5,
+                duration: isPoster ? 0 : 2.5,
             });
-            if (active || isBack) {
-                material.current[index].material.uniforms.isActive.value = 1;
-            } else {
-                material.current[index].material.uniforms.isActive.value = 0;
-            }
+            // if (active || isPoster) {
+            //     material.current[index].material.uniforms.isActive.value = 1;
+            // } else {
+            //     material.current[index].material.uniforms.isActive.value = 0;
+            // }
         }
     }, [viewport, active]);
 
@@ -52,7 +56,7 @@ export function Plane ({ index, material, texture, width, height, active, active
                 time: { value: 0 },
                 distort: { value: isMobile ? 0.8 : 0.4 },
                 shift: { value: 0 },
-                isActive: { value: 1 },
+                isActive: { value: 0 },
             },
             vertexShader: /* glsl */ `
                 varying vec2 vUv;
@@ -172,7 +176,7 @@ Plane.propTypes = {
     width: PropTypes.number,
     height: PropTypes.number,
     active: PropTypes.bool,
-    isBack: PropTypes.bool,
+    isPoster: PropTypes.bool,
     index: PropTypes.number,
     activeIndex: PropTypes.number,
     material: PropTypes.object,
