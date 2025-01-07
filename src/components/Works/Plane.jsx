@@ -39,7 +39,7 @@ export function Plane ({ index, material, texture, width, height, active, active
             //     material.current[index].material.uniforms.isActive.value = 0;
             // }
         }
-    }, [viewport, active]);
+    }, [active]);
 
     const shaderArgs = useMemo(
         () => ({

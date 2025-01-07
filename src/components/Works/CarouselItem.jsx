@@ -113,8 +113,11 @@ export function CarouselItem ({
             console.log('isReady')
             dispatch(setIsSuccess(false))
             dispatch(setIsLoading(true))
-            dispatch(setDataUrl(images))
+            dispatch(setDataUrl(images[activeIndex]?.dataUrl))
             window.history.pushState(null, '', item.link)
+            setTimeout(() => {
+               setIsReady(false)
+            }, 500);
         }
     }, [isReady]);
 
@@ -155,7 +158,7 @@ export function CarouselItem ({
                     active={isAnimation}
                     activeIndex={activeIndex}
                     isPoster={isPoster}
-                    setIsReady={images[activeIndex]?.dataUrl}
+                    setIsReady={setIsReady}
                 />
             )}
             {!isPoster && <Text
