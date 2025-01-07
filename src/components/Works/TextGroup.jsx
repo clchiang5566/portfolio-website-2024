@@ -1,4 +1,4 @@
-import { React, useRef, useState } from 'react';
+import { React, useRef, useState, useEffect } from 'react';
 import { useThree } from '@react-three/fiber';
 import PropTypes from 'prop-types';
 import { Text } from '@react-three/drei';
@@ -15,6 +15,7 @@ export function TextGroup ({ currentIndex }) {
     const texts = [];
     const [animatedTexts, setAnimatedTexts] = useState(Array(texts.length).fill(''));
     const [number, setNumber] = useState();
+    const [shapeShow, setShapeShow] = useState(false);
     const { viewport, size } = useThree();
     const { isMobile } = useMediaQueryCheck(991);
 
@@ -27,6 +28,12 @@ export function TextGroup ({ currentIndex }) {
             return newTexts;
         });
     };
+
+    useEffect(() => {
+        setTimeout(() => {
+            setShapeShow(true)
+        }, 200);
+    }, []);
 
     return (
         <>
@@ -48,8 +55,8 @@ export function TextGroup ({ currentIndex }) {
                             textBackgroundRef.current[index] = node;
                         }}
                     >
-                        <planeGeometry args={[1, 1]} />
-                        <meshBasicMaterial color={images[currentIndex]?.bgColor} />
+                        {shapeShow && <planeGeometry args={[1, 1]} />}
+                        {shapeShow && <meshBasicMaterial color={images[currentIndex]?.bgColor} />}
                     </mesh>
                     <Text
                         ref={node => {
@@ -81,8 +88,8 @@ export function TextGroup ({ currentIndex }) {
             ))}
             <group position={[isMobile ? viewport.width / 2 - pixelToUnitWidth : viewport.width / 2 - pixelToUnitWidth * 1.2, isMobile ? viewport.height / 2 - 1 : viewport.height / 2 - 1.7, 0]}>
                 <mesh ref={numberBackgroundRef}>
-                    <planeGeometry args={[1, 1]} />
-                    <meshBasicMaterial color={images[currentIndex]?.bgColor} />
+                    {shapeShow && <planeGeometry args={[1, 1]} />}
+                    {shapeShow && <meshBasicMaterial color={images[currentIndex]?.bgColor} />}
                 </mesh>
                 <Text
                     ref={numberRef}

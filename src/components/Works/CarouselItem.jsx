@@ -9,6 +9,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getIsActive, getIsLoading, getIsCarousel } from '../../redux/works/works.selector';
 import { setDataUrl, setIsLoading, setIsSuccess  } from '../../redux/works/works.action';
 import { EmergingImage } from './EmergingImage';
+import images from './data';
 import PropTypes from 'prop-types';
 
 export function CarouselItem ({
@@ -20,8 +21,8 @@ export function CarouselItem ({
     activeIndex,
     item,
     isPoster,
+    isTextReady,
     material,
-    color,
     setTextReady,
     setTextShow,
     apiUrl,
@@ -30,7 +31,6 @@ export function CarouselItem ({
     const textRef = useRef();
     const [isAnimation, setIsAnimation] = useState(index === activeIndex && isPoster);
     const [isReady, setIsReady] = useState(false);
-    // const [isClicked, setIsClicked] = useState(false);
     const [isImageShow, setImageShow] = useState(!isPoster);
     const { isMobile } = useMediaQueryCheck(991);
     const router = useRouter();
@@ -75,6 +75,11 @@ export function CarouselItem ({
                 opacity: 0,
                 duration: 0,
             });
+        }
+    }, []);
+
+    useEffect(() => {
+        if (textRef.current?.material && !isImageShow) {
             setTimeout(() => {
                     gsap.to(textRef.current?.material, {
                         opacity: 1,
@@ -87,14 +92,15 @@ export function CarouselItem ({
                             }, 500);
                         },
                     });
-            }, 1500);
+            }, 300);
         }
-    }, []);
+    }, [isImageShow]);
 
     useEffect(() => {
         if (textRef.current?.material && isCarousel && index === activeIndex) {
             console.log('title show')
             gsap.to(textRef.current?.material, {
+                delay: 0.5,
                 opacity: 1,
                 duration: 1,
                 ease: 'power2.inOut'
@@ -107,16 +113,13 @@ export function CarouselItem ({
             console.log('isReady')
             dispatch(setIsSuccess(false))
             dispatch(setIsLoading(true))
-            dispatch(setDataUrl(apiUrl))
+            dispatch(setDataUrl(images))
             window.history.pushState(null, '', item.link)
-            // setTimeout(() => {
-            //     setIsReady(false)
-            // }, 500);
         }
     }, [isReady]);
 
     useEffect(() => {
-        if (isActive && activeIndex === index) {
+        if (isActive && activeIndex === index && isTextReady) {
             console.log('isActive', 'isReady:',isReady,'isLoading:', isLoading, 'isPoster:', isPoster)
             setActivePlane(activeIndex);
         }
@@ -139,7 +142,7 @@ export function CarouselItem ({
                     height={height}
                     url={item.image}
                     setImageShow={setImageShow}
-                    color={color}
+                    color={images[activeIndex]?.bgColor}
                     type={1}
                 />
             ) : (
@@ -152,14 +155,14 @@ export function CarouselItem ({
                     active={isAnimation}
                     activeIndex={activeIndex}
                     isPoster={isPoster}
-                    setIsReady={setIsReady}
+                    setIsReady={images[activeIndex]?.dataUrl}
                 />
             )}
             {!isPoster && <Text
                 ref={textRef}
                 position={[0, 0, 2]}
                 fontSize={isMobile && activeIndex === 0 ? 0.3 : isMobile ? 0.42 : 0.9}
-                color={color}
+                color={images[activeIndex]?.bgColor}
                 outlineWidth={0.01}
                 outlineColor='#313131'
                 maxWidth={isMobile ? 400 : 800}
@@ -184,8 +187,8 @@ CarouselItem.propTypes = {
     activeIndex: PropTypes.number,
     item: PropTypes.object,
     isPoster: PropTypes.bool,
+    isTextReady: PropTypes.bool,
     material: PropTypes.object,
-    color: PropTypes.string,
     setTextReady: PropTypes.func,
     setTextShow: PropTypes.func,
     apiUrl: PropTypes.string,

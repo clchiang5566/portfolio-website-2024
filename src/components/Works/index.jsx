@@ -14,7 +14,6 @@ import { Content } from '../WorksDetail/Content';
 
 export function Works () {
     const eventSource = useRef();
-    const enabled = true;
     const dispatch = useDispatch();
     const currentColor = useSelector(getCurrentColor);
     const [ isDetailPage, setIsDetailPage ] = useState(false);
@@ -22,7 +21,6 @@ export function Works () {
     const isSuccess = useSelector(getIsSuccess);
     const isLoading = useSelector(getIsLoading);
     const isCarousel = useSelector(getIsCarousel);
-    const isActive = useSelector(getIsActive);
     const dataUrl = useSelector(getDataUrl);
     const [contents, setContents] = useState(null);
 
@@ -43,7 +41,6 @@ export function Works () {
                     console.log('isDetail')
                     const module = await modules[dataUrl]();
                     setContents(module.default);
-                    // dispatch(setIsDetailPage(true))
                     setIsDetailPage(true)
                     dispatch(setIsSuccess(false))
                     dispatch(setIsLoading(false))
@@ -58,7 +55,6 @@ export function Works () {
 
     useEffect(() => {
         if (isCarousel) {
-            console.log('isCarousel')
             dispatch(setIsLoading(false))
             setIsDetailPage(false)
             window.history.pushState(null, '', '/works')
@@ -75,13 +71,6 @@ export function Works () {
             <div 
                 ref={eventSource}
                 className={style.el}
-                onWheel={(e) => !isDetailPage ? dispatch(setWheelData(e)) : null}
-                onPointerMove={(e) => !isDetailPage ? dispatch(setPointerData(e)) : null}
-                onPointerDown={(e) => !isDetailPage ? dispatch(setPointerData(e)) : null}
-                onPointerUp={(e) => !isDetailPage ? dispatch(setPointerData(e)) : null}
-                onPointerLeave={(e) => !isDetailPage ? dispatch(setPointerData(e)) : null}
-                onPointerCancel={(e) => !isDetailPage ? dispatch(setPointerData(e)) : null}
-                onClick={() => { !isDetailPage ? dispatch(setIsActive(true)) : null }}
             >
                 <GlobalCanvas
                     debug={false}
@@ -101,10 +90,10 @@ export function Works () {
                         </Lens>
                     )}
                 </GlobalCanvas>
-                <SmoothScrollbar enabled={enabled} config={{ syncTouch: true }}>
+                <SmoothScrollbar config={{ syncTouch: true }}>
                     {bind => (
                         <section {...bind}>
-                            <Header />
+                            <Header isDetailPage={isDetailPage} />
                             {isDetailPage && <Content contents={contents} />}                 
                         </section>
                     )}

@@ -56,11 +56,6 @@ export default function WorksDetail ({ ...props }) {
 }
 
 WorksDetail.propTypes = {
-    // title: PropTypes.string,
-    // subtitle: PropTypes.string,
-    // content: PropTypes.array,
-    // image: PropTypes.any,
-    // index: PropTypes.number,
-    // color: PropTypes.string,
-    // footerTexture: PropTypes.string,
+    index: PropTypes.number,
+    color: PropTypes.string,
 };

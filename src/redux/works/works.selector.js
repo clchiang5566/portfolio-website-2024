@@ -1,5 +1,6 @@
 export const getWheelData = (state) => state.works.get('wheelData');
 export const getPointerData = (state) => state.works.get('pointerData');
+export const getPageContent = (state) => state.works.get('pageContent');
 export const getCurrentColor = (state) => state.works.get('currentColor');
 export const getCurrentIndex = (state) => state.works.get('currentIndex');
 export const getDataUrl = (state) => state.works.get('dataUrl');
@@ -7,4 +8,5 @@ export const getIsActive = (state) => state.works.get('isActive');
 export const getIsLoading = (state) => state.works.get('isLoading');
 export const getIsSuccess = (state) => state.works.get('isSuccess');
 export const getIsCarousel = (state) => state.works.get('isCarousel');
+export const getIsPrevent = (state) => state.works.get('isPrevent');
 export const getIsDetailPage = (state) => state.works.get('isDetailPage');

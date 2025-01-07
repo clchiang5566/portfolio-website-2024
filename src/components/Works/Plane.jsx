@@ -25,9 +25,7 @@ export function Plane ({ index, material, texture, width, height, active, active
                     console.log('isAnimation', 'active:',active, 'isPoster:',isPoster)
                     if (active && !isPoster) {
                         setIsReady(true);
-                    } else {
-                        setIsReady(false);
-                    }
+                    } 
                 },
             });
             gsap.to(material.current[index].material.uniforms.uRes.value, {

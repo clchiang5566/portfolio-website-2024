@@ -13,10 +13,14 @@ const Block = dynamic(() => import('./Block').then(mod => mod.Block), { ssr: fal
 
 export function Content ({ contents }) {
     const { title, subtitle, content, color, footerTexture } = contents;
-    const [show, setShow] = useState(true);
+    const [show, setShow] = useState(false);
     const dispatch = useDispatch();
 
-    const handClickBack = () => {
+    useEffect(() => {
+        setShow(true)
+    }, []);
+
+    const handBackClick = () => {
         setShow(false);
         dispatch(setIsCarousel(true));
     }
@@ -29,7 +33,7 @@ export function Content ({ contents }) {
                     <div className={style.triangle} />
                     <div className={style.triangle} />
                 </div>
-                <div className={style.back} onClick={handClickBack}>
+                <div className={style.back} onClick={handBackClick}>
                     <div>
                         <svg xmlns='http://www.w3.org/2000/svg' x='0px' y='0px' viewBox='0 0 288 288'>
                             <path id='wavepath' fillOpacity='0%'>

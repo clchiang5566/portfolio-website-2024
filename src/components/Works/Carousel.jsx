@@ -8,8 +8,8 @@ import { lerp, getPiramidalIndex } from '../../utils/common';
 import images from './data';
 import { TextGroup } from './TextGroup';
 import { useMediaQueryCheck } from '../../hooks/useMediaQueryCheck';
-import { getWheelData, getPointerData, getIsCarousel } from '../../redux/works/works.selector';
-import { setCurrentColor, setIsCarousel } from '../../redux/works/works.action';
+import { getWheelData, getPointerData, getIsCarousel, getIsPrevent } from '../../redux/works/works.selector';
+import { setCurrentColor, setCurrentIndex, setIsCarousel, setIsPrevent } from '../../redux/works/works.action';
 import { Model } from './Model';
 import PropTypes from 'prop-types';
 
@@ -38,13 +38,13 @@ export function Carousel ({ isPage, pageIndex }) {
     const index = isPage ? pageIndex : 0;
     const { isMobile } = useMediaQueryCheck(991);
     const [activePlane, setActivePlane] = useState(isPage ? pageIndex : null); 
-    const [currentIndex, setCurrentIndex] = useState(isPage ? pageIndex : null);
+    const currentIndexRef = useRef(isPage ? pageIndex : null);
     const [isTextReady, setTextReady] = useState(false);
     const [isPoster, setIsPoster] = useState(isPage || false);
-    const [isScroll, setIsScroll] = useState(false);
     const [textShow, setTextShow] = useState(false);
     const prevActivePlane = usePrevious(index);
     const { viewport, size } = useThree();
+
     const progress = useRef(index ? Math.round((100 / 8) * (index + 1)) : 0);
     const startY = useRef(0);
     const isDown = useRef(false);
@@ -57,9 +57,10 @@ export function Carousel ({ isPage, pageIndex }) {
     }, [$root]);
     const wheelData = useSelector(getWheelData);
     const pointerData = useSelector(getPointerData);
+
     const material = useRef({});
-    const [currentTexture, setCurrentTexture] = useState('/models/down/Material_body.png');
     const isCarousel = useSelector(getIsCarousel);
+    const isPrevent = useSelector(getIsPrevent);
 
     const displayItems = (item, index, active, isPoster, delta) => {
         const piramidalIndex = getPiramidalIndex($items, active)[index];
@@ -88,25 +89,16 @@ export function Carousel ({ isPage, pageIndex }) {
             $items.forEach((item, index) => displayItems(item, index, active, isPoster, delta));
             speed.current = lerp(speed.current, Math.abs(oldProgress.current - progress.current), 0.2);
             oldProgress.current = lerp(oldProgress.current, progress.current, 0.1);
-            if (speed.current > 0.4 && !isScroll && !isPoster) {
-                setIsScroll(true);
-            }
-            if (speed.current < 0.4 && isScroll) {
-                setIsScroll(false);
-            }
-            if (active !== currentIndex) {
+            if (active !== currentIndexRef.current) {
                 handleChangeOrder(active);
-                dispatch(setCurrentColor(images[active]?.bgColor));
-                setCurrentTexture(images[active]?.texture);
-            }
-            if ($post.current && !isPoster) {
-                $post.current.thickness = speed.current;
+                currentIndexRef.current = active;
             }
     });
 
     const handleChangeOrder = i => {
         if (i === null || isPoster === true) return;
-        setCurrentIndex(i);
+        dispatch(setCurrentIndex(i))
+        dispatch(setCurrentColor(images[i]?.bgColor));
     };
 
     useEffect(() => {
@@ -118,7 +110,6 @@ export function Carousel ({ isPage, pageIndex }) {
 
     useEffect(() => {
         if (isCarousel) {
-            setCurrentTexture(images[currentIndex]?.texture);
             setIsPoster(false);
             setActivePlane(null);
             dispatch(setIsCarousel(false));
@@ -126,7 +117,7 @@ export function Carousel ({ isPage, pageIndex }) {
     }, [isCarousel]);
 
     useEffect(() => {
-        if (wheelData !== null) {
+        if (wheelData !== null && isTextReady) {
             if (activePlane !== null) return;
             const isVerticalScroll = Math.abs(wheelData.deltaY) > Math.abs(wheelData.deltaX);
             const wheelProgress = isVerticalScroll ? wheelData.deltaY : wheelData.deltaX;
@@ -136,7 +127,7 @@ export function Carousel ({ isPage, pageIndex }) {
     }, [wheelData]);
 
     useEffect(() => {
-        if (pointerData !== null) {
+        if (pointerData !== null && isTextReady) {
             switch (pointerData.type) {
                 case "pointerdown":
                     if (activePlane !== null) return;
@@ -164,6 +155,19 @@ export function Carousel ({ isPage, pageIndex }) {
         }
     }, [pointerData]);
 
+    useEffect(() => {
+        if (isTextReady) dispatch(setIsPrevent(false));
+    }, [isTextReady]);
+
+    useEffect(() => {
+        if (Math.abs(speed.current) > 10 && !isPrevent && !isPoster && isTextReady) {
+            dispatch(setIsPrevent(true));
+        }
+        if (Math.abs(speed.current) < 10 && isPrevent && !isPoster && isTextReady) {
+            dispatch(setIsPrevent(false));
+        }
+    }, [speed.current]);
+
     const renderPlaneEvents = () => {
         return (
             <mesh position={[0, 0, -0.01]}>
@@ -185,12 +189,11 @@ export function Carousel ({ isPage, pageIndex }) {
                         isPoster={isPoster}
                         setActivePlane={setActivePlane}
                         activePlane={activePlane}
-                        activeIndex={currentIndex}
-                        color={images[currentIndex]?.bgColor}
+                        activeIndex={currentIndexRef.current}
                         material={material}
+                        isTextReady={isTextReady}
                         setTextReady={setTextReady}
                         setTextShow={setTextShow}
-                        apiUrl={images[currentIndex]?.dataUrl}
                         key={i}
                     />
                 ))}
@@ -202,8 +205,8 @@ export function Carousel ({ isPage, pageIndex }) {
         <group>
             {renderPlaneEvents()}
             {renderSlider()}
-            {isTextReady && textShow && activePlane == null && <TextGroup currentIndex={currentIndex} />}
-            {!isPoster && activePlane == null && <Model texturePath={currentTexture} />}
+            {textShow && activePlane == null && <TextGroup currentIndex={currentIndexRef.current} />}
+            {!isPoster && activePlane == null && <Model texturePath={images[currentIndexRef.current]?.texture} />}
         </group>
     );
 }
