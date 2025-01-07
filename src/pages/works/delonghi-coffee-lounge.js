@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import Head from 'next/head';
 import { NextSeo } from 'next-seo';
@@ -9,8 +9,21 @@ import Layout from '../../layout';
 import data from '../../pages/api/dummypage/data.json';
 import WorksDetail from '../../components/WorksDetail';
 import Contents from '../../pages/api/data/delonghi';
+import { setCurrentColor, setIsPoster, setCurrentIndex, setPageContent } from '../../redux/works/works.action';
+import { getCurrentColor, getCurrentIndex, getIsPoster, getPageContent } from '../../redux/works/works.selector';
+// import { useSelector, useDispatch } from 'react-redux';
+import { useDispatch } from 'react-redux';
 
 const WorksDetailPage = ({ Global, Seo }) => {
+    const dispatch = useDispatch();
+
+    useEffect(() => {
+        dispatch(setCurrentColor(Contents.color));
+        dispatch(setCurrentIndex(Contents.index));
+        dispatch(setPageContent(Contents));
+        dispatch(setIsPoster(true));
+    }, [dispatch]);
+
     return (
         <Layout {...Global} color={Contents.color}>
             <NextSeo title={Seo.pageTitle} description={Seo.pageDescription} canonical={Seo.pageUrl} />
@@ -29,10 +42,15 @@ const WorksDetailPage = ({ Global, Seo }) => {
     );
 };
 
-export const getStaticProps = wrapper.getStaticProps(store => async () => {
+export const getStaticProps = wrapper.getStaticProps((store) => () => {
     const Global = data.global;
     const Seo = data.SEO;
-
+    console.log('Dispatching actions with contents:', Contents);
+    store.dispatch(setCurrentColor(Contents.color));
+    store.dispatch(setCurrentIndex(Contents.index));
+    store.dispatch(setPageContent(Contents));
+    store.dispatch(setIsPoster(true));
+    console.log('Actions dispatched, returning props:', { Global, Seo });
     return {
         props: {
             Global,

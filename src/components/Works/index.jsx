@@ -2,8 +2,8 @@ import { React, Suspense, useState, useEffect, useRef } from 'react';
 import { GlobalCanvas, SmoothScrollbar } from '@14islands/r3f-scroll-rig';
 import { Environment } from '@react-three/drei';
 import { useSelector, useDispatch } from 'react-redux';
-import { setWheelData, setPointerData, setIsActive, setIsLoading, setIsSuccess, setIsDetailPage } from '../../redux/works/works.action';
-import { getCurrentColor, getDataUrl, getIsLoading, getIsSuccess, getIsCarousel,getIsActive } from '../../redux/works/works.selector';
+import { setIsActive, setIsLoading, setIsSuccess, setIsDetailPage, setPageContent } from '../../redux/works/works.action';
+import { getCurrentColor, getDataUrl, getIsLoading, getIsSuccess, getIsCarousel, getPageContent } from '../../redux/works/works.selector';
 import { WebGLBackground } from '../Common/WebGLBackground';
 import { Lens } from '../Common/Lens';
 import Head from 'next/head';
@@ -22,7 +22,8 @@ export function Works () {
     const isLoading = useSelector(getIsLoading);
     const isCarousel = useSelector(getIsCarousel);
     const dataUrl = useSelector(getDataUrl);
-    const [contents, setContents] = useState(null);
+    const pageContent = useSelector(getPageContent);
+    // const [contents, setContents] = useState(null);
 
     useEffect(() => {
         if (!isSuccess && isLoading && dataUrl) {
@@ -40,7 +41,7 @@ export function Works () {
                 try {
                     console.log('isDetail')
                     const module = await modules[dataUrl]();
-                    setContents(module.default);
+                    dispatch(setPageContent(module.default))
                     setIsDetailPage(true)
                     dispatch(setIsSuccess(false))
                     dispatch(setIsLoading(false))
@@ -94,7 +95,7 @@ export function Works () {
                     {bind => (
                         <section {...bind}>
                             <Header isDetailPage={isDetailPage} />
-                            {isDetailPage && <Content contents={contents} />}                 
+                            {isDetailPage && <Content contents={pageContent} />}                 
                         </section>
                     )}
                 </SmoothScrollbar>

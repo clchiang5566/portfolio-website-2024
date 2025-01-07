@@ -32,20 +32,15 @@ gsap.defaults({
 
 export function Carousel () {
     const [$root, setRoot] = useState();
-    const $post = useRef();
-    const state = useSelector(state => state);
     const dispatch = useDispatch();
     const currentIndex = useSelector(getCurrentIndex);
     const isPoster = useSelector(getIsPoster);
-    const index = isPoster? currentIndex : 0;
+    const index = isPoster ? currentIndex : 0;
     const { isMobile } = useMediaQueryCheck(991);
-    const [activePlane, setActivePlane] = useState(isPoster? currentIndex : null); 
-    const currentIndexRef = useRef(isPoster? currentIndex : null);
+    const [activePlane, setActivePlane] = useState(isPoster ? currentIndex : null); 
+    const currentIndexRef = useRef(isPoster ? currentIndex : null);
     const [isTextReady, setTextReady] = useState(false);
-    // const [isPoster, setIsPoster] = useState(isPoster|| false);
-    const [textShow, setTextShow] = useState(false);
-    const prevActivePlane = usePrevious(index);
-    const { viewport, size } = useThree();
+    const { viewport } = useThree();
 
     const progress = useRef(index ? Math.round((100 / 8) * (index + 1)) : 0);
     const startY = useRef(0);
@@ -102,13 +97,6 @@ export function Carousel () {
         dispatch(setCurrentIndex(i))
         dispatch(setCurrentColor(images[i]?.bgColor));
     };
-
-    useEffect(() => {
-        if (!$items) return;
-        if (activePlane !== null && prevActivePlane === null) {
-            progress.current = (activePlane / ($items.length - 1)) * 100;
-        }
-    }, [activePlane, $items]);
 
     useEffect(() => {
         if (isCarousel) {
@@ -190,11 +178,9 @@ export function Carousel () {
                         index={i}
                         setActivePlane={setActivePlane}
                         activePlane={activePlane}
-                        activeIndex={currentIndexRef.current}
                         material={material}
                         isTextReady={isTextReady}
                         setTextReady={setTextReady}
-                        setTextShow={setTextShow}
                         key={i}
                     />
                 ))}
@@ -206,7 +192,7 @@ export function Carousel () {
         <group>
             {renderPlaneEvents()}
             {renderSlider()}
-            {textShow && activePlane == null && <TextGroup currentIndex={currentIndexRef.current} />}
+            {isTextReady && activePlane == null && <TextGroup currentIndex={currentIndexRef.current} />}
             {!isPoster && activePlane == null && <Model texturePath={images[currentIndexRef.current]?.texture} />}
         </group>
     );
