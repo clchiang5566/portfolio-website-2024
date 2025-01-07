@@ -10,3 +10,4 @@ export const getIsSuccess = (state) => state.works.get('isSuccess');
 export const getIsCarousel = (state) => state.works.get('isCarousel');
 export const getIsPrevent = (state) => state.works.get('isPrevent');
 export const getIsDetailPage = (state) => state.works.get('isDetailPage');
+export const getIsPoster = (state) => state.works.get('isPoster');

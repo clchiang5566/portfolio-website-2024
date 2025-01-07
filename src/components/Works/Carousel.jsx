@@ -8,8 +8,8 @@ import { lerp, getPiramidalIndex } from '../../utils/common';
 import images from './data';
 import { TextGroup } from './TextGroup';
 import { useMediaQueryCheck } from '../../hooks/useMediaQueryCheck';
-import { getWheelData, getPointerData, getIsCarousel, getIsPrevent } from '../../redux/works/works.selector';
-import { setCurrentColor, setCurrentIndex, setIsCarousel, setIsPrevent } from '../../redux/works/works.action';
+import { getWheelData, getPointerData, getIsCarousel, getIsPrevent, getCurrentIndex, getIsPoster } from '../../redux/works/works.selector';
+import { setCurrentColor, setCurrentIndex, setIsCarousel, setIsPrevent, setIsPoster } from '../../redux/works/works.action';
 import { Model } from './Model';
 import PropTypes from 'prop-types';
 
@@ -30,17 +30,19 @@ gsap.defaults({
     ease: 'power3.out',
 });
 
-export function Carousel ({ isPage, pageIndex }) {
+export function Carousel () {
     const [$root, setRoot] = useState();
     const $post = useRef();
     const state = useSelector(state => state);
     const dispatch = useDispatch();
-    const index = isPage ? pageIndex : 0;
+    const currentIndex = useSelector(getCurrentIndex);
+    const isPoster = useSelector(getIsPoster);
+    const index = isPoster? currentIndex : 0;
     const { isMobile } = useMediaQueryCheck(991);
-    const [activePlane, setActivePlane] = useState(isPage ? pageIndex : null); 
-    const currentIndexRef = useRef(isPage ? pageIndex : null);
+    const [activePlane, setActivePlane] = useState(isPoster? currentIndex : null); 
+    const currentIndexRef = useRef(isPoster? currentIndex : null);
     const [isTextReady, setTextReady] = useState(false);
-    const [isPoster, setIsPoster] = useState(isPage || false);
+    // const [isPoster, setIsPoster] = useState(isPoster|| false);
     const [textShow, setTextShow] = useState(false);
     const prevActivePlane = usePrevious(index);
     const { viewport, size } = useThree();
@@ -110,7 +112,7 @@ export function Carousel ({ isPage, pageIndex }) {
 
     useEffect(() => {
         if (isCarousel) {
-            setIsPoster(false);
+            dispatch(setIsPoster(false));
             setActivePlane(null);
             dispatch(setIsCarousel(false));
         }
@@ -186,7 +188,6 @@ export function Carousel ({ isPage, pageIndex }) {
                         height={isMobile ? planeMobileSettings.height : planeSettings.height}
                         item={item}
                         index={i}
-                        isPoster={isPoster}
                         setActivePlane={setActivePlane}
                         activePlane={activePlane}
                         activeIndex={currentIndexRef.current}
@@ -211,7 +212,4 @@ export function Carousel ({ isPage, pageIndex }) {
     );
 }
 
-Carousel.propTypes = {
-    isPage: PropTypes.bool,
-    pageIndex: PropTypes.number,
-};
+Carousel.propTypes = {};

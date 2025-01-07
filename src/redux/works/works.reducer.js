@@ -11,6 +11,7 @@ import {
     SET_IS_CAROUSEL, 
     SET_IS_DETAILPAGE, 
     SET_IS_PREVENT,
+    SET_IS_POSTER,
     SET_DATA_URL, 
     SET_CURRENT_COLOR, 
     SET_CURRENT_INDEX 
@@ -27,6 +28,7 @@ const initialState = fromJS({
     isCarousel: false,
     isPrevent: true,
     isDetailPage: false,
+    isPoster: false,
     dataUrl: null,
 });
 
@@ -64,6 +66,9 @@ export const works = createReducer(initialState, builder => {
         })
         .addCase(SET_IS_DETAILPAGE, (state, action) => {
             return state.set('isDetailPage', action.payload);
+        })
+        .addCase(SET_IS_POSTER, (state, action) => {
+            return state.set('isPoster', action.payload);
         })
         .addCase(SET_DATA_URL, (state, action) => {
             return state.set('dataUrl', action.payload);

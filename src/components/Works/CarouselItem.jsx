@@ -6,7 +6,7 @@ import { Text, MeshWobbleMaterial } from '@react-three/drei';
 import { useMediaQueryCheck } from '../../hooks/useMediaQueryCheck';
 import { useRouter } from 'next/router';
 import { useDispatch, useSelector } from 'react-redux';
-import { getIsActive, getIsLoading, getIsCarousel } from '../../redux/works/works.selector';
+import { getIsActive, getIsLoading, getIsCarousel, getIsPoster } from '../../redux/works/works.selector';
 import { setDataUrl, setIsLoading, setIsSuccess  } from '../../redux/works/works.action';
 import { EmergingImage } from './EmergingImage';
 import images from './data';
@@ -20,7 +20,6 @@ export function CarouselItem ({
     activePlane,
     activeIndex,
     item,
-    isPoster,
     isTextReady,
     material,
     setTextReady,
@@ -29,6 +28,7 @@ export function CarouselItem ({
 }) {
     const $root = useRef();
     const textRef = useRef();
+    const isPoster = useSelector(getIsPoster);
     const [isAnimation, setIsAnimation] = useState(index === activeIndex && isPoster);
     const [isReady, setIsReady] = useState(false);
     const [isImageShow, setImageShow] = useState(!isPoster);
@@ -157,7 +157,6 @@ export function CarouselItem ({
                     texture={item.image}
                     active={isAnimation}
                     activeIndex={activeIndex}
-                    isPoster={isPoster}
                     setIsReady={setIsReady}
                 />
             )}
@@ -189,7 +188,6 @@ CarouselItem.propTypes = {
     activePlane: PropTypes.number,
     activeIndex: PropTypes.number,
     item: PropTypes.object,
-    isPoster: PropTypes.bool,
     isTextReady: PropTypes.bool,
     material: PropTypes.object,
     setTextReady: PropTypes.func,

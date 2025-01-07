@@ -4,14 +4,18 @@ import { useTexture, Image as DreiImage } from '@react-three/drei';
 import { useMediaQueryCheck } from '../../hooks/useMediaQueryCheck';
 import PropTypes from 'prop-types';
 import gsap from 'gsap';
+import { useSelector } from 'react-redux';
+import { getCurrentIndex, getIsPoster } from '../../redux/works/works.selector';
 
-export function Plane ({ index, material, texture, width, height, active, activeIndex, isPoster, setIsReady, ...props }) {
+export function Plane ({ index, material, texture, width, height, active, setIsReady, ...props }) {
     const { viewport } = useThree();
     const tex = useTexture(texture);
+    const currentIndex = useSelector(getCurrentIndex);
+    const isPoster = useSelector(getIsPoster);
     const { isMobile } = useMediaQueryCheck(991);
 
     useEffect(() => {
-        if (material.current[index].material && index === activeIndex) {
+        if (material.current[index].material && index === currentIndex) {
             material.current[index].material.uniforms.uZoomScale.value.x = isMobile
                 ? viewport.width / width
                 : viewport.width / 2 / width;
@@ -133,8 +137,8 @@ export function Plane ({ index, material, texture, width, height, active, active
     );
 
     const handlePointerEnter = e => {
-        if (material.current[activeIndex].material) {
-            gsap.to(material.current[activeIndex].material.uniforms.distort, {
+        if (material.current[currentIndex].material) {
+            gsap.to(material.current[currentIndex].material.uniforms.distort, {
                 value: 0.5,
                 duration: 1,
                 overwrite: true,
@@ -143,8 +147,8 @@ export function Plane ({ index, material, texture, width, height, active, active
     };
 
     const handlePointerLeave = () => {
-        if (material.current[activeIndex].material) {
-            gsap.to(material.current[activeIndex].material.uniforms.distort, {
+        if (material.current[currentIndex].material) {
+            gsap.to(material.current[currentIndex].material.uniforms.distort, {
                 value: 0.1,
                 duration: 0.8,
                 overwrite: true,
@@ -174,9 +178,7 @@ Plane.propTypes = {
     width: PropTypes.number,
     height: PropTypes.number,
     active: PropTypes.bool,
-    isPoster: PropTypes.bool,
     index: PropTypes.number,
-    activeIndex: PropTypes.number,
     material: PropTypes.object,
     setIsReady: PropTypes.func,
 };

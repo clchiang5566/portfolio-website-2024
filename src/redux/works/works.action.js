@@ -7,6 +7,7 @@ export const SET_IS_SUCCESS = 'SET_IS_SUCCESS';
 export const SET_IS_CAROUSEL = 'SET_IS_CAROUSEL';
 export const SET_IS_DETAILPAGE = 'SET_IS_DETAILPAGE';
 export const SET_IS_PREVENT = 'SET_IS_PREVENT';
+export const SET_IS_POSTER = 'SET_IS_POSTER';
 export const SET_DATA_URL = 'SET_DATA_URL';
 export const SET_CURRENT_COLOR = 'SET_CURRENT_COLOR';
 export const SET_CURRENT_INDEX = 'SET_CURRENT_INDEX';
@@ -79,6 +80,15 @@ export const setIsPrevent = (isPrevent) => {
         dispatch({
             type: SET_IS_PREVENT,
             payload: isPrevent,
+        });
+    };
+};
+
+export const setIsPoster = (isPoster) => {
+    return async dispatch => {
+        dispatch({
+            type: SET_IS_POSTER,
+            payload: isPoster,
         });
     };
 };
