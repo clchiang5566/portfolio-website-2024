@@ -8,8 +8,8 @@ import { lerp, getPiramidalIndex } from '../../utils/common';
 import images from './data';
 import { TextGroup } from './TextGroup';
 import { useMediaQueryCheck } from '../../hooks/useMediaQueryCheck';
-import { getWheelData, getPointerData, getIsCarousel, getIsPrevent, getCurrentIndex, getIsPoster } from '../../redux/works/works.selector';
-import { setCurrentColor, setCurrentIndex, setIsCarousel, setIsPrevent, setIsPoster } from '../../redux/works/works.action';
+import { getWheelData, getPointerData, getIsCarousel, getIsPrevent, getCurrentIndex, getIsPoster, getDataUrl, getIsLoading, getIsSuccess, getPageContent } from '../../redux/works/works.selector';
+import { setCurrentColor, setCurrentIndex, setIsCarousel, setIsPrevent, setIsPoster, setIsDetailPage, setIsLoading, setIsActive, setIsSuccess, setPageContent } from '../../redux/works/works.action';
 import { Model } from './Model';
 import PropTypes from 'prop-types';
 
@@ -39,7 +39,7 @@ export function Carousel () {
     const { isMobile } = useMediaQueryCheck(991);
     const [activePlane, setActivePlane] = useState(isPoster ? currentIndex : null); 
     const currentIndexRef = useRef(isPoster ? currentIndex : null);
-    const [isTextReady, setTextReady] = useState(false);
+    const [isTextReady, setTextReady] = useState(isPoster);
     const { viewport } = useThree();
 
     const progress = useRef(index ? Math.round((100 / 8) * (index + 1)) : 0);
@@ -58,6 +58,10 @@ export function Carousel () {
     const material = useRef({});
     const isCarousel = useSelector(getIsCarousel);
     const isPrevent = useSelector(getIsPrevent);
+
+    const isSuccess = useSelector(getIsSuccess);
+    const isLoading = useSelector(getIsLoading);
+    const dataUrl = useSelector(getDataUrl);
 
     const displayItems = (item, index, active, isPoster, delta) => {
         const piramidalIndex = getPiramidalIndex($items, active)[index];
@@ -97,14 +101,6 @@ export function Carousel () {
         dispatch(setCurrentIndex(i))
         dispatch(setCurrentColor(images[i]?.bgColor));
     };
-
-    useEffect(() => {
-        if (isCarousel) {
-            dispatch(setIsPoster(false));
-            setActivePlane(null);
-            dispatch(setIsCarousel(false));
-        }
-    }, [isCarousel]);
 
     useEffect(() => {
         if (wheelData !== null && isTextReady) {
@@ -157,6 +153,47 @@ export function Carousel () {
             dispatch(setIsPrevent(false));
         }
     }, [speed.current]);
+
+    useEffect(() => {
+        if (isCarousel) {
+            dispatch(setIsPoster(false));
+            setActivePlane(null);
+            dispatch(setIsCarousel(false));
+
+            dispatch(setIsLoading(false))
+            dispatch(setIsDetailPage(false))
+            window.history.pushState(null, '', '/works')
+        }
+    }, [isCarousel]);
+
+    useEffect(() => {
+        if (!isSuccess && isLoading && dataUrl) {
+            const modules = {
+                tata: () => import('../../pages/api/data/tata'),
+                delonghi: () => import('../../pages/api/data/delonghi'),
+                kitkat: () => import('../../pages/api/data/kitkat'),
+                maxis: () => import('../../pages/api/data/maxis'),
+                tomorrow: () => import('../../pages/api/data/tomorrow'),
+                nio: () => import('../../pages/api/data/nio'),
+                hbl: () => import('../../pages/api/data/hbl'),
+                timberland: () => import('../../pages/api/data/timberland'),
+            };
+            const loadData = async () => {
+                try {
+                    console.log('isDetail')
+                    const module = await modules[dataUrl]();
+                    dispatch(setPageContent(module.default))
+                    dispatch(setIsDetailPage(true))
+                    dispatch(setIsSuccess(false))
+                    dispatch(setIsLoading(false))
+                    dispatch(setIsActive(false))
+                } catch (error) {
+                    console.error('Failed to load module:', error);
+                }
+            }
+            loadData()
+        }
+    }, [isLoading])
 
     const renderPlaneEvents = () => {
         return (

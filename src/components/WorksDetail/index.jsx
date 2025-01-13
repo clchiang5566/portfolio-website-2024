@@ -1,29 +1,27 @@
-import React, { Suspense, useRef, useState, useEffect } from 'react';
+import React, { Suspense, useRef } from 'react';
 import { GlobalCanvas, SmoothScrollbar, ScrollScene } from '@14islands/r3f-scroll-rig';
 import { Environment } from '@react-three/drei';
 import style from './WorksDetail.module.scss';
 import { WebGLBackground } from '../Common/WebGLBackground';
 import { Lens } from '../Common/Lens';
-import { Headline, Subtitle } from '../Common/Text';
-import { useSelector, useDispatch } from 'react-redux';
-import dynamic from 'next/dynamic';
-import PropTypes from 'prop-types';
+import { useSelector } from 'react-redux';
+import { getCurrentColor, getPageContent, getIsDetailPage } from '../../redux/works/works.selector';
 import { useMediaQueryCheck } from '../../hooks/useMediaQueryCheck';
 import Head from 'next/head';
 import { Header } from '../Works/Header';
 import { Content } from './Content';
 
-export default function WorksDetail ({ ...props }) {
-    const { index, color } = props;
+export default function WorksDetail () {
     const eventSource = useRef();
-    const dispatch = useDispatch();
-    const enabled = true;
+    const currentColor = useSelector(getCurrentColor);
+    const isDetailPage = useSelector(getIsDetailPage);
+    const pageContent = useSelector(getPageContent);
     const { isMobile } = useMediaQueryCheck(991);
 
     return (
         <>
             <Head>
-                <style>{`canvas { border: ${isMobile ? '15px' : '20px'} solid ${color} }`}</style>
+                <style>{`canvas { border: ${isMobile ? '15px' : '20px'} solid ${currentColor} }`}</style>
             </Head>
             <div className={style.el} ref={eventSource}>
                 <GlobalCanvas
@@ -36,7 +34,7 @@ export default function WorksDetail ({ ...props }) {
                 >
                     {globalChildren => (
                         <Lens>
-                            <WebGLBackground color={color} />
+                            <WebGLBackground color={currentColor} />
                             <Suspense fallback=''>
                                 <Environment files='../env/empty_warehouse_01_1k.hdr' />
                                 {globalChildren}
@@ -44,18 +42,17 @@ export default function WorksDetail ({ ...props }) {
                         </Lens>
                     )}
                 </GlobalCanvas>
-                <SmoothScrollbar enabled={enabled} config={{ syncTouch: true }} />
-                <Header 
-                    pageIndex={index}
-                    isPage
-                />
-                <Content contents={props} isPage />
+                <SmoothScrollbar config={{ syncTouch: true }}>
+                    {bind => (
+                        <section {...bind}>
+                            <Header />
+                            {isDetailPage && pageContent && <Content contents={pageContent} />}                 
+                        </section>
+                    )}
+                </SmoothScrollbar>
             </div>
         </>
     );
 }
 
-WorksDetail.propTypes = {
-    index: PropTypes.number,
-    color: PropTypes.string,
-};
+WorksDetail.propTypes = {};

@@ -96,7 +96,7 @@ export const setIsPoster = (isPoster) => {
 export const setIsDetailPage = (isDetailPage) => {
     return async dispatch => {
         dispatch({
-            type: SET_IS_CAROUSEL,
+            type: SET_IS_DETAILPAGE,
             payload: isDetailPage,
         });
     };

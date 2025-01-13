@@ -9,20 +9,21 @@ import Layout from '../../layout';
 import data from '../../pages/api/dummypage/data.json';
 import WorksDetail from '../../components/WorksDetail';
 import Contents from '../../pages/api/data/delonghi';
-import { setCurrentColor, setIsPoster, setCurrentIndex, setPageContent } from '../../redux/works/works.action';
-import { getCurrentColor, getCurrentIndex, getIsPoster, getPageContent } from '../../redux/works/works.selector';
+import { setCurrentColor, setIsPoster, setCurrentIndex, setPageContent, setIsDetailPage } from '../../redux/works/works.action';
+import { getCurrentColor, getCurrentIndex, getIsPoster, getPageContent, getIsDetailPage } from '../../redux/works/works.selector';
 // import { useSelector, useDispatch } from 'react-redux';
 import { useDispatch } from 'react-redux';
 
 const WorksDetailPage = ({ Global, Seo }) => {
-    const dispatch = useDispatch();
+    // const dispatch = useDispatch();
 
-    useEffect(() => {
-        dispatch(setCurrentColor(Contents.color));
-        dispatch(setCurrentIndex(Contents.index));
-        dispatch(setPageContent(Contents));
-        dispatch(setIsPoster(true));
-    }, [dispatch]);
+    // useEffect(() => {
+    //     dispatch(setCurrentColor(Contents.color));
+    //     dispatch(setCurrentIndex(Contents.index));
+    //     dispatch(setPageContent(Contents));
+    //     dispatch(setIsDetailPage(true));
+    //     dispatch(setIsPoster(true));
+    // }, [dispatch]);
 
     return (
         <Layout {...Global} color={Contents.color}>
@@ -49,8 +50,10 @@ export const getStaticProps = wrapper.getStaticProps((store) => () => {
     store.dispatch(setCurrentColor(Contents.color));
     store.dispatch(setCurrentIndex(Contents.index));
     store.dispatch(setPageContent(Contents));
+    store.dispatch(setIsDetailPage(true));
     store.dispatch(setIsPoster(true));
     console.log('Actions dispatched, returning props:', { Global, Seo });
+
     return {
         props: {
             Global,

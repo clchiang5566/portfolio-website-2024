@@ -2,11 +2,9 @@ import React, { useRef, useState, useEffect } from 'react';
 import style from './WorksDetail.module.scss';
 import { Headline, Subtitle } from '../Common/Text';
 import { useDispatch } from 'react-redux';
-import { setIsCarousel } from '../../redux/works/works.action';
+import { setIsCarousel, setIsDetailPage } from '../../redux/works/works.action';
 import dynamic from 'next/dynamic';
 import PropTypes from 'prop-types';
-import gsap from 'gsap';
-import { useMediaQueryCheck } from '../../hooks/useMediaQueryCheck';
 
 const Footer = dynamic(() => import('../Footer').then(mod => mod.Footer), { ssr: false });
 const Block = dynamic(() => import('./Block').then(mod => mod.Block), { ssr: false });
@@ -33,7 +31,7 @@ export function Content ({ contents }) {
                     <div className={style.triangle} />
                     <div className={style.triangle} />
                 </div>
-                <div className={style.back} onClick={handBackClick}>
+                <div className={style.back} onClick={() => handBackClick()}>
                     <div>
                         <svg xmlns='http://www.w3.org/2000/svg' x='0px' y='0px' viewBox='0 0 288 288'>
                             <path id='wavepath' fillOpacity='0%'>

@@ -43,7 +43,7 @@ export function Header ({ pageIndex, isPage, isDetailPage, ...props }) {
 }
 
 Header.propTypes = {
-    isDetail: PropTypes.bool,
+    isPage: PropTypes.bool,
     isDetailPage: PropTypes.bool,
     pageIndex: PropTypes.number
 };

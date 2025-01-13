@@ -4,7 +4,7 @@ import gsap from 'gsap';
 import { Plane } from './Plane';
 import { Text, MeshWobbleMaterial } from '@react-three/drei';
 import { useMediaQueryCheck } from '../../hooks/useMediaQueryCheck';
-import { useRouter } from 'next/router';
+
 import { useDispatch, useSelector } from 'react-redux';
 import { getIsActive, getIsLoading, getIsCarousel, getIsPoster, getCurrentIndex } from '../../redux/works/works.selector';
 import { setDataUrl, setIsLoading, setIsSuccess  } from '../../redux/works/works.action';
@@ -31,7 +31,6 @@ export function CarouselItem ({
     const [isReady, setIsReady] = useState(false);
     const [isImageShow, setImageShow] = useState(!isPoster);
     const { isMobile } = useMediaQueryCheck(991);
-    const router = useRouter();
     const materialRef = useRef();
     const dispatch = useDispatch();
     const isActive = useSelector(getIsActive);
