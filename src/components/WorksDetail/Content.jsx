@@ -23,6 +23,18 @@ export function Content ({ contents }) {
         dispatch(setIsCarousel(true));
     }
 
+    useEffect(() => {
+        const handlePopState = (event) => {
+            handBackClick()
+        };
+    
+        window.addEventListener('popstate', handlePopState);
+    
+        return () => {
+            window.removeEventListener('popstate', handlePopState);
+        };
+    }, []);
+
     return (
         <div className={[style.container, 'container'].join(' ')}>
             <header className={[style.header, show ? style.show : null].join(' ')}>

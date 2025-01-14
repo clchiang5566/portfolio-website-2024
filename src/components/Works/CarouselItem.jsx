@@ -76,7 +76,7 @@ export function CarouselItem ({
     }, []);
 
     useEffect(() => {
-        if (textRef.current?.material && !isImageShow) {
+        if (textRef.current?.material && !isImageShow && !isPoster) {
             setTimeout(() => {
                     gsap.to(textRef.current?.material, {
                         opacity: 1,
@@ -93,7 +93,7 @@ export function CarouselItem ({
     }, [isImageShow]);
 
     useEffect(() => {
-        if (textRef.current?.material && isCarousel && index === currentIndex) {
+        if (textRef.current?.material && isCarousel) {
             console.log('title show')
             gsap.to(textRef.current?.material, {
                 delay: 0.5,
@@ -156,7 +156,7 @@ export function CarouselItem ({
                     setIsReady={setIsReady}
                 />
             )}
-            {!isPoster && <Text
+            <Text
                 ref={textRef}
                 position={[0, 0, 2]}
                 fontSize={isMobile && currentIndex === 0 ? 0.3 : isMobile ? 0.42 : 0.9}
@@ -171,7 +171,7 @@ export function CarouselItem ({
             >
                 {item.title}
                 <MeshWobbleMaterial factor={0.5} speed={1} />
-            </Text>}
+            </Text>
         </group>
     );
 }

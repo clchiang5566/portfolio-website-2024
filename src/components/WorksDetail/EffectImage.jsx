@@ -282,8 +282,8 @@ export function EffectImage ({ width, height, url, type, color, setImageShow, ..
 }
 
 EffectImage.propTypes = {
-    width: PropTypes.string,
-    height: PropTypes.string,
+    width: PropTypes.number,
+    height: PropTypes.number,
     url: PropTypes.string,
     color: PropTypes.string,
     type: PropTypes.number,
