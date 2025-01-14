@@ -165,6 +165,8 @@ export function Plane ({ index, material, texture, width, height, active, setIsR
             }}
             texture={tex}
             renderOrder={-1}
+            position={[0, 0, -0.5]}
+            transparent
             {...props}
         >
             <planeGeometry args={[width, height, 30, 30]} transparent />

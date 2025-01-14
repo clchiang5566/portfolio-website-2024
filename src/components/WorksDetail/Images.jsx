@@ -1,6 +1,5 @@
 import React, { useRef, useState, useMemo, useEffect, Suspense } from 'react';
-import { UseCanvas, useScrollRig, useImageAsTexture } from '@14islands/r3f-scroll-rig';
-import { ParallaxScrollScene } from '@14islands/r3f-scroll-rig/powerups';
+import { UseCanvas, useScrollRig, useImageAsTexture, ScrollScene } from '@14islands/r3f-scroll-rig';
 // import { useMediaQueryCheck } from '../../hooks/useMediaQueryCheck';
 import { Image as DreiImage } from '@react-three/drei';
 import { useFrame, useThree } from '@react-three/fiber';
@@ -10,20 +9,18 @@ import PropTypes from 'prop-types';
 import Image from 'next/image';
 import { EffectImage } from './EffectImage';
 
-export function Images ({ src, parallaxSpeed, color, ...props }) {
+export function Images ({ src, color, ...props }) {
     const el = useRef();
     const img = useRef();
     const { hasSmoothScrollbar } = useScrollRig();
 
     return (
         <>
-            <div ref={el} {...props}>
+            <div ref={el}>
                 <Image
                     className='imageHidden'
-                    decode='async'
                     ref={img}
                     src={src}
-                    layout='responsive'
                     width={700}
                     height={475}
                     alt='image'
@@ -32,13 +29,13 @@ export function Images ({ src, parallaxSpeed, color, ...props }) {
 
             {hasSmoothScrollbar && (
                 <UseCanvas debug={false}>
-                    <ParallaxScrollScene track={el} speed={parallaxSpeed}>
+                    <ScrollScene track={el} >
                         {props => (
                             <Suspense fallback=''>
                                 <WebglImage el={el} img={img} src={src} color={color} {...props} />
                             </Suspense>
                         )}
-                    </ParallaxScrollScene>
+                    </ScrollScene>
                 </UseCanvas>
             )}
         </>
@@ -47,7 +44,6 @@ export function Images ({ src, parallaxSpeed, color, ...props }) {
 
 Images.propTypes = {
     src: PropTypes.string,
-    parallaxSpeed: PropTypes.number,
     color: PropTypes.string,
 };
 

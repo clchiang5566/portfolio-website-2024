@@ -1,5 +1,5 @@
 import React, { Suspense, useRef } from 'react';
-import { GlobalCanvas, SmoothScrollbar, ScrollScene } from '@14islands/r3f-scroll-rig';
+import { GlobalCanvas, SmoothScrollbar } from '@14islands/r3f-scroll-rig';
 import { Environment } from '@react-three/drei';
 import style from './WorksDetail.module.scss';
 import { WebGLBackground } from '../Common/WebGLBackground';

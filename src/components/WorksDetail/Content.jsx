@@ -1,8 +1,8 @@
-import React, { useRef, useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import style from './WorksDetail.module.scss';
 import { Headline, Subtitle } from '../Common/Text';
 import { useDispatch } from 'react-redux';
-import { setIsCarousel, setIsDetailPage } from '../../redux/works/works.action';
+import { setIsCarousel } from '../../redux/works/works.action';
 import dynamic from 'next/dynamic';
 import PropTypes from 'prop-types';
 
@@ -117,6 +117,6 @@ export function Content ({ contents }) {
 }
 
 Content.propTypes = {
-    contents: PropTypes.array,
+    contents: PropTypes.any,
 };
 
