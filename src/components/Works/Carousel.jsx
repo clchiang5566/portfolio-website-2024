@@ -7,29 +7,18 @@ import { CarouselItem } from './CarouselItem';
 import { lerp, getPiramidalIndex } from '../../utils/common';
 import images from './data';
 import { TextGroup } from './TextGroup';
-import { useMediaQueryCheck } from '../../hooks/useMediaQueryCheck';
+import { useMediaQueryCheck, useMediaQueryLaptopCheck } from '../../hooks/useMediaQueryCheck';
 import { getWheelData, getPointerData, getIsCarousel, getIsPrevent, getCurrentIndex, getIsPoster, getDataUrl, getIsLoading, getIsSuccess, getPageContent, getScrollData } from '../../redux/works/works.selector';
 import { setCurrentColor, setCurrentIndex, setIsCarousel, setIsPrevent, setIsPoster, setIsDetailPage, setIsLoading, setIsActive, setIsSuccess, setPageContent } from '../../redux/works/works.action';
 import { Model } from './Model';
 import RouteWatcher from './RouteWatcher';
 
 const planeSettings = {
-    width: 3.75,
-    height: 5,
+    desktop: { width: 5.25, height: 7 },
+    laptop: { width: 3.75, height: 5 },
+    mobile: { width: 2.625, height: 3.5 },
     gap: 3.5,
 };
-
-const planeMobileSettings = {
-    width: 2.625,
-    height: 3.5,
-    gap: 3.5,
-};
-
-// const planeSettings = {
-//     desktop: { width: 5.25, height: 7, gap: 3.5 },
-//     laptop: { width: 3.75, height: 5, gap: 3.5 },
-//     mobile: { width: 2.625, height: 3.5, gap: 3.5 },
-// };
 
 
 gsap.defaults({
@@ -43,10 +32,11 @@ export function Carousel () {
     const currentIndex = useSelector(getCurrentIndex);
     const isPoster = useSelector(getIsPoster);
     const index = isPoster ? currentIndex : 0;
-    const { isMobile } = useMediaQueryCheck(991);
     const [activePlane, setActivePlane] = useState(isPoster ? currentIndex : null); 
     const currentIndexRef = useRef(isPoster ? currentIndex : null);
     const [isTextReady, setTextReady] = useState(isPoster);
+    const { isMobile } = useMediaQueryCheck(991);
+    const { isLaptop } = useMediaQueryLaptopCheck(1500);
 
     const progress = useRef(index ? Math.round((100 / 8) * (index + 1)) : 0);
     const startY = useRef(0);
@@ -80,9 +70,7 @@ export function Carousel () {
         }
         gsap.to(item.position, {
             x: $items.length * - 0.1 + piramidalIndex * 0.1,
-            y: isMobile
-                ? (index - active) * - (planeSettings.height + planeSettings.gap)
-                : (index - active) * - (planeSettings.height + planeSettings.gap),
+            y: (index - active) * - ((isMobile ? planeSettings.mobile.height : isLaptop ? planeSettings.laptop.height : planeSettings.desktop.height) + planeSettings.gap),
             duration: isPoster || isTextReady === false ? 0 : 2,
         });
     };
@@ -113,7 +101,9 @@ export function Carousel () {
             speed.current = isVerticalScroll ? wheelData.deltaY : wheelData.deltaX;
             progress.current = progress.current + wheelProgress * speedWheel;
         }
+    }, [wheelData]);
 
+    useEffect(() => {
         if (pointerData !== null && isTextReady) {
             switch (pointerData.type) {
                 case "pointerdown":
@@ -140,7 +130,7 @@ export function Carousel () {
                     isDown.current = false;
             }
         }
-    }, [wheelData, pointerData]);
+    }, [pointerData]);
 
     useEffect(() => {
         if (Math.abs(speed.current) > 10 && !isPrevent && !isPoster && isTextReady) {
@@ -196,8 +186,8 @@ export function Carousel () {
             <group ref={setRoot}>
                 {images.map((item, i) => (
                     <CarouselItem
-                        width={isMobile ? planeMobileSettings.width : planeSettings.width}
-                        height={isMobile ? planeMobileSettings.height : planeSettings.height}
+                        width={isMobile ? planeSettings.mobile.width : isLaptop ? planeSettings.laptop.width : planeSettings.desktop.width}
+                        height={isMobile ? planeSettings.mobile.height : isLaptop ? planeSettings.laptop.height : planeSettings.desktop.height}
                         item={item}
                         index={i}
                         setActivePlane={setActivePlane}

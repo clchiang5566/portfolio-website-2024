@@ -10,7 +10,7 @@ const RouteWatcher = () => {
   useEffect(() => {
     const handleRouteChange = (url) => {
       if (!url.includes('/works')) {
-        console.log('change')
+        // console.log('change')
         dispatch(resetFields());
       }
     };
