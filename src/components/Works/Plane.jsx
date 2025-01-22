@@ -17,10 +17,10 @@ export function Plane ({ index, material, texture, width, height, active, setIsR
     useEffect(() => {
         if (material.current[index].material && index === currentIndex) {
             material.current[index].material.uniforms.uZoomScale.value.x = isMobile
-                ? viewport.width / width
-                : viewport.width / 2 / width;
+            ? viewport.width / 1.1 / width
+            : viewport.width / 2 / width;
             material.current[index].material.uniforms.uZoomScale.value.y = isMobile
-                ? viewport.height / height
+                ? viewport.height / 1.6 / height
                 : viewport.height / height;
             gsap.to(material.current[index].material.uniforms.uProgress, {
                 value: active ? 1 : 0,
@@ -35,15 +35,49 @@ export function Plane ({ index, material, texture, width, height, active, setIsR
             gsap.to(material.current[index].material.uniforms.uRes.value, {
                 x: active && isMobile ? viewport.width / 1.1 : active && !isMobile ? viewport.width / 2 : width,
                 y: active && isMobile ? viewport.height / 1.5 : active && !isMobile ? viewport.height : height,
-                duration: isPoster ? 0 : 2.5,
+                duration: isPoster ? 0 : 1,
             });
-            // if (active || isPoster) {
-            //     material.current[index].material.uniforms.isActive.value = 1;
-            // } else {
-            //     material.current[index].material.uniforms.isActive.value = 0;
-            // }
+            if (active || isPoster) {
+                material.current[index].material.uniforms.isActive.value = 1;
+            } else {
+                material.current[index].material.uniforms.isActive.value = 0;
+            }
         }
     }, [active]);
+
+    useEffect(() => {
+        if (material.current[index].material) {
+            material.current[index].material.uniforms.uZoomScale.value.x = isMobile
+            ? viewport.width / 1.1 / width
+            : viewport.width / 2 / width;
+            material.current[index].material.uniforms.uZoomScale.value.y = isMobile
+                ? viewport.height / 1.6 / height
+                : viewport.height / height;
+            gsap.to(material.current[index].material.uniforms.uRes.value, {
+                x: active && isMobile ? viewport.width / 1.1 : active && !isMobile ? viewport.width / 2 : width,
+                y: active && isMobile ? viewport.height / 1.5 : active && !isMobile ? viewport.height : height,
+                duration: isPoster ? 0 : 1,
+            });
+        }
+        // const handleResize = () => {
+        //     if (material.current[index].material) {
+        //         material.current[index].material.uniforms.uZoomScale.value.x = isMobile
+        //         ? viewport.width / 1.1 / width
+        //         : viewport.width / 2 / width;
+        //         material.current[index].material.uniforms.uZoomScale.value.y = isMobile
+        //             ? viewport.height / 1.6 / height
+        //             : viewport.height / height;
+        //         gsap.to(material.current[index].material.uniforms.uRes.value, {
+        //             x: active && isMobile ? viewport.width / 1.1 : active && !isMobile ? viewport.width / 2 : width,
+        //             y: active && isMobile ? viewport.height / 1.5 : active && !isMobile ? viewport.height : height,
+        //             duration: isPoster ? 0 : 1,
+        //         });
+        //     }
+        // };
+    
+        // window.addEventListener('resize', handleResize);
+        // return () => window.removeEventListener('resize', handleResize);
+    }, [viewport]);
 
     const shaderArgs = useMemo(
         () => ({
@@ -51,12 +85,12 @@ export function Plane ({ index, material, texture, width, height, active, setIsR
                 uProgress: { value: 0 },
                 uZoomScale: { value: { x: 1, y: 1 } },
                 uTex: { value: tex },
-                uRes: { value: { x: 1, y: 1 } },
+                uRes: { value: { x: active && isMobile ? viewport.width / 1.1 : active && !isMobile ? viewport.width / 2 : width, y: active && isMobile ? viewport.height / 1.5 : active && !isMobile ? viewport.height : height } },
                 uImageRes: {
                     value: { x: tex.source.data.width, y: tex.source.data.height },
                 },
                 time: { value: 0 },
-                distort: { value: isMobile ? 0.8 : 0.4 },
+                distort: { value: isMobile ? 0.8 : 1.2 },
                 shift: { value: 0 },
                 isActive: { value: 0 },
             },
@@ -136,36 +170,36 @@ export function Plane ({ index, material, texture, width, height, active, setIsR
         [tex]
     );
 
-    const handlePointerEnter = e => {
-        if (material.current[currentIndex].material) {
-            gsap.to(material.current[currentIndex].material.uniforms.distort, {
-                value: 0.5,
-                duration: 1,
-                overwrite: true,
-            });
-        }
-    };
+    // const handlePointerEnter = e => {
+    //     if (material.current[currentIndex].material) {
+    //         gsap.to(material.current[currentIndex].material.uniforms.distort, {
+    //             value: 0.5,
+    //             duration: 1,
+    //             overwrite: true,
+    //         });
+    //     }
+    // };
 
-    const handlePointerLeave = () => {
-        if (material.current[currentIndex].material) {
-            gsap.to(material.current[currentIndex].material.uniforms.distort, {
-                value: 0.1,
-                duration: 0.8,
-                overwrite: true,
-            });
-        }
-    };
+    // const handlePointerLeave = () => {
+    //     if (material.current[currentIndex].material) {
+    //         gsap.to(material.current[currentIndex].material.uniforms.distort, {
+    //             value: 0.1,
+    //             duration: 0.8,
+    //             overwrite: true,
+    //         });
+    //     }
+    // };
 
     return (
         <DreiImage
-            onPointerEnter={handlePointerEnter}
-            onPointerLeave={handlePointerLeave}
+            // onPointerEnter={handlePointerEnter}
+            // onPointerLeave={handlePointerLeave}
             ref={node => {
                 material.current[index] = node;
             }}
             texture={tex}
             renderOrder={-1}
-            position={[0, 0, -0.5]}
+            position={[0, 0, -0.6]}
             transparent
             {...props}
         >

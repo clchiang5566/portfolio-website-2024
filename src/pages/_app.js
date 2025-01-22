@@ -20,6 +20,17 @@ const MyApp = ({ Component, pageProps }) => {
 
     useEffect(() => {
         // TagManager.initialize({ gtmId: 'GTM-K22B94M' });
+        const updateDynamicVh = () => {
+            const vh = window.innerHeight * 0.01;
+            document.documentElement.style.setProperty('--vh', `${vh}px`);
+        };
+
+        updateDynamicVh();
+        window.addEventListener('resize', updateDynamicVh);
+
+        return () => {
+            window.removeEventListener('resize', updateDynamicVh);
+        };
     }, []);
 
     return (

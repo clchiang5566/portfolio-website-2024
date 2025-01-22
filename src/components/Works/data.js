@@ -63,7 +63,7 @@ const images = [
         dataUrl: 'hbl',
     },
     {
-        title: 'Truth \nis \nTimberland',
+        title: 'Truth \nIs \nTimberland',
         subtitle: ['#MOBILE', '#GAME', '#WEBGL'],
         link: '/works/truth-is-timberland',
         image: '/images/img4.jpg',

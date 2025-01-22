@@ -1,5 +1,6 @@
 export const SET_WHEEL_DATA = 'SET_WHEEL_DATA';
 export const SET_POINTER_DATA = 'SET_POINTER_DATA';
+export const SET_SCROLL_DATA = 'SET_SCROLL_DATA';
 export const SET_PAGE_CONTENT = 'SET_PAGE_CONTENT';
 export const SET_IS_ACTIVE = 'SET_IS_ACTIVE';
 export const SET_IS_LOADING = 'SET_IS_LOADING';
@@ -11,6 +12,8 @@ export const SET_IS_POSTER = 'SET_IS_POSTER';
 export const SET_DATA_URL = 'SET_DATA_URL';
 export const SET_CURRENT_COLOR = 'SET_CURRENT_COLOR';
 export const SET_CURRENT_INDEX = 'SET_CURRENT_INDEX';
+export const RESET_FIELDS = 'RESET_FIELDS';
+export const UPDATE_INITIAL_FIELDS = 'UPDATE_INITIAL_FIELDS';
 
 export const setWheelData = (wheelData) => {
     return async dispatch => {
@@ -26,6 +29,15 @@ export const setPointerData = (pointerData) => {
         dispatch({
             type: SET_POINTER_DATA,
             payload: pointerData,
+        });
+    };
+};
+
+export const setScrollData = (scrollData) => {
+    return async dispatch => {
+        dispatch({
+            type: SET_SCROLL_DATA,
+            payload: scrollData,
         });
     };
 };
@@ -125,6 +137,23 @@ export const setDataUrl = (dataUrl) => {
         dispatch({
             type: SET_DATA_URL,
             payload: dataUrl,
+        });
+    };
+};
+
+export const resetFields = () => {
+    return async dispatch => {
+        dispatch({
+            type: RESET_FIELDS,
+        });
+    };
+};
+
+export const updateInitialFields = (payload) => {
+    return async dispatch => {
+        dispatch({
+            type: UPDATE_INITIAL_FIELDS,
+            payload,
         });
     };
 };

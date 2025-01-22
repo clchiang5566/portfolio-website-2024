@@ -4,6 +4,7 @@ import { createReducer } from '@reduxjs/toolkit';
 import { 
     SET_WHEEL_DATA, 
     SET_POINTER_DATA,
+    SET_SCROLL_DATA,
     SET_PAGE_CONTENT,
     SET_IS_ACTIVE, 
     SET_IS_LOADING, 
@@ -14,12 +15,16 @@ import {
     SET_IS_POSTER,
     SET_DATA_URL, 
     SET_CURRENT_COLOR, 
-    SET_CURRENT_INDEX 
+    SET_CURRENT_INDEX,
+    RESET_FIELDS,
+    UPDATE_INITIAL_FIELDS
 } from './works.action';
 
 const initialState = fromJS({
     wheelData: null,
     pointerData: null,
+    scrolldata: null,
+    pageContent: null,
     currentColor: '#cce1f3',
     currentIndex: 0,
     isActive: false,
@@ -39,6 +44,9 @@ export const works = createReducer(initialState, builder => {
         })
         .addCase(SET_POINTER_DATA, (state, action) => {
             return state.set('pointerData', fromJS(action.payload));
+        })
+        .addCase(SET_SCROLL_DATA, (state, action) => {
+            return state.set('scrollData', fromJS(action.payload));
         })
         .addCase(SET_PAGE_CONTENT, (state, action) => {
             return state.set('pageContent', action.payload);
@@ -72,5 +80,22 @@ export const works = createReducer(initialState, builder => {
         })
         .addCase(SET_DATA_URL, (state, action) => {
             return state.set('dataUrl', action.payload);
+        })
+        .addCase(RESET_FIELDS, (state) => {
+            return state
+                .set('currentColor', initialState.get('currentColor'))
+                .set('currentIndex', initialState.get('currentIndex'))
+                .set('isDetailPage', initialState.get('isDetailPage'))
+                .set('isPoster', initialState.get('isPoster'))
+                .set('pageContent', initialState.get('pageContent'));
+        })
+        .addCase(UPDATE_INITIAL_FIELDS, (state, action) => {
+            const { currentColor, currentIndex, isDetailPage, isPoster, pageContent } = action.payload;
+            return state
+                .set('currentColor', currentColor)
+                .set('currentIndex', currentIndex)
+                .set('isDetailPage', isDetailPage)
+                .set('isPoster', isPoster)
+                .set('pageContent', pageContent);
         })
 });

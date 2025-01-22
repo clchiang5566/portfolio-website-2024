@@ -8,7 +8,7 @@
     }
     .bg {
         width: 100vw;
-        height: 100vh;
+        height: calc(var(--vh, 1vh) * 100);
         position: absolute;
         top: 0;
         left: 0;
@@ -28,11 +28,12 @@
         }
     }
     .container {
-      max-width: $container-md;
+      // max-width: $container-md;
       margin: 100px auto 0 auto;
+      padding: 0 20px;
       @include desktop-l {
-        max-width: $desktop-sm-bp;
-        padding: 0 22px;
+        // max-width: $desktop-sm-bp;
+        padding: 0 10px;
       }
       @include tablet {
         padding: 0;
@@ -99,6 +100,7 @@
         cursor: pointer;
         opacity: 0;
         transition: all 0.4s ease-in-out;
+        margin-left: 10px;
         @include tablet {
             width: 140px;
             height: 140px;
@@ -106,6 +108,7 @@
             position: absolute;
             top: 9vh;
             margin-bottom: 0;
+            margin-left: 0;
         }
         & > div {
             width: 100%;
@@ -147,8 +150,10 @@
             letter-spacing: 10px;
             white-space: pre-line;
             line-height: 1.6;
+            letter-spacing: 30px;
             @include desktop-l {
                 font-size: 68px;
+                letter-spacing: 15px;
             }
             @include tablet {
                 font-size: 40px;
@@ -167,13 +172,18 @@
         h3 {
             max-width: 100%;
             font-weight: bold;
-            font-size: 32px;
-            letter-spacing: 4px;
+            font-size: 42px;
+            letter-spacing: 15px;
             line-height: 1.6;
             margin-top: 30px;
             margin-bottom: 40px;
             // margin-left: -10px;
+            @include desktop-l {
+                font-size: 32px;
+                letter-spacing: 10px;
+            }
             @include mobile {
+                letter-spacing: 5px;
                 font-size: 18px;
                 margin-top: 30px;
                 margin-bottom: 30px;

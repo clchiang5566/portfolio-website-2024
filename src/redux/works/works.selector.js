@@ -1,5 +1,6 @@
 export const getWheelData = (state) => state.works.get('wheelData');
 export const getPointerData = (state) => state.works.get('pointerData');
+export const getScrollData = (state) => state.works.get('scrollData');
 export const getPageContent = (state) => state.works.get('pageContent');
 export const getCurrentColor = (state) => state.works.get('currentColor');
 export const getCurrentIndex = (state) => state.works.get('currentIndex');

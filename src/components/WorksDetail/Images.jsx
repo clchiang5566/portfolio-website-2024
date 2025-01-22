@@ -8,8 +8,11 @@ import gsap from 'gsap';
 import PropTypes from 'prop-types';
 import Image from 'next/image';
 import { EffectImage } from './EffectImage';
+import { getScrollData } from '../../redux/works/works.selector';
+import { setScrllData } from '../../redux/works/works.action';
+import { useSelector, useDispatch } from 'react-redux';
 
-export function Images ({ src, color, ...props }) {
+export function Images ({ src, color }) {
     const el = useRef();
     const img = useRef();
     const { hasSmoothScrollbar } = useScrollRig();
@@ -51,7 +54,6 @@ function WebglImage ({ el, img, src, color, scrollState, ...props }) {
     const [imageShow, setImageShow] = useState(true);
     const [isVisible, setIsVisible] = useState(false);
     const [elementSize, setElementSize] = useState([0, 0]);
-    // const tex = useImageAsTexture(img);
     const { viewport, size } = useThree();
     const pxToUnits = px => (px / size.width) * viewport.width;
 
@@ -172,7 +174,7 @@ function CustomImage ({ imgRef, url, scrollState, ...props }) {
     useFrame((state, delta) => {
         if ($mesh.current) {
             $mesh.current.uniforms.time.value += delta * 0.5;
-            $mesh.current.uniforms.shift.value = lerp($mesh.current.uniforms.shift.value, scrollSpeed, 0.02);
+            $mesh.current.uniforms.shift.value = lerp($mesh.current.uniforms.shift.value, scrollSpeed, 0.01);
         }
     });
 

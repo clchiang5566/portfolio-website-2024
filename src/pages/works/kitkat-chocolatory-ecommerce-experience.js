@@ -7,16 +7,18 @@ import Layout from '../../layout';
 import data from '../../pages/api/dummypage/data.json';
 import WorksDetail from '../../components/WorksDetail';
 import Contents from '../../pages/api/data/kitkat';
-import { setCurrentColor, setIsPoster, setCurrentIndex, setPageContent, setIsDetailPage } from '../../redux/works/works.action';
+import { updateInitialFields } from '../../redux/works/works.action';
 import { useDispatch } from 'react-redux';
 
 const WorksDetailPage = ({ Global, Seo }) => {
     const dispatch = useDispatch();
-    dispatch(setCurrentColor(Contents.color));
-    dispatch(setIsPoster(true));
-    dispatch(setCurrentIndex(Contents.index));
-    dispatch(setPageContent(Contents));
-    dispatch(setIsDetailPage(true));
+    dispatch(updateInitialFields({
+        currentColor: Contents.color,
+        currentIndex: Contents.index,
+        isDetailPage: true,
+        isPoster: true,
+        pageContent: Contents,
+    }));
 
     return (
         <Layout {...Global} color={Contents.color}>

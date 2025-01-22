@@ -8,10 +8,10 @@ import { lerp, getPiramidalIndex } from '../../utils/common';
 import images from './data';
 import { TextGroup } from './TextGroup';
 import { useMediaQueryCheck } from '../../hooks/useMediaQueryCheck';
-import { getWheelData, getPointerData, getIsCarousel, getIsPrevent, getCurrentIndex, getIsPoster, getDataUrl, getIsLoading, getIsSuccess, getPageContent } from '../../redux/works/works.selector';
+import { getWheelData, getPointerData, getIsCarousel, getIsPrevent, getCurrentIndex, getIsPoster, getDataUrl, getIsLoading, getIsSuccess, getPageContent, getScrollData } from '../../redux/works/works.selector';
 import { setCurrentColor, setCurrentIndex, setIsCarousel, setIsPrevent, setIsPoster, setIsDetailPage, setIsLoading, setIsActive, setIsSuccess, setPageContent } from '../../redux/works/works.action';
 import { Model } from './Model';
-import PropTypes from 'prop-types';
+import RouteWatcher from './RouteWatcher';
 
 const planeSettings = {
     width: 3.75,
@@ -20,10 +20,17 @@ const planeSettings = {
 };
 
 const planeMobileSettings = {
-    width: 3,
-    height: 4,
+    width: 2.625,
+    height: 3.5,
     gap: 3.5,
 };
+
+// const planeSettings = {
+//     desktop: { width: 5.25, height: 7, gap: 3.5 },
+//     laptop: { width: 3.75, height: 5, gap: 3.5 },
+//     mobile: { width: 2.625, height: 3.5, gap: 3.5 },
+// };
+
 
 gsap.defaults({
     duration: 2,
@@ -40,13 +47,12 @@ export function Carousel () {
     const [activePlane, setActivePlane] = useState(isPoster ? currentIndex : null); 
     const currentIndexRef = useRef(isPoster ? currentIndex : null);
     const [isTextReady, setTextReady] = useState(isPoster);
-    const { viewport } = useThree();
 
     const progress = useRef(index ? Math.round((100 / 8) * (index + 1)) : 0);
     const startY = useRef(0);
     const isDown = useRef(false);
     const speedWheel = 0.009;
-    const speedDrag = -0.01;
+    const speedDrag = 0.01;
     const oldProgress = useRef(0);
     const speed = useRef(0);
     const $items = useMemo(() => {
@@ -54,6 +60,7 @@ export function Carousel () {
     }, [$root]);
     const wheelData = useSelector(getWheelData);
     const pointerData = useSelector(getPointerData);
+    const scrollData = useSelector(getScrollData);
 
     const material = useRef({});
     const isCarousel = useSelector(getIsCarousel);
@@ -69,11 +76,7 @@ export function Carousel () {
 
         if (material.current[index]) {
             material.current[index].material.uniforms.time.value += delta * 0.5;
-            material.current[index].material.uniforms.shift.value = lerp(
-                material.current[index].material.uniforms.shift.value,
-                isMobile ? speed.current / direction : speed.current / 100,
-                0.1
-            );
+            material.current[index].material.uniforms.shift.value = lerp(material.current[index].material.uniforms.shift.value, isMobile ? speed.current / direction : speed.current / 100, 0.1);
         }
         gsap.to(item.position, {
             x: $items.length * - 0.1 + piramidalIndex * 0.1,
@@ -110,9 +113,7 @@ export function Carousel () {
             speed.current = isVerticalScroll ? wheelData.deltaY : wheelData.deltaX;
             progress.current = progress.current + wheelProgress * speedWheel;
         }
-    }, [wheelData]);
 
-    useEffect(() => {
         if (pointerData !== null && isTextReady) {
             switch (pointerData.type) {
                 case "pointerdown":
@@ -139,11 +140,7 @@ export function Carousel () {
                     isDown.current = false;
             }
         }
-    }, [pointerData]);
-
-    useEffect(() => {
-        if (isTextReady) dispatch(setIsPrevent(false));
-    }, [isTextReady]);
+    }, [wheelData, pointerData]);
 
     useEffect(() => {
         if (Math.abs(speed.current) > 10 && !isPrevent && !isPoster && isTextReady) {
@@ -153,18 +150,6 @@ export function Carousel () {
             dispatch(setIsPrevent(false));
         }
     }, [speed.current]);
-
-    useEffect(() => {
-        if (isCarousel) {
-            dispatch(setIsPoster(false));
-            setActivePlane(null);
-            dispatch(setIsCarousel(false));
-
-            dispatch(setIsLoading(false))
-            dispatch(setIsDetailPage(false))
-            window.history.pushState(null, '', '/works')
-        }
-    }, [isCarousel]);
 
     useEffect(() => {
         if (!isSuccess && isLoading && dataUrl) {
@@ -193,16 +178,18 @@ export function Carousel () {
             }
             loadData()
         }
-    }, [isLoading])
 
-    const renderPlaneEvents = () => {
-        return (
-            <mesh position={[0, 0, -0.01]}>
-                <planeGeometry args={[viewport.width, viewport.height]} />
-                <meshBasicMaterial opacity={0} transparent />
-            </mesh>
-        );
-    };
+        if (isCarousel) {
+            dispatch(setIsPoster(false));
+            setActivePlane(null);
+            dispatch(setIsCarousel(false));
+            dispatch(setIsLoading(false))
+            dispatch(setIsDetailPage(false))
+            window.history.pushState(null, '', '/works')
+        }
+
+        if (isTextReady) dispatch(setIsPrevent(false));
+    }, [isLoading, isCarousel])
 
     const renderSlider = () => {
         return (
@@ -227,10 +214,10 @@ export function Carousel () {
 
     return (
         <group>
-            {renderPlaneEvents()}
             {renderSlider()}
             {isTextReady && activePlane == null && <TextGroup currentIndex={currentIndexRef.current} />}
             {!isPoster && activePlane == null && <Model texturePath={images[currentIndexRef.current]?.texture} />}
+            <RouteWatcher />
         </group>
     );
 }

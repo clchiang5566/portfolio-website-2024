@@ -246,7 +246,7 @@ export function EffectImage ({ width, height, url, type, color, setImageShow, ..
         if (refMesh?.material) {
             gsap.to(refMesh.material, {
                 uEffectProgress: isIntersecting ? 1 : 0,
-                duration: 2,
+                duration: 1.5,
                 ease: 'none',
                 onComplete: () => {
                     setImageShow(false);

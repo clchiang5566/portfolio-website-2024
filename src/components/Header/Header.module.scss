@@ -14,6 +14,9 @@ $menuHeightMinimized: 60px;
     padding: 30px 45px;
     height: 100px;
     position: relative;
+    @include desktop-l {
+      padding: 30px 45px;
+    }
     @include tablet {
       padding: 30px 25px;
     }
@@ -34,7 +37,7 @@ $menuHeightMinimized: 60px;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    max-width: $container-md;
+    // max-width: $container-md;
     margin: 0 auto;
     .logo {
       position: relative;

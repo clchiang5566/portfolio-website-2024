@@ -1,4 +1,4 @@
-import { React, Suspense, useRef } from 'react';
+import { React, Suspense, useRef, useState, useEffect } from 'react';
 import { GlobalCanvas, SmoothScrollbar } from '@14islands/r3f-scroll-rig';
 import { Environment } from '@react-three/drei';
 import { useSelector } from 'react-redux';
@@ -17,11 +17,20 @@ export function Works () {
     const isDetailPage = useSelector(getIsDetailPage);
     const pageContent = useSelector(getPageContent);
     const { isMobile } = useMediaQueryCheck(991);
+    const [key, setKey] = useState(0);
+
+    useEffect(() => {
+        const handleResize = () => {
+            setKey(prevKey => prevKey + 1);
+        };
+        window.addEventListener("resize", handleResize);
+        return () => window.removeEventListener("resize", handleResize);
+    }, []);
 
     return (
         <>
             <Head>
-                <style>{`html { overflow: hidden; } canvas { border: ${
+                <style>{`canvas { border: ${
                     isMobile ? '15px' : '20px'
                 } solid ${currentColor} }`}</style>
             </Head>
@@ -50,7 +59,7 @@ export function Works () {
                 <SmoothScrollbar config={{ syncTouch: true }}>
                     {bind => (
                         <section {...bind}>
-                            <Header />
+                            <Header key={key} />
                             {isDetailPage && pageContent && <Content contents={pageContent} />}                 
                         </section>
                     )}

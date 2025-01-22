@@ -38,15 +38,7 @@ export function Text ({
     ...props
 }) {
     const el = useRef();
-    const ref = useRef();
     const { hasSmoothScrollbar } = useScrollRig();
-
-    useEffect(() => {
-        console.log(ref)
-        if (ref.current) {
-            ref.current.position.z = 1;
-        }
-    }, []);
 
     return (
         <>
@@ -59,7 +51,6 @@ export function Text ({
                     <ScrollScene track={el}>
                         {props => (
                             <WebGLText
-                                ref={ref}
                                 el={el}
                                 font={font}
                                 glyphGeometryDetail={16}

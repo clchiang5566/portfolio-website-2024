@@ -1,4 +1,4 @@
-import React, { Suspense, useRef } from 'react';
+import React, { Suspense, useRef, useState, useEffect } from 'react';
 import { GlobalCanvas, SmoothScrollbar } from '@14islands/r3f-scroll-rig';
 import { Environment } from '@react-three/drei';
 import style from './WorksDetail.module.scss';
@@ -17,6 +17,15 @@ export default function WorksDetail () {
     const isDetailPage = useSelector(getIsDetailPage);
     const pageContent = useSelector(getPageContent);
     const { isMobile } = useMediaQueryCheck(991);
+    const [key, setKey] = useState(0);
+
+    useEffect(() => {
+        const handleResize = () => {
+            setKey(prevKey => prevKey + 1);
+        };
+        window.addEventListener("resize", handleResize);
+        return () => window.removeEventListener("resize", handleResize);
+    }, []);
 
     return (
         <>
@@ -45,7 +54,7 @@ export default function WorksDetail () {
                 <SmoothScrollbar config={{ syncTouch: true }}>
                     {bind => (
                         <section {...bind}>
-                            <Header />
+                            <Header key={key} />
                             {isDetailPage && pageContent && <Content contents={pageContent} />}                 
                         </section>
                     )}
