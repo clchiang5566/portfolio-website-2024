@@ -5,36 +5,40 @@ import { useMediaQueryCheck } from '../../hooks/useMediaQueryCheck';
 import PropTypes from 'prop-types';
 import gsap from 'gsap';
 import { useSelector } from 'react-redux';
-import { getCurrentIndex, getIsPoster } from '../../redux/works/works.selector';
+import { getCurrentIndex, getIsPoster, getIsHover } from '../../redux/works/works.selector';
 
 export function Plane ({ index, material, texture, width, height, active, setIsReady, ...props }) {
     const { viewport } = useThree();
     const tex = useTexture(texture);
     const currentIndex = useSelector(getCurrentIndex);
     const isPoster = useSelector(getIsPoster);
+    const isHover = useSelector(getIsHover);
     const { isMobile } = useMediaQueryCheck(991);
 
     useEffect(() => {
         if (material.current[index].material && index === currentIndex) {
             material.current[index].material.uniforms.uZoomScale.value.x = isMobile
-                ? viewport.width / 1.1 / width
-                : viewport.width / 2 / width * 1.11;
+                ? viewport.width / 1.08 / width
+                : (viewport.width / 2 / width) * 1.12;
             material.current[index].material.uniforms.uZoomScale.value.y = isMobile
                 ? viewport.height / 1.6 / height
-                : viewport.height / height * 1.11;
+                : (viewport.height / height) * 1.12;
             gsap.to(material.current[index].material.uniforms.uProgress, {
                 value: active ? 1 : 0,
                 duration: isPoster ? 0 : 2.5,
                 onComplete: () => {
-                    console.log('isAnimation', 'active:', active, 'isPoster:', isPoster);
-                    if (active && !isPoster) {
-                        setIsReady(true);
-                    }
+                    // console.log('isAnimation', 'active:', active, 'isPoster:', isPoster);
+                    if (active && !isPoster) setIsReady(true);
                 },
             });
             gsap.to(material.current[index].material.uniforms.uRes.value, {
-                x: active && isMobile ? viewport.width / 1.1 : active && !isMobile ? viewport.width / 2 : width,
-                y: active && isMobile ? viewport.height / 1.5 : active && !isMobile ? viewport.height : height,
+                x:
+                    active && isMobile
+                        ? viewport.width / 1.1
+                        : active && !isMobile
+                        ? (viewport.width / 2) * 1.11
+                        : width,
+                y: active && isMobile ? viewport.height / 1.5 : active && !isMobile ? viewport.height * 1.11 : height,
                 duration: isPoster ? 0 : 1,
             });
             if (active || isPoster) {
@@ -44,41 +48,6 @@ export function Plane ({ index, material, texture, width, height, active, setIsR
             }
         }
     }, [active]);
-
-    useEffect(() => {
-        if (material.current[index].material) {
-            material.current[index].material.uniforms.uZoomScale.value.x = isMobile
-                ? viewport.width / 1.1 / width
-                : viewport.width / 2 / width;
-            material.current[index].material.uniforms.uZoomScale.value.y = isMobile
-                ? viewport.height / 1.6 / height
-                : viewport.height / height;
-            gsap.to(material.current[index].material.uniforms.uRes.value, {
-                x: active && isMobile ? viewport.width / 1.1 : active && !isMobile ? viewport.width / 2 : width,
-                y: active && isMobile ? viewport.height / 1.5 : active && !isMobile ? viewport.height : height,
-                duration: isPoster ? 0 : 1,
-            });
-        }
-        // const handleResize = () => {
-        //     if (material.current[index].material) {
-        //         material.current[index].material.uniforms.uZoomScale.value.x = isMobile
-        //         ? viewport.width / 1.1 / width
-        //         : viewport.width / 2 / width;
-        //         material.current[index].material.uniforms.uZoomScale.value.y = isMobile
-        //             ? viewport.height / 1.6 / height
-        //             : viewport.height / height;
-        //         gsap.to(material.current[index].material.uniforms.uRes.value, {
-        //             x: active && isMobile ? viewport.width / 1.1 : active && !isMobile ? viewport.width / 2 : width,
-        //             y: active && isMobile ? viewport.height / 1.5 : active && !isMobile ? viewport.height : height,
-        //             duration: isPoster ? 0 : 1,
-        //         });
-        //     }
-        // };
-
-        // window.addEventListener('resize', handleResize);
-        // return () => window.removeEventListener('resize', handleResize);
-    }, [viewport]);
-
 
     const shaderArgs = useMemo(
         () => ({
@@ -96,7 +65,7 @@ export function Plane ({ index, material, texture, width, height, active, setIsR
                     value: { x: tex.source.data.width, y: tex.source.data.height },
                 },
                 time: { value: 0 },
-                distort: { value: isMobile ? 0.8 : 1.2 },
+                distort: { value: 0.8 },
                 shift: { value: 0 },
                 isActive: { value: 0 },
             },
@@ -176,36 +145,32 @@ export function Plane ({ index, material, texture, width, height, active, setIsR
         [tex]
     );
 
-    // const handlePointerEnter = e => {
-    //     if (material.current[currentIndex].material) {
-    //         gsap.to(material.current[currentIndex].material.uniforms.distort, {
-    //             value: 0.5,
-    //             duration: 1,
-    //             overwrite: true,
-    //         });
-    //     }
-    // };
-
-    // const handlePointerLeave = () => {
-    //     if (material.current[currentIndex].material) {
-    //         gsap.to(material.current[currentIndex].material.uniforms.distort, {
-    //             value: 0.1,
-    //             duration: 0.8,
-    //             overwrite: true,
-    //         });
-    //     }
-    // };
+    useEffect(() => {
+        if (material.current[currentIndex].material) {
+            if (isHover) {
+                gsap.to(material.current[currentIndex].material.uniforms.distort, {
+                    value: isMobile ? 1.2 : 2.5,
+                    duration: 0.4,
+                    overwrite: true,
+                });
+            } else {
+                gsap.to(material.current[currentIndex].material.uniforms.distort, {
+                    value: 0.8,
+                    duration: 0.4,
+                    overwrite: true,
+                });
+            }
+        }
+    }, [isHover]);
 
     return (
         <DreiImage
-            // onPointerEnter={handlePointerEnter}
-            // onPointerLeave={handlePointerLeave}
             ref={node => {
                 material.current[index] = node;
             }}
             texture={tex}
             renderOrder={-1}
-            position={[0, 0, -0.7]}
+            position={[0, 0, isMobile ? -0.7 : -1]}
             transparent
             {...props}
         >

@@ -21,14 +21,10 @@ import {
 import {
     setCurrentColor,
     setCurrentIndex,
-    setIsCarousel,
     setIsPrevent,
-    setIsPoster,
-    setIsDetailPage,
-    setIsLoading,
-    setIsActive,
-    setIsSuccess,
-    setPageContent,
+    setIsHover,
+    updateDetail,
+    updateCarousel,
 } from '../../redux/works/works.action';
 import { Model } from './Model';
 import RouteWatcher from './RouteWatcher';
@@ -111,18 +107,6 @@ export function Carousel () {
         dispatch(setCurrentColor(images[i]?.bgColor));
     };
 
-    useFrame((state, delta) => {
-        progress.current = Math.max(0, Math.min(progress.current, 100));
-        const active = Math.floor((progress.current / 100) * ($items.length - 1));
-        $items.forEach((item, index) => displayItems(item, index, active, isPoster, delta));
-        speed.current = lerp(speed.current, Math.abs(oldProgress.current - progress.current), 0.2);
-        oldProgress.current = lerp(oldProgress.current, progress.current, 0.1);
-        if (active !== currentIndexRef.current) {
-            handleChangeOrder(active);
-            currentIndexRef.current = active;
-        }
-    });
-
     useEffect(() => {
         if (wheelData !== null && isTextReady) {
             if (activePlane !== null) return;
@@ -164,6 +148,7 @@ export function Carousel () {
     useEffect(() => {
         if (Math.abs(speed.current) > 10 && !isPrevent && !isPoster && isTextReady) {
             dispatch(setIsPrevent(true));
+            dispatch(setIsHover(false));
         }
         if (Math.abs(speed.current) < 10 && isPrevent && !isPoster && isTextReady) {
             dispatch(setIsPrevent(false));
@@ -186,11 +171,16 @@ export function Carousel () {
                 try {
                     // console.log('isDetail');
                     const module = await modules[dataUrl]();
-                    dispatch(setPageContent(module.default));
-                    dispatch(setIsDetailPage(true));
-                    dispatch(setIsSuccess(false));
-                    dispatch(setIsLoading(false));
-                    dispatch(setIsActive(false));
+                    dispatch(
+                        updateDetail({
+                            isPoster: true,
+                            isActive: false,
+                            isSuccess: false,
+                            isLoading: false,
+                            isDetailPage: true,
+                            pageContent: module.default,
+                        })
+                    );
                 } catch (error) {
                     // console.error('Failed to load module:', error);
                 }
@@ -201,15 +191,29 @@ export function Carousel () {
         if (isCarousel) {
             // console.log('remove deatil page');
             setActivePlane(null);
-            dispatch(setIsPoster(false));
-            dispatch(setIsCarousel(false));
-            dispatch(setIsLoading(false));
-            dispatch(setIsDetailPage(false));
+            dispatch(
+                updateCarousel({
+                    isPoster: false,
+                    isCarousel: false,
+                    isLoading: false,
+                    isDetailPage: false,
+                })
+            );
             window.history.pushState(null, '', '/works');
         }
-
-        if (isTextReady) dispatch(setIsPrevent(false));
     }, [isLoading, isCarousel]);
+
+    useFrame((state, delta) => {
+        progress.current = Math.max(0, Math.min(progress.current, 100));
+        const active = Math.floor((progress.current / 100) * ($items.length - 1));
+        $items.forEach((item, index) => displayItems(item, index, active, isPoster, delta));
+        speed.current = lerp(speed.current, Math.abs(oldProgress.current - progress.current), 0.2);
+        oldProgress.current = lerp(oldProgress.current, progress.current, 0.1);
+        if (active !== currentIndexRef.current) {
+            handleChangeOrder(active);
+            currentIndexRef.current = active;
+        }
+    });
 
     const renderSlider = () => {
         return (

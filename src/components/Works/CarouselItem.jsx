@@ -12,7 +12,7 @@ import {
     getIsPoster,
     getCurrentIndex,
 } from '../../redux/works/works.selector';
-import { setDataUrl, setIsLoading, setIsSuccess, setIsPrevent } from '../../redux/works/works.action';
+import { setDataUrl, setIsLoading, setIsSuccess, setIsPrevent, setIsPoster } from '../../redux/works/works.action';
 import { EmergingImage } from './EmergingImage';
 import images from './data';
 import PropTypes from 'prop-types';
@@ -62,13 +62,15 @@ export function CarouselItem ({
     }, [activePlane]);
 
     useEffect(() => {
-        gsap.killTweensOf($root.current.position);
-        gsap.to($root.current.position, {
-            z: isAnimation ? 0 : -0.01,
-            duration: 0.2,
-            ease: 'power3.out',
-            delay: isAnimation ? 0 : 2,
-        });
+        if (isAnimation) {
+            gsap.killTweensOf($root.current.position);
+            gsap.to($root.current.position, {
+                z: isAnimation ? 0 : -0.01,
+                duration: 0.2,
+                ease: 'power3.out',
+                delay: isAnimation ? 0 : 2,
+            });
+        }
     }, [isAnimation]);
 
     useEffect(() => {
@@ -125,7 +127,7 @@ export function CarouselItem ({
 
     useEffect(() => {
         if (isActive && currentIndex === index && isTextReady) {
-            console.log('isActive', 'isReady:', isReady, 'isLoading:', isLoading, 'isPoster:', isPoster);
+            // console.log('isActive', 'isReady:', isReady, 'isLoading:', isLoading, 'isPoster:', isPoster);
             setActivePlane(currentIndex);
         }
     }, [isActive]);

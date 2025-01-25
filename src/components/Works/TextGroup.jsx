@@ -81,7 +81,7 @@ export function TextGroup ({ currentIndex }) {
                     </Text>
                     <GlitchText
                         text={images[currentIndex]?.subtitle[index]}
-                        duration={1000}
+                        duration={600}
                         onUpdate={updatedText => updateText(index, updatedText)}
                     />
                 </group>
@@ -120,7 +120,7 @@ export function TextGroup ({ currentIndex }) {
                     text={
                         isMobile ? `${currentIndex + 1} / ${images.length}` : `${currentIndex + 1}\n/\n${images.length}`
                     }
-                    duration={1000}
+                    duration={600}
                     onUpdate={updatedText => setNumber(updatedText)}
                 />
             </group>

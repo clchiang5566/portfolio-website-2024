@@ -98,7 +98,6 @@ export function Model ({ texturePath }) {
                 ? [viewport.width / 2 - scale - scale / 10, -viewport.height / 2 + scale, 0]
                 : [viewport.width / 2 - scale - scale / 10, -viewport.height / 2 + scale / 2, 0];
             group.current.position.set(...position);
-            // group.current.rotation.set([0,0,0]);
         }
     }, [isMobile, viewport.width, viewport.height]);
 

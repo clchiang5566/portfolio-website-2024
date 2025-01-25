@@ -1,5 +1,5 @@
 const Contents = {
-    title: 'The Road \nto \nHBL',
+    title: 'The Road \nTo \nHBL',
     subtitle: '#MOBILE #STORY #INTERACTIVEANIMATION',
     color: '#57f6b4',
     index: 6,

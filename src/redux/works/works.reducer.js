@@ -13,11 +13,14 @@ import {
     SET_IS_DETAILPAGE,
     SET_IS_PREVENT,
     SET_IS_POSTER,
+    SET_IS_HOVER,
     SET_DATA_URL,
     SET_CURRENT_COLOR,
     SET_CURRENT_INDEX,
     RESET_FIELDS,
     UPDATE_INITIAL_FIELDS,
+    UPDATE_CAROUSEL,
+    UPDATE_DETAIL,
 } from './works.action';
 
 const initialState = fromJS({
@@ -34,6 +37,7 @@ const initialState = fromJS({
     isPrevent: true,
     isDetailPage: false,
     isPoster: false,
+    isHover: false,
     dataUrl: null,
 });
 
@@ -78,6 +82,9 @@ export const works = createReducer(initialState, builder => {
         .addCase(SET_IS_POSTER, (state, action) => {
             return state.set('isPoster', action.payload);
         })
+        .addCase(SET_IS_HOVER, (state, action) => {
+            return state.set('isHover', action.payload);
+        })
         .addCase(SET_DATA_URL, (state, action) => {
             return state.set('dataUrl', action.payload);
         })
@@ -96,6 +103,24 @@ export const works = createReducer(initialState, builder => {
                 .set('currentIndex', currentIndex)
                 .set('isDetailPage', isDetailPage)
                 .set('isPoster', isPoster)
+                .set('pageContent', pageContent);
+        })
+        .addCase(UPDATE_CAROUSEL, (state, action) => {
+            const { isPoster, isCarousel, isLoading, isDetailPage } = action.payload;
+            return state
+                .set('isPoster', isPoster)
+                .set('isCarousel', isCarousel)
+                .set('isLoading', isLoading)
+                .set('isDetailPage', isDetailPage);
+        })
+        .addCase(UPDATE_DETAIL, (state, action) => {
+            const { isPoster, isActive, isSuccess, isLoading, isDetailPage, pageContent } = action.payload;
+            return state
+                .set('isPoster', isPoster)
+                .set('isActive', isActive)
+                .set('isSuccess', isSuccess)
+                .set('isLoading', isLoading)
+                .set('isDetailPage', isDetailPage)
                 .set('pageContent', pageContent);
         });
 });

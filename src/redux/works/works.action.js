@@ -9,11 +9,14 @@ export const SET_IS_CAROUSEL = 'SET_IS_CAROUSEL';
 export const SET_IS_DETAILPAGE = 'SET_IS_DETAILPAGE';
 export const SET_IS_PREVENT = 'SET_IS_PREVENT';
 export const SET_IS_POSTER = 'SET_IS_POSTER';
+export const SET_IS_HOVER = 'SET_IS_HOVER';
 export const SET_DATA_URL = 'SET_DATA_URL';
 export const SET_CURRENT_COLOR = 'SET_CURRENT_COLOR';
 export const SET_CURRENT_INDEX = 'SET_CURRENT_INDEX';
 export const RESET_FIELDS = 'RESET_FIELDS';
 export const UPDATE_INITIAL_FIELDS = 'UPDATE_INITIAL_FIELDS';
+export const UPDATE_DETAIL = 'UPDATE_DETAIL';
+export const UPDATE_CAROUSEL = 'UPDATE_CAROUSEL';
 
 export const setWheelData = wheelData => {
     return async dispatch => {
@@ -114,6 +117,15 @@ export const setIsDetailPage = isDetailPage => {
     };
 };
 
+export const setIsHover = isHover => {
+    return async dispatch => {
+        dispatch({
+            type: SET_IS_HOVER,
+            payload: isHover,
+        });
+    };
+};
+
 export const setCurrentColor = currentColor => {
     return async dispatch => {
         dispatch({
@@ -141,19 +153,37 @@ export const setDataUrl = dataUrl => {
     };
 };
 
-export const resetFields = () => {
-    return async dispatch => {
-        dispatch({
-            type: RESET_FIELDS,
-        });
-    };
-};
-
 export const updateInitialFields = payload => {
     return async dispatch => {
         dispatch({
             type: UPDATE_INITIAL_FIELDS,
             payload,
+        });
+    };
+};
+
+export const updateDetail = payload => {
+    return async dispatch => {
+        dispatch({
+            type: UPDATE_DETAIL,
+            payload,
+        });
+    };
+};
+
+export const updateCarousel = payload => {
+    return async dispatch => {
+        dispatch({
+            type: UPDATE_CAROUSEL,
+            payload,
+        });
+    };
+};
+
+export const resetFields = () => {
+    return async dispatch => {
+        dispatch({
+            type: RESET_FIELDS,
         });
     };
 };
