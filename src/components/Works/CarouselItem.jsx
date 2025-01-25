@@ -1,5 +1,4 @@
 import { React, useEffect, useRef, useState } from 'react';
-import { useFrame } from '@react-three/fiber';
 import gsap from 'gsap';
 import { Plane } from './Plane';
 import { Text, MeshWobbleMaterial } from '@react-three/drei';
@@ -38,7 +37,6 @@ export function CarouselItem ({
     const [isImageShow, setImageShow] = useState(!isPoster);
     const { isMobile } = useMediaQueryCheck(991);
     const { isLaptop } = useMediaQueryLaptopCheck(1500);
-    const materialRef = useRef();
     const dispatch = useDispatch();
     const isActive = useSelector(getIsActive);
     const isLoading = useSelector(getIsLoading);
@@ -102,7 +100,7 @@ export function CarouselItem ({
 
     useEffect(() => {
         if (textRef.current?.material && isCarousel) {
-            console.log('title show');
+            // console.log('title show');
             gsap.to(textRef.current?.material, {
                 delay: 0.5,
                 opacity: 1,
@@ -114,7 +112,7 @@ export function CarouselItem ({
 
     useEffect(() => {
         if (isReady && !isLoading) {
-            console.log('isReady');
+            // console.log('isReady');
             dispatch(setIsSuccess(false));
             dispatch(setIsLoading(true));
             dispatch(setDataUrl(images[currentIndex]?.dataUrl));
@@ -131,12 +129,6 @@ export function CarouselItem ({
             setActivePlane(currentIndex);
         }
     }, [isActive]);
-
-    useFrame((state, delta) => {
-        if (materialRef.current) {
-            materialRef.current.time += delta * 0.5;
-        }
-    });
 
     return (
         <group ref={$root} position={isMobile ? [width * (index * 2), 0, 0] : [width * (index * 2), 0, 0]}>

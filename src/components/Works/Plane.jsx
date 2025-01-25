@@ -18,10 +18,10 @@ export function Plane ({ index, material, texture, width, height, active, setIsR
         if (material.current[index].material && index === currentIndex) {
             material.current[index].material.uniforms.uZoomScale.value.x = isMobile
                 ? viewport.width / 1.1 / width
-                : viewport.width / 2 / width;
+                : viewport.width / 2 / width * 1.11;
             material.current[index].material.uniforms.uZoomScale.value.y = isMobile
                 ? viewport.height / 1.6 / height
-                : viewport.height / height;
+                : viewport.height / height * 1.11;
             gsap.to(material.current[index].material.uniforms.uProgress, {
                 value: active ? 1 : 0,
                 duration: isPoster ? 0 : 2.5,
@@ -78,6 +78,7 @@ export function Plane ({ index, material, texture, width, height, active, setIsR
         // window.addEventListener('resize', handleResize);
         // return () => window.removeEventListener('resize', handleResize);
     }, [viewport]);
+
 
     const shaderArgs = useMemo(
         () => ({

@@ -21,7 +21,7 @@ export default function WorksDetail () {
 
     useEffect(() => {
         const handleResize = () => {
-            setKey(prevKey => prevKey + 1);
+            if (isDetailPage) setKey(prevKey => prevKey + 1);
         };
         window.addEventListener('resize', handleResize);
         return () => window.removeEventListener('resize', handleResize);

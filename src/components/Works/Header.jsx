@@ -4,20 +4,20 @@ import PropTypes from 'prop-types';
 import { Carousel } from './Carousel';
 import { useSelector, useDispatch } from 'react-redux';
 import { setWheelData, setPointerData, setIsActive } from '../../redux/works/works.action';
-import { getIsPrevent } from '../../redux/works/works.selector';
+import { getIsPrevent, getIsDetailPage } from '../../redux/works/works.selector';
 import style from '../WorksDetail/WorksDetail.module.scss';
 
-export function Header ({ pageIndex, isPage, isDetailPage, ...props }) {
+export function Header () {
     const el = useRef();
     const dispatch = useDispatch();
     const { hasSmoothScrollbar } = useScrollRig();
     const isPrevent = useSelector(getIsPrevent);
+    const isDetailPage = useSelector(getIsDetailPage);
 
     return (
         <header
             ref={el}
             className={style.bg}
-            {...props}
             onWheel={e => (!isDetailPage ? dispatch(setWheelData(e)) : null)}
             onPointerMove={e => (!isDetailPage ? dispatch(setPointerData(e)) : null)}
             onPointerDown={e => (!isDetailPage ? dispatch(setPointerData(e)) : null)}
@@ -27,7 +27,7 @@ export function Header ({ pageIndex, isPage, isDetailPage, ...props }) {
         >
             {hasSmoothScrollbar && (
                 <UseCanvas debug={false}>
-                    <ScrollScene track={el}>{props => <Carousel pageIndex={pageIndex} isPage={isPage} />}</ScrollScene>
+                    <ScrollScene track={el}>{props => <Carousel />}</ScrollScene>
                 </UseCanvas>
             )}
             {!isPrevent && !isDetailPage && (
@@ -42,8 +42,4 @@ export function Header ({ pageIndex, isPage, isDetailPage, ...props }) {
     );
 }
 
-Header.propTypes = {
-    isPage: PropTypes.bool,
-    isDetailPage: PropTypes.bool,
-    pageIndex: PropTypes.number,
-};
+Header.propTypes = {};

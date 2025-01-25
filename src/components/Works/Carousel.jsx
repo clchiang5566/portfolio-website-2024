@@ -184,7 +184,7 @@ export function Carousel () {
             };
             const loadData = async () => {
                 try {
-                    console.log('isDetail');
+                    // console.log('isDetail');
                     const module = await modules[dataUrl]();
                     dispatch(setPageContent(module.default));
                     dispatch(setIsDetailPage(true));
@@ -192,16 +192,16 @@ export function Carousel () {
                     dispatch(setIsLoading(false));
                     dispatch(setIsActive(false));
                 } catch (error) {
-                    console.error('Failed to load module:', error);
+                    // console.error('Failed to load module:', error);
                 }
             };
             loadData();
         }
 
         if (isCarousel) {
-            console.log('remove deatil page');
-            dispatch(setIsPoster(false));
+            // console.log('remove deatil page');
             setActivePlane(null);
+            dispatch(setIsPoster(false));
             dispatch(setIsCarousel(false));
             dispatch(setIsLoading(false));
             dispatch(setIsDetailPage(false));
