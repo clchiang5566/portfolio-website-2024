@@ -17,19 +17,19 @@ export function Content ({ contents }) {
     const handBackClick = () => {
         setShow(false);
         dispatch(setIsCarousel(true));
-    }
+    };
 
     useEffect(() => {
         setTimeout(() => {
-            setShow(true)
+            setShow(true);
         }, 1000);
-        
-        const handlePopState = (event) => {
-            handBackClick()
+
+        const handlePopState = event => {
+            handBackClick();
         };
-    
+
         window.addEventListener('popstate', handlePopState);
-    
+
         return () => {
             window.removeEventListener('popstate', handlePopState);
         };
@@ -64,9 +64,9 @@ export function Content ({ contents }) {
                                         dur='12s'
                                         repeatCount='indefinite'
                                     />
-                                    Prev - Prev - Prev - Prev - Prev - Prev - Prev - Prev - Prev - Prev - Prev -
-                                    Prev - Prev - Prev - Prev - Prev - Prev - Prev - Prev - Prev - Prev - Prev -
-                                    Prev - Prev - Prev - Prev - Prev - Prev - Prev
+                                    Prev - Prev - Prev - Prev - Prev - Prev - Prev - Prev - Prev - Prev - Prev - Prev -
+                                    Prev - Prev - Prev - Prev - Prev - Prev - Prev - Prev - Prev - Prev - Prev - Prev -
+                                    Prev - Prev - Prev - Prev - Prev
                                 </textPath>
                             </text>
                         </svg>
@@ -77,12 +77,7 @@ export function Content ({ contents }) {
                             height='17'
                             viewBox='0 0 31 17'
                         >
-                            <g
-                                fill='none'
-                                fillRule='evenodd'
-                                stroke='#313131'
-                                transform='matrix(-1 0 0 1 31 0)'
-                            >
+                            <g fill='none' fillRule='evenodd' stroke='#313131' transform='matrix(-1 0 0 1 31 0)'>
                                 <path d='M30,8.07692308 L0,8.07692308' />
                                 <polyline points='21.923 0 30 8.077 21.923 16.154' />
                             </g>
@@ -119,4 +114,3 @@ export function Content ({ contents }) {
 Content.propTypes = {
     contents: PropTypes.any,
 };
-

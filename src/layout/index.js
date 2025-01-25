@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 // import TagManager from 'react-gtm-module';
 import Header from '../components/Header';

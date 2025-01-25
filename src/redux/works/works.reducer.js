@@ -1,23 +1,23 @@
-import { fromJS, List } from 'immutable';
+import { fromJS } from 'immutable';
 import { createReducer } from '@reduxjs/toolkit';
 
-import { 
-    SET_WHEEL_DATA, 
+import {
+    SET_WHEEL_DATA,
     SET_POINTER_DATA,
     SET_SCROLL_DATA,
     SET_PAGE_CONTENT,
-    SET_IS_ACTIVE, 
-    SET_IS_LOADING, 
-    SET_IS_SUCCESS, 
-    SET_IS_CAROUSEL, 
-    SET_IS_DETAILPAGE, 
+    SET_IS_ACTIVE,
+    SET_IS_LOADING,
+    SET_IS_SUCCESS,
+    SET_IS_CAROUSEL,
+    SET_IS_DETAILPAGE,
     SET_IS_PREVENT,
     SET_IS_POSTER,
-    SET_DATA_URL, 
-    SET_CURRENT_COLOR, 
+    SET_DATA_URL,
+    SET_CURRENT_COLOR,
     SET_CURRENT_INDEX,
     RESET_FIELDS,
-    UPDATE_INITIAL_FIELDS
+    UPDATE_INITIAL_FIELDS,
 } from './works.action';
 
 const initialState = fromJS({
@@ -81,7 +81,7 @@ export const works = createReducer(initialState, builder => {
         .addCase(SET_DATA_URL, (state, action) => {
             return state.set('dataUrl', action.payload);
         })
-        .addCase(RESET_FIELDS, (state) => {
+        .addCase(RESET_FIELDS, state => {
             return state
                 .set('currentColor', initialState.get('currentColor'))
                 .set('currentIndex', initialState.get('currentIndex'))
@@ -97,5 +97,5 @@ export const works = createReducer(initialState, builder => {
                 .set('isDetailPage', isDetailPage)
                 .set('isPoster', isPoster)
                 .set('pageContent', pageContent);
-        })
+        });
 });

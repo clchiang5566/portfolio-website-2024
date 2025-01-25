@@ -1,6 +1,6 @@
+/* eslint-env browser */
 import React, { useRef, useState, useMemo, useEffect, Suspense } from 'react';
 import { UseCanvas, useScrollRig, useImageAsTexture, ScrollScene } from '@14islands/r3f-scroll-rig';
-// import { useMediaQueryCheck } from '../../hooks/useMediaQueryCheck';
 import { Image as DreiImage } from '@react-three/drei';
 import { useFrame, useThree } from '@react-three/fiber';
 import { lerp } from '../../utils/common';
@@ -9,9 +9,6 @@ import PropTypes from 'prop-types';
 import Image from 'next/image';
 import { EffectImage } from './EffectImage';
 import { useMediaQueryCheck } from '../../hooks/useMediaQueryCheck';
-// import { getScrollData } from '../../redux/works/works.selector';
-// import { setScrllData } from '../../redux/works/works.action';
-// import { useSelector, useDispatch } from 'react-redux';
 
 export function Images ({ src, color }) {
     const el = useRef();
@@ -21,19 +18,12 @@ export function Images ({ src, color }) {
     return (
         <>
             <div ref={el}>
-                <Image
-                    className='imageHidden'
-                    ref={img}
-                    src={src}
-                    width={700}
-                    height={475}
-                    alt='image'
-                />
+                <Image className='imageHidden' ref={img} src={src} width={700} height={475} alt='image' />
             </div>
 
             {hasSmoothScrollbar && (
                 <UseCanvas debug={false}>
-                    <ScrollScene track={el} >
+                    <ScrollScene track={el}>
                         {props => (
                             <Suspense fallback=''>
                                 <WebglImage el={el} img={img} src={src} color={color} {...props} />
@@ -176,7 +166,11 @@ function CustomImage ({ imgRef, url, scrollState, ...props }) {
     useFrame((state, delta) => {
         if ($mesh.current) {
             $mesh.current.uniforms.time.value += delta * 0.5;
-            $mesh.current.uniforms.shift.value = lerp($mesh.current.uniforms.shift.value, scrollSpeed, isMobile ? 0.015 : 0.01);
+            $mesh.current.uniforms.shift.value = lerp(
+                $mesh.current.uniforms.shift.value,
+                scrollSpeed,
+                isMobile ? 0.015 : 0.01
+            );
         }
     });
 

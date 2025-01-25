@@ -1,3 +1,4 @@
+/* eslint-env browser */
 import React, { useRef, useEffect, useState } from 'react';
 import { spline } from './spline';
 import { createNoise2D } from 'simplex-noise';

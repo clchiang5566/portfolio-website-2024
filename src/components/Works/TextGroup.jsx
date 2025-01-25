@@ -19,7 +19,7 @@ export function TextGroup ({ currentIndex }) {
     const { viewport, size } = useThree();
     const { isMobile } = useMediaQueryCheck(991);
 
-    const pixelToUnitWidth = 32 / size.width * viewport.width;
+    const pixelToUnitWidth = (32 / size.width) * viewport.width;
 
     const updateText = (index, updatedText) => {
         setAnimatedTexts(prev => {
@@ -31,7 +31,7 @@ export function TextGroup ({ currentIndex }) {
 
     useEffect(() => {
         setTimeout(() => {
-            setShapeShow(true)
+            setShapeShow(true);
         }, 200);
     }, []);
 
@@ -41,12 +41,12 @@ export function TextGroup ({ currentIndex }) {
                 <group
                     key={index}
                     position={[
-                        isMobile ? -viewport.width / 2 + pixelToUnitWidth : -viewport.width / 2 + pixelToUnitWidth * 1.2,
                         isMobile
-                            ? -viewport.height / 2 + pixelToUnitWidth + ((index + 1) * pixelToUnitWidth)
-                            : -viewport.height / 2 +
-                                (index + 1) * pixelToUnitWidth +
-                                index * pixelToUnitWidth * 1.2,
+                            ? -viewport.width / 2 + pixelToUnitWidth
+                            : -viewport.width / 2 + pixelToUnitWidth * 1.2,
+                        isMobile
+                            ? -viewport.height / 2 + pixelToUnitWidth + (index + 1) * pixelToUnitWidth
+                            : -viewport.height / 2 + (index + 1) * pixelToUnitWidth + index * pixelToUnitWidth * 1.2,
                         0,
                     ]}
                 >
@@ -86,7 +86,13 @@ export function TextGroup ({ currentIndex }) {
                     />
                 </group>
             ))}
-            <group position={[isMobile ? viewport.width / 2 - pixelToUnitWidth : viewport.width / 2 - pixelToUnitWidth * 1.3, isMobile ? viewport.height / 2 - pixelToUnitWidth * 4  : viewport.height / 2 - 1.7, 0]}>
+            <group
+                position={[
+                    isMobile ? viewport.width / 2 - pixelToUnitWidth : viewport.width / 2 - pixelToUnitWidth * 1.3,
+                    isMobile ? viewport.height / 2 - pixelToUnitWidth * 4 : viewport.height / 2 - 1.7,
+                    0,
+                ]}
+            >
                 <mesh ref={numberBackgroundRef}>
                     {shapeShow && <planeGeometry args={[1, 1]} />}
                     {shapeShow && <meshBasicMaterial color={images[currentIndex]?.bgColor} />}
@@ -112,9 +118,7 @@ export function TextGroup ({ currentIndex }) {
                 </Text>
                 <GlitchText
                     text={
-                        isMobile
-                            ? `${currentIndex + 1} / ${images.length}`
-                            : `${currentIndex + 1}\n/\n${images.length}`
+                        isMobile ? `${currentIndex + 1} / ${images.length}` : `${currentIndex + 1}\n/\n${images.length}`
                     }
                     duration={1000}
                     onUpdate={updatedText => setNumber(updatedText)}

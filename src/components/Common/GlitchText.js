@@ -1,3 +1,4 @@
+/* eslint-env browser */
 import { useEffect, useRef } from 'react';
 import { throttle } from 'lodash';
 

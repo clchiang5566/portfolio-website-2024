@@ -7,8 +7,29 @@ import { lerp, getPiramidalIndex } from '../../utils/common';
 import images from './data';
 import { TextGroup } from './TextGroup';
 import { useMediaQueryCheck, useMediaQueryLaptopCheck } from '../../hooks/useMediaQueryCheck';
-import { getWheelData, getPointerData, getIsCarousel, getIsPrevent, getCurrentIndex, getIsPoster, getDataUrl, getIsLoading, getIsSuccess } from '../../redux/works/works.selector';
-import { setCurrentColor, setCurrentIndex, setIsCarousel, setIsPrevent, setIsPoster, setIsDetailPage, setIsLoading, setIsActive, setIsSuccess, setPageContent } from '../../redux/works/works.action';
+import {
+    getWheelData,
+    getPointerData,
+    getIsCarousel,
+    getIsPrevent,
+    getCurrentIndex,
+    getIsPoster,
+    getDataUrl,
+    getIsLoading,
+    getIsSuccess,
+} from '../../redux/works/works.selector';
+import {
+    setCurrentColor,
+    setCurrentIndex,
+    setIsCarousel,
+    setIsPrevent,
+    setIsPoster,
+    setIsDetailPage,
+    setIsLoading,
+    setIsActive,
+    setIsSuccess,
+    setPageContent,
+} from '../../redux/works/works.action';
 import { Model } from './Model';
 import RouteWatcher from './RouteWatcher';
 
@@ -30,7 +51,7 @@ export function Carousel () {
     const currentIndex = useSelector(getCurrentIndex);
     const isPoster = useSelector(getIsPoster);
     const index = isPoster ? currentIndex : 0;
-    const [activePlane, setActivePlane] = useState(isPoster ? currentIndex : null); 
+    const [activePlane, setActivePlane] = useState(isPoster ? currentIndex : null);
     const currentIndexRef = useRef(isPoster ? currentIndex : null);
     const [isTextReady, setTextReady] = useState(isPoster);
     const { isMobile } = useMediaQueryCheck(991);
@@ -63,32 +84,44 @@ export function Carousel () {
 
         if (material.current[index]) {
             material.current[index].material.uniforms.time.value += delta * 0.5;
-            material.current[index].material.uniforms.shift.value = lerp(material.current[index].material.uniforms.shift.value, isMobile ? speed.current / direction : speed.current / 100, isMobile ? 0.2 : 0.1);
+            material.current[index].material.uniforms.shift.value = lerp(
+                material.current[index].material.uniforms.shift.value,
+                isMobile ? speed.current / direction : speed.current / 100,
+                isMobile ? 0.2 : 0.1
+            );
         }
         gsap.to(item.position, {
-            x: $items.length * - 0.1 + piramidalIndex * 0.1,
-            y: (index - active) * - ((isMobile ? planeSettings.mobile.height : isLaptop ? planeSettings.laptop.height : planeSettings.desktop.height) + planeSettings.gap),
+            x: $items.length * -0.1 + piramidalIndex * 0.1,
+            y:
+                (index - active) *
+                -(
+                    (isMobile
+                        ? planeSettings.mobile.height
+                        : isLaptop
+                        ? planeSettings.laptop.height
+                        : planeSettings.desktop.height) + planeSettings.gap
+                ),
             duration: isPoster || isTextReady === false ? 0 : 2,
         });
     };
 
-    useFrame((state, delta) => {
-            progress.current = Math.max(0, Math.min(progress.current, 100));
-            const active = Math.floor((progress.current / 100) * ($items.length - 1));
-            $items.forEach((item, index) => displayItems(item, index, active, isPoster, delta));
-            speed.current = lerp(speed.current, Math.abs(oldProgress.current - progress.current), 0.2);
-            oldProgress.current = lerp(oldProgress.current, progress.current, 0.1);
-            if (active !== currentIndexRef.current) {
-                handleChangeOrder(active);
-                currentIndexRef.current = active;
-            }
-    });
-
     const handleChangeOrder = i => {
         if (i === null || isPoster === true) return;
-        dispatch(setCurrentIndex(i))
+        dispatch(setCurrentIndex(i));
         dispatch(setCurrentColor(images[i]?.bgColor));
     };
+
+    useFrame((state, delta) => {
+        progress.current = Math.max(0, Math.min(progress.current, 100));
+        const active = Math.floor((progress.current / 100) * ($items.length - 1));
+        $items.forEach((item, index) => displayItems(item, index, active, isPoster, delta));
+        speed.current = lerp(speed.current, Math.abs(oldProgress.current - progress.current), 0.2);
+        oldProgress.current = lerp(oldProgress.current, progress.current, 0.1);
+        if (active !== currentIndexRef.current) {
+            handleChangeOrder(active);
+            currentIndexRef.current = active;
+        }
+    });
 
     useEffect(() => {
         if (wheelData !== null && isTextReady) {
@@ -98,36 +131,35 @@ export function Carousel () {
             speed.current = isVerticalScroll ? wheelData.deltaY : wheelData.deltaX;
             progress.current = progress.current + wheelProgress * speedWheel;
         }
-    }, [wheelData]);
 
-    useEffect(() => {
         if (pointerData !== null && isTextReady) {
             switch (pointerData.type) {
-                case "pointerdown":
+                case 'pointerdown':
                     if (activePlane !== null) return;
                     isDown.current = true;
-                    startY.current = pointerData.clientY || (pointerData.touches && pointerData.touches[0].clientY) || 0;
+                    startY.current =
+                        pointerData.clientY || (pointerData.touches && pointerData.touches[0].clientY) || 0;
                     break;
-                case "pointermove":
+                case 'pointermove': {
                     if (activePlane !== null || !isDown.current) return;
                     const y = pointerData.clientY || (pointerData.touches && pointerData.touches[0].clientY) || 0;
                     const mouseProgress = (y - startY.current) * speedDrag;
                     progress.current = progress.current - mouseProgress;
                     break;
-                case "pointerup":
+                }
+                case 'pointerup':
                     isDown.current = false;
                     break;
-                case "onPointerLeave":
+                case 'onPointerLeave':
                     isDown.current = false;
                     break;
-                case "onPointerCancel":
+                case 'onPointerCancel':
                     isDown.current = false;
                     break;
                 default:
-                    // isDown.current = false;
             }
         }
-    }, [pointerData]);
+    }, [pointerData, wheelData]);
 
     useEffect(() => {
         if (Math.abs(speed.current) > 10 && !isPrevent && !isPoster && isTextReady) {
@@ -152,40 +184,52 @@ export function Carousel () {
             };
             const loadData = async () => {
                 try {
-                    console.log('isDetail')
+                    console.log('isDetail');
                     const module = await modules[dataUrl]();
-                    dispatch(setPageContent(module.default))
-                    dispatch(setIsDetailPage(true))
-                    dispatch(setIsSuccess(false))
-                    dispatch(setIsLoading(false))
-                    dispatch(setIsActive(false))
+                    dispatch(setPageContent(module.default));
+                    dispatch(setIsDetailPage(true));
+                    dispatch(setIsSuccess(false));
+                    dispatch(setIsLoading(false));
+                    dispatch(setIsActive(false));
                 } catch (error) {
                     console.error('Failed to load module:', error);
                 }
-            }
-            loadData()
+            };
+            loadData();
         }
 
         if (isCarousel) {
-            console.log('remove deatil page')
+            console.log('remove deatil page');
             dispatch(setIsPoster(false));
             setActivePlane(null);
             dispatch(setIsCarousel(false));
-            dispatch(setIsLoading(false))
-            dispatch(setIsDetailPage(false))
-            window.history.pushState(null, '', '/works')
+            dispatch(setIsLoading(false));
+            dispatch(setIsDetailPage(false));
+            window.history.pushState(null, '', '/works');
         }
 
         if (isTextReady) dispatch(setIsPrevent(false));
-    }, [isLoading, isCarousel])
+    }, [isLoading, isCarousel]);
 
     const renderSlider = () => {
         return (
             <group ref={setRoot}>
                 {images.map((item, i) => (
                     <CarouselItem
-                        width={isMobile ? planeSettings.mobile.width : isLaptop ? planeSettings.laptop.width : planeSettings.desktop.width}
-                        height={isMobile ? planeSettings.mobile.height : isLaptop ? planeSettings.laptop.height : planeSettings.desktop.height}
+                        width={
+                            isMobile
+                                ? planeSettings.mobile.width
+                                : isLaptop
+                                ? planeSettings.laptop.width
+                                : planeSettings.desktop.width
+                        }
+                        height={
+                            isMobile
+                                ? planeSettings.mobile.height
+                                : isLaptop
+                                ? planeSettings.laptop.height
+                                : planeSettings.desktop.height
+                        }
                         item={item}
                         index={i}
                         setActivePlane={setActivePlane}

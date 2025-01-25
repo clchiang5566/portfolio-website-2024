@@ -23,8 +23,8 @@ export default function WorksDetail () {
         const handleResize = () => {
             setKey(prevKey => prevKey + 1);
         };
-        window.addEventListener("resize", handleResize);
-        return () => window.removeEventListener("resize", handleResize);
+        window.addEventListener('resize', handleResize);
+        return () => window.removeEventListener('resize', handleResize);
     }, []);
 
     return (
@@ -55,7 +55,7 @@ export default function WorksDetail () {
                     {bind => (
                         <section {...bind}>
                             <Header key={key} />
-                            {isDetailPage && pageContent && <Content contents={pageContent} />}                 
+                            {isDetailPage && pageContent && <Content contents={pageContent} />}
                         </section>
                     )}
                 </SmoothScrollbar>

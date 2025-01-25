@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import Head from 'next/head';
 import { NextSeo } from 'next-seo';
@@ -12,13 +12,15 @@ import { useDispatch } from 'react-redux';
 
 const WorksDetailPage = ({ Global, Seo }) => {
     const dispatch = useDispatch();
-    dispatch(updateInitialFields({
-        currentColor: Contents.color,
-        currentIndex: Contents.index,
-        isDetailPage: true,
-        isPoster: true,
-        pageContent: Contents,
-    }));
+    dispatch(
+        updateInitialFields({
+            currentColor: Contents.color,
+            currentIndex: Contents.index,
+            isDetailPage: true,
+            isPoster: true,
+            pageContent: Contents,
+        })
+    );
 
     return (
         <Layout {...Global} color={Contents.color}>
@@ -38,14 +40,14 @@ const WorksDetailPage = ({ Global, Seo }) => {
     );
 };
 
-export const getStaticProps = wrapper.getStaticProps((store) => async () => {
+export const getStaticProps = wrapper.getStaticProps(store => async () => {
     const Global = data.global;
     const Seo = data.SEO;
 
     return {
         props: {
             Global,
-            Seo
+            Seo,
         },
     };
 });

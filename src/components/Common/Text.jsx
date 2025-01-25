@@ -1,4 +1,4 @@
-import React, { useRef, useEffect } from 'react';
+import React, { useRef } from 'react';
 import { ScrollScene, UseCanvas, useScrollRig } from '@14islands/r3f-scroll-rig';
 import { MeshDistortMaterial } from '@react-three/drei';
 import { WebGLText } from '@14islands/r3f-scroll-rig/powerups';

@@ -15,7 +15,7 @@ export const SET_CURRENT_INDEX = 'SET_CURRENT_INDEX';
 export const RESET_FIELDS = 'RESET_FIELDS';
 export const UPDATE_INITIAL_FIELDS = 'UPDATE_INITIAL_FIELDS';
 
-export const setWheelData = (wheelData) => {
+export const setWheelData = wheelData => {
     return async dispatch => {
         dispatch({
             type: SET_WHEEL_DATA,
@@ -24,7 +24,7 @@ export const setWheelData = (wheelData) => {
     };
 };
 
-export const setPointerData = (pointerData) => {
+export const setPointerData = pointerData => {
     return async dispatch => {
         dispatch({
             type: SET_POINTER_DATA,
@@ -33,7 +33,7 @@ export const setPointerData = (pointerData) => {
     };
 };
 
-export const setScrollData = (scrollData) => {
+export const setScrollData = scrollData => {
     return async dispatch => {
         dispatch({
             type: SET_SCROLL_DATA,
@@ -42,7 +42,7 @@ export const setScrollData = (scrollData) => {
     };
 };
 
-export const setPageContent = (pageContent) => {
+export const setPageContent = pageContent => {
     return async dispatch => {
         dispatch({
             type: SET_PAGE_CONTENT,
@@ -51,7 +51,7 @@ export const setPageContent = (pageContent) => {
     };
 };
 
-export const setIsActive = (isActive) => {
+export const setIsActive = isActive => {
     return async dispatch => {
         dispatch({
             type: SET_IS_ACTIVE,
@@ -60,7 +60,7 @@ export const setIsActive = (isActive) => {
     };
 };
 
-export const setIsLoading = (isLoading) => {
+export const setIsLoading = isLoading => {
     return async dispatch => {
         dispatch({
             type: SET_IS_LOADING,
@@ -69,7 +69,7 @@ export const setIsLoading = (isLoading) => {
     };
 };
 
-export const setIsSuccess = (isSuccess) => {
+export const setIsSuccess = isSuccess => {
     return async dispatch => {
         dispatch({
             type: SET_IS_SUCCESS,
@@ -78,7 +78,7 @@ export const setIsSuccess = (isSuccess) => {
     };
 };
 
-export const setIsCarousel = (isCarousel) => {
+export const setIsCarousel = isCarousel => {
     return async dispatch => {
         dispatch({
             type: SET_IS_CAROUSEL,
@@ -87,7 +87,7 @@ export const setIsCarousel = (isCarousel) => {
     };
 };
 
-export const setIsPrevent = (isPrevent) => {
+export const setIsPrevent = isPrevent => {
     return async dispatch => {
         dispatch({
             type: SET_IS_PREVENT,
@@ -96,7 +96,7 @@ export const setIsPrevent = (isPrevent) => {
     };
 };
 
-export const setIsPoster = (isPoster) => {
+export const setIsPoster = isPoster => {
     return async dispatch => {
         dispatch({
             type: SET_IS_POSTER,
@@ -105,7 +105,7 @@ export const setIsPoster = (isPoster) => {
     };
 };
 
-export const setIsDetailPage = (isDetailPage) => {
+export const setIsDetailPage = isDetailPage => {
     return async dispatch => {
         dispatch({
             type: SET_IS_DETAILPAGE,
@@ -114,7 +114,7 @@ export const setIsDetailPage = (isDetailPage) => {
     };
 };
 
-export const setCurrentColor = (currentColor) => {
+export const setCurrentColor = currentColor => {
     return async dispatch => {
         dispatch({
             type: SET_CURRENT_COLOR,
@@ -123,7 +123,7 @@ export const setCurrentColor = (currentColor) => {
     };
 };
 
-export const setCurrentIndex = (currentIndex) => {
+export const setCurrentIndex = currentIndex => {
     return async dispatch => {
         dispatch({
             type: SET_CURRENT_INDEX,
@@ -132,7 +132,7 @@ export const setCurrentIndex = (currentIndex) => {
     };
 };
 
-export const setDataUrl = (dataUrl) => {
+export const setDataUrl = dataUrl => {
     return async dispatch => {
         dispatch({
             type: SET_DATA_URL,
@@ -149,7 +149,7 @@ export const resetFields = () => {
     };
 };
 
-export const updateInitialFields = (payload) => {
+export const updateInitialFields = payload => {
     return async dispatch => {
         dispatch({
             type: UPDATE_INITIAL_FIELDS,

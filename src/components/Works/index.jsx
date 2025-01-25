@@ -23,21 +23,16 @@ export function Works () {
         const handleResize = () => {
             setKey(prevKey => prevKey + 1);
         };
-        window.addEventListener("resize", handleResize);
-        return () => window.removeEventListener("resize", handleResize);
+        window.addEventListener('resize', handleResize);
+        return () => window.removeEventListener('resize', handleResize);
     }, []);
 
     return (
         <>
             <Head>
-                <style>{`canvas { border: ${
-                    isMobile ? '15px' : '20px'
-                } solid ${currentColor} }`}</style>
+                <style>{`canvas { border: ${isMobile ? '15px' : '20px'} solid ${currentColor} }`}</style>
             </Head>
-            <div 
-                ref={eventSource}
-                className={style.el}
-            >
+            <div ref={eventSource} className={style.el}>
                 <GlobalCanvas
                     debug={false}
                     scaleMultiplier={0.01}
@@ -60,7 +55,7 @@ export function Works () {
                     {bind => (
                         <section {...bind}>
                             <Header key={key} />
-                            {isDetailPage && pageContent && <Content contents={pageContent} />}                 
+                            {isDetailPage && pageContent && <Content contents={pageContent} />}
                         </section>
                     )}
                 </SmoothScrollbar>

@@ -17,8 +17,8 @@ export function Plane ({ index, material, texture, width, height, active, setIsR
     useEffect(() => {
         if (material.current[index].material && index === currentIndex) {
             material.current[index].material.uniforms.uZoomScale.value.x = isMobile
-            ? viewport.width / 1.1 / width
-            : viewport.width / 2 / width;
+                ? viewport.width / 1.1 / width
+                : viewport.width / 2 / width;
             material.current[index].material.uniforms.uZoomScale.value.y = isMobile
                 ? viewport.height / 1.6 / height
                 : viewport.height / height;
@@ -26,10 +26,10 @@ export function Plane ({ index, material, texture, width, height, active, setIsR
                 value: active ? 1 : 0,
                 duration: isPoster ? 0 : 2.5,
                 onComplete: () => {
-                    console.log('isAnimation', 'active:',active, 'isPoster:',isPoster)
+                    console.log('isAnimation', 'active:', active, 'isPoster:', isPoster);
                     if (active && !isPoster) {
                         setIsReady(true);
-                    } 
+                    }
                 },
             });
             gsap.to(material.current[index].material.uniforms.uRes.value, {
@@ -48,8 +48,8 @@ export function Plane ({ index, material, texture, width, height, active, setIsR
     useEffect(() => {
         if (material.current[index].material) {
             material.current[index].material.uniforms.uZoomScale.value.x = isMobile
-            ? viewport.width / 1.1 / width
-            : viewport.width / 2 / width;
+                ? viewport.width / 1.1 / width
+                : viewport.width / 2 / width;
             material.current[index].material.uniforms.uZoomScale.value.y = isMobile
                 ? viewport.height / 1.6 / height
                 : viewport.height / height;
@@ -74,7 +74,7 @@ export function Plane ({ index, material, texture, width, height, active, setIsR
         //         });
         //     }
         // };
-    
+
         // window.addEventListener('resize', handleResize);
         // return () => window.removeEventListener('resize', handleResize);
     }, [viewport]);
@@ -85,7 +85,12 @@ export function Plane ({ index, material, texture, width, height, active, setIsR
                 uProgress: { value: 0 },
                 uZoomScale: { value: { x: 1, y: 1 } },
                 uTex: { value: tex },
-                uRes: { value: { x: active && isMobile ? viewport.width / 1.1 : active && !isMobile ? viewport.width / 2 : width, y: active && isMobile ? viewport.height / 1.5 : active && !isMobile ? viewport.height : height } },
+                uRes: {
+                    value: {
+                        x: active && isMobile ? viewport.width / 1.1 : active && !isMobile ? viewport.width / 2 : width,
+                        y: active && isMobile ? viewport.height / 1.5 : active && !isMobile ? viewport.height : height,
+                    },
+                },
                 uImageRes: {
                     value: { x: tex.source.data.width, y: tex.source.data.height },
                 },

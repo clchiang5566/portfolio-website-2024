@@ -12,14 +12,16 @@ import { useDispatch } from 'react-redux';
 
 const WorksDetailPage = ({ Global, Seo }) => {
     const dispatch = useDispatch();
-    dispatch(updateInitialFields({
-        currentColor: Contents.color,
-        currentIndex: Contents.index,
-        isDetailPage: true,
-        isPoster: true,
-        pageContent: Contents,
-    }));
-    
+    dispatch(
+        updateInitialFields({
+            currentColor: Contents.color,
+            currentIndex: Contents.index,
+            isDetailPage: true,
+            isPoster: true,
+            pageContent: Contents,
+        })
+    );
+
     return (
         <Layout {...Global} color={Contents.color}>
             <NextSeo title={Seo.pageTitle} description={Seo.pageDescription} canonical={Seo.pageUrl} />

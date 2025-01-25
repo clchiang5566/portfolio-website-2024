@@ -1,3 +1,4 @@
+/* eslint-env browser */
 import React, { useState, useEffect, useRef } from 'react';
 import { throttle } from 'lodash';
 import PropTypes from 'prop-types';
