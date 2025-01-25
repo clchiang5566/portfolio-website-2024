@@ -1,6 +1,5 @@
 import { React, useEffect, useRef, useState, useMemo } from 'react';
-import { useFrame, useThree } from '@react-three/fiber';
-import { usePrevious } from 'react-use';
+import { useFrame } from '@react-three/fiber';
 import { useSelector, useDispatch } from 'react-redux';
 import gsap from 'gsap';
 import { CarouselItem } from './CarouselItem';
@@ -8,7 +7,7 @@ import { lerp, getPiramidalIndex } from '../../utils/common';
 import images from './data';
 import { TextGroup } from './TextGroup';
 import { useMediaQueryCheck, useMediaQueryLaptopCheck } from '../../hooks/useMediaQueryCheck';
-import { getWheelData, getPointerData, getIsCarousel, getIsPrevent, getCurrentIndex, getIsPoster, getDataUrl, getIsLoading, getIsSuccess, getPageContent, getScrollData } from '../../redux/works/works.selector';
+import { getWheelData, getPointerData, getIsCarousel, getIsPrevent, getCurrentIndex, getIsPoster, getDataUrl, getIsLoading, getIsSuccess } from '../../redux/works/works.selector';
 import { setCurrentColor, setCurrentIndex, setIsCarousel, setIsPrevent, setIsPoster, setIsDetailPage, setIsLoading, setIsActive, setIsSuccess, setPageContent } from '../../redux/works/works.action';
 import { Model } from './Model';
 import RouteWatcher from './RouteWatcher';
@@ -19,7 +18,6 @@ const planeSettings = {
     mobile: { width: 2.625, height: 3.5 },
     gap: 3.5,
 };
-
 
 gsap.defaults({
     duration: 2,
@@ -42,7 +40,7 @@ export function Carousel () {
     const startY = useRef(0);
     const isDown = useRef(false);
     const speedWheel = 0.009;
-    const speedDrag = 0.01;
+    const speedDrag = 0.02;
     const oldProgress = useRef(0);
     const speed = useRef(0);
     const $items = useMemo(() => {
@@ -50,7 +48,6 @@ export function Carousel () {
     }, [$root]);
     const wheelData = useSelector(getWheelData);
     const pointerData = useSelector(getPointerData);
-    const scrollData = useSelector(getScrollData);
 
     const material = useRef({});
     const isCarousel = useSelector(getIsCarousel);
@@ -66,7 +63,7 @@ export function Carousel () {
 
         if (material.current[index]) {
             material.current[index].material.uniforms.time.value += delta * 0.5;
-            material.current[index].material.uniforms.shift.value = lerp(material.current[index].material.uniforms.shift.value, isMobile ? speed.current / direction : speed.current / 100, 0.1);
+            material.current[index].material.uniforms.shift.value = lerp(material.current[index].material.uniforms.shift.value, isMobile ? speed.current / direction : speed.current / 100, isMobile ? 0.2 : 0.1);
         }
         gsap.to(item.position, {
             x: $items.length * - 0.1 + piramidalIndex * 0.1,
@@ -115,7 +112,7 @@ export function Carousel () {
                     if (activePlane !== null || !isDown.current) return;
                     const y = pointerData.clientY || (pointerData.touches && pointerData.touches[0].clientY) || 0;
                     const mouseProgress = (y - startY.current) * speedDrag;
-                    progress.current = progress.current + mouseProgress;
+                    progress.current = progress.current - mouseProgress;
                     break;
                 case "pointerup":
                     isDown.current = false;
@@ -127,7 +124,7 @@ export function Carousel () {
                     isDown.current = false;
                     break;
                 default:
-                    isDown.current = false;
+                    // isDown.current = false;
             }
         }
     }, [pointerData]);
@@ -170,6 +167,7 @@ export function Carousel () {
         }
 
         if (isCarousel) {
+            console.log('remove deatil page')
             dispatch(setIsPoster(false));
             setActivePlane(null);
             dispatch(setIsCarousel(false));

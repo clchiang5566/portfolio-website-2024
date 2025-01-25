@@ -199,7 +199,7 @@ export function Plane ({ index, material, texture, width, height, active, setIsR
             }}
             texture={tex}
             renderOrder={-1}
-            position={[0, 0, -0.6]}
+            position={[0, 0, -0.7]}
             transparent
             {...props}
         >

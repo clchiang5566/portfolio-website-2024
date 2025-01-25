@@ -16,10 +16,12 @@ export function Model ({  texturePath }) {
     const { isMobile } = useMediaQueryCheck(991);
 
     useEffect(() => {
-        const loader = new THREE.TextureLoader();
-        loader.load(texturePath, texture => {
-            setNewTexture(texture);
-        });
+        if (texturePath) {
+            const loader = new THREE.TextureLoader();
+            loader.load(texturePath, texture => {
+                setNewTexture(texture);
+            });
+        }
     }, [texturePath]);
 
     useEffect(() => {

@@ -14,16 +14,16 @@ export function Content ({ contents }) {
     const [show, setShow] = useState(false);
     const dispatch = useDispatch();
 
-    useEffect(() => {
-        setShow(true)
-    }, []);
-
     const handBackClick = () => {
         setShow(false);
         dispatch(setIsCarousel(true));
     }
 
     useEffect(() => {
+        setTimeout(() => {
+            setShow(true)
+        }, 1000);
+        
         const handlePopState = (event) => {
             handBackClick()
         };

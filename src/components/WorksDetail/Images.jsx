@@ -8,9 +8,10 @@ import gsap from 'gsap';
 import PropTypes from 'prop-types';
 import Image from 'next/image';
 import { EffectImage } from './EffectImage';
-import { getScrollData } from '../../redux/works/works.selector';
-import { setScrllData } from '../../redux/works/works.action';
-import { useSelector, useDispatch } from 'react-redux';
+import { useMediaQueryCheck } from '../../hooks/useMediaQueryCheck';
+// import { getScrollData } from '../../redux/works/works.selector';
+// import { setScrllData } from '../../redux/works/works.action';
+// import { useSelector, useDispatch } from 'react-redux';
 
 export function Images ({ src, color }) {
     const el = useRef();
@@ -118,6 +119,7 @@ function CustomImage ({ imgRef, url, scrollState, ...props }) {
     const tex = useImageAsTexture(imgRef);
     const { viewport } = useThree();
     const [scrollSpeed, setScrollSpeed] = useState(0);
+    const { isMobile } = useMediaQueryCheck(991);
     const distort = 0.5;
 
     const gcd = (a, b) => {
@@ -174,7 +176,7 @@ function CustomImage ({ imgRef, url, scrollState, ...props }) {
     useFrame((state, delta) => {
         if ($mesh.current) {
             $mesh.current.uniforms.time.value += delta * 0.5;
-            $mesh.current.uniforms.shift.value = lerp($mesh.current.uniforms.shift.value, scrollSpeed, 0.01);
+            $mesh.current.uniforms.shift.value = lerp($mesh.current.uniforms.shift.value, scrollSpeed, isMobile ? 0.015 : 0.01);
         }
     });
 

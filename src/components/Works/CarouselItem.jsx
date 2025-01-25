@@ -3,11 +3,11 @@ import { useFrame } from '@react-three/fiber';
 import gsap from 'gsap';
 import { Plane } from './Plane';
 import { Text, MeshWobbleMaterial } from '@react-three/drei';
-import { useMediaQueryCheck } from '../../hooks/useMediaQueryCheck';
+import { useMediaQueryCheck, useMediaQueryLaptopCheck } from '../../hooks/useMediaQueryCheck';
 
 import { useDispatch, useSelector } from 'react-redux';
 import { getIsActive, getIsLoading, getIsCarousel, getIsPoster, getCurrentIndex } from '../../redux/works/works.selector';
-import { setDataUrl, setIsLoading, setIsSuccess  } from '../../redux/works/works.action';
+import { setDataUrl, setIsLoading, setIsSuccess, setIsPrevent  } from '../../redux/works/works.action';
 import { EmergingImage } from './EmergingImage';
 import images from './data';
 import PropTypes from 'prop-types';
@@ -31,6 +31,7 @@ export function CarouselItem ({
     const [isReady, setIsReady] = useState(false);
     const [isImageShow, setImageShow] = useState(!isPoster);
     const { isMobile } = useMediaQueryCheck(991);
+    const { isLaptop } = useMediaQueryLaptopCheck(1500);
     const materialRef = useRef();
     const dispatch = useDispatch();
     const isActive = useSelector(getIsActive);
@@ -85,6 +86,7 @@ export function CarouselItem ({
                         onComplete: () => {
                             setTimeout(() => {
                                 setTextReady(true);
+                                dispatch(setIsPrevent(false));
                             }, 200);
                         },
                     });
@@ -159,13 +161,13 @@ export function CarouselItem ({
             <Text
                 ref={textRef}
                 position={[0, 0, 2]}
-                fontSize={isMobile && currentIndex === 0 ? 0.3 : isMobile ? 0.42 : 0.9}
+                fontSize={isMobile && currentIndex === 0 ? 0.3 : isMobile ? 0.42 : isLaptop ? 0.9 : 1.2}
                 color={images[currentIndex]?.bgColor}
                 outlineWidth={0.01}
                 outlineColor='#313131'
-                maxWidth={isMobile ? 400 : 800}
-                lineHeight={isMobile ? 2.2 : 1.6}
-                letterSpacing={isMobile ? 0.2 : currentIndex === 0 ? 0.25 : 0.4}
+                maxWidth={isMobile ? 400 : isLaptop ? 800 : 1500}
+                lineHeight={isMobile ? 2.2 : isLaptop ? 1.6 : 1.8}
+                letterSpacing={isMobile ? 0.2 : isLaptop && currentIndex === 0 ? 0.25 : isLaptop || currentIndex === 0 ? 0.4 : 0.5}
                 textAlign={isMobile ? 'left' : 'left'}
                 font='/fonts/Montserrat-Bold.woff'
             >

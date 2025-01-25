@@ -19,7 +19,7 @@ export function TextGroup ({ currentIndex }) {
     const { viewport, size } = useThree();
     const { isMobile } = useMediaQueryCheck(991);
 
-    const pixelToUnitWidth = isMobile ? (32 / size.width) * viewport.width : (30 / size.width) * viewport.width;
+    const pixelToUnitWidth = 32 / size.width * viewport.width;
 
     const updateText = (index, updatedText) => {
         setAnimatedTexts(prev => {
@@ -43,7 +43,7 @@ export function TextGroup ({ currentIndex }) {
                     position={[
                         isMobile ? -viewport.width / 2 + pixelToUnitWidth : -viewport.width / 2 + pixelToUnitWidth * 1.2,
                         isMobile
-                            ? -viewport.height / 2 + (index + 1) * pixelToUnitWidth 
+                            ? -viewport.height / 2 + pixelToUnitWidth + ((index + 1) * pixelToUnitWidth)
                             : -viewport.height / 2 +
                                 (index + 1) * pixelToUnitWidth +
                                 index * pixelToUnitWidth * 1.2,
@@ -86,7 +86,7 @@ export function TextGroup ({ currentIndex }) {
                     />
                 </group>
             ))}
-            <group position={[isMobile ? viewport.width / 2 - pixelToUnitWidth : viewport.width / 2 - pixelToUnitWidth * 1.2, isMobile ? viewport.height / 2 - 1 : viewport.height / 2 - 1.7, 0]}>
+            <group position={[isMobile ? viewport.width / 2 - pixelToUnitWidth : viewport.width / 2 - pixelToUnitWidth * 1.3, isMobile ? viewport.height / 2 - pixelToUnitWidth * 4  : viewport.height / 2 - 1.7, 0]}>
                 <mesh ref={numberBackgroundRef}>
                     {shapeShow && <planeGeometry args={[1, 1]} />}
                     {shapeShow && <meshBasicMaterial color={images[currentIndex]?.bgColor} />}
@@ -103,7 +103,7 @@ export function TextGroup ({ currentIndex }) {
                         const size = text.geometry.boundingBox.getSize(new THREE.Vector3());
                         const position = text.geometry.boundingBox.getCenter(new THREE.Vector3());
                         if (numberBackgroundRef.current) {
-                            numberBackgroundRef.current.scale.set(size.x + 0.2, size.y + 0.2, 0);
+                            numberBackgroundRef.current.scale.set(size.x + 0.3, size.y + 0.2, 0);
                             numberBackgroundRef.current.position.set(position.x, position.y, 0);
                         }
                     }}

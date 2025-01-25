@@ -2,10 +2,8 @@ import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import 'normalize.css';
 import Head from 'next/head';
-// import { PersistGate } from 'redux-persist/integration/react';
 import { Provider, useStore } from 'react-redux';
-
-// import TagManager from 'react-gtm-module';
+import TagManager from 'react-gtm-module';
 //* Redux Store
 import { wrapper } from '../redux/store';
 //* Style
@@ -19,7 +17,11 @@ const MyApp = ({ Component, pageProps }) => {
     const store = useStore(state => state);
 
     useEffect(() => {
-        // TagManager.initialize({ gtmId: 'GTM-K22B94M' });
+        const tagManagerArgs = {
+            gtmId: 'GTM-K22B94M',
+        };
+        TagManager.initialize(tagManagerArgs);
+
         const updateDynamicVh = () => {
             const vh = window.innerHeight * 0.01;
             document.documentElement.style.setProperty('--vh', `${vh}px`);
