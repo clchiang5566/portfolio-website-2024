@@ -60,7 +60,7 @@ $menuHeightMinimized: 60px;
           }
         }
         &-item {
-          margin-right: 5px;
+          margin-right: 4px;
           display: flex;
           align-items: center;
           @include tablet {
@@ -103,7 +103,7 @@ $menuHeightMinimized: 60px;
         align-items: center;
       }
       &-item {
-        width: 97px;
+        width: 99px;
         margin-left: 20px;
         text-transform: uppercase;
         cursor: pointer;

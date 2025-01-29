@@ -49,18 +49,20 @@ export function Model ({ url, index, isWireframe, color }) {
             setScene(loadedScene);
             setMixer(newMixer);
 
-            gsap.to(loadedScene.children, {
-                opacity: 1,
-                duration: 2,
-                delay: 0.2 + index * 0.3,
-                onUpdate: function () {
-                    loadedScene.traverse(child => {
-                        if (child.isMesh) {
-                            child.material.opacity = this.targets()[0].opacity;
-                        }
-                    });
-                },
-            });
+            if (loadedScene.children) {
+                gsap.to(loadedScene.children, {
+                    opacity: 1,
+                    duration: 2,
+                    delay: 0.2 + index * 0.3,
+                    onUpdate: function () {
+                        loadedScene.traverse(child => {
+                            if (child.isMesh) {
+                                child.material.opacity = this.targets()[0].opacity;
+                            }
+                        });
+                    },
+                });
+            }
         });
     }, [url]);
 

@@ -3,7 +3,6 @@ import gsap from 'gsap';
 import { Plane } from './Plane';
 import { Text, MeshWobbleMaterial } from '@react-three/drei';
 import { useMediaQueryCheck, useMediaQueryLaptopCheck } from '../../hooks/useMediaQueryCheck';
-
 import { useDispatch, useSelector } from 'react-redux';
 import {
     getIsActive,
@@ -12,7 +11,7 @@ import {
     getIsPoster,
     getCurrentIndex,
 } from '../../redux/works/works.selector';
-import { setDataUrl, setIsLoading, setIsSuccess, setIsPrevent, setIsPoster } from '../../redux/works/works.action';
+import { setDataUrl, setIsLoading, setIsSuccess, setIsPrevent } from '../../redux/works/works.action';
 import { EmergingImage } from './EmergingImage';
 import images from './data';
 import PropTypes from 'prop-types';

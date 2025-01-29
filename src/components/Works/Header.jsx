@@ -1,6 +1,5 @@
 import React, { useRef } from 'react';
 import { UseCanvas, useScrollRig, ScrollScene } from '@14islands/r3f-scroll-rig';
-import PropTypes from 'prop-types';
 import { Carousel } from './Carousel';
 import { useSelector, useDispatch } from 'react-redux';
 import { setWheelData, setPointerData, setIsActive, setIsHover } from '../../redux/works/works.action';

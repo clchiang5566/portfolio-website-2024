@@ -48,7 +48,7 @@ const GlitchText = ({ text, duration = 1500, frameInterval = 1, onUpdate }) => {
         } else {
             if (onUpdate) onUpdate(text);
         }
-    }, 10);
+    }, 20);
 
     useEffect(() => {
         if (!text) return;

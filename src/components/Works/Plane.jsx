@@ -170,7 +170,7 @@ export function Plane ({ index, material, texture, width, height, active, setIsR
             }}
             texture={tex}
             renderOrder={-1}
-            position={[0, 0, isMobile ? -0.7 : -1]}
+            position={[0, 0, -1]}
             transparent
             {...props}
         >

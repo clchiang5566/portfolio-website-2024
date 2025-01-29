@@ -2,7 +2,7 @@ import React, { useMemo } from 'react';
 import { MeshDistortMaterial } from '@react-three/drei';
 import * as THREE from 'three';
 import PropTypes from 'prop-types';
-import { useMediaQueryCheck } from '../../hooks/useMediaQueryCheck';
+import { useMediaQueryCheck, useMediaQueryLaptopCheck } from '../../hooks/useMediaQueryCheck';
 
 function createStarGeometry (points = 5, outerRadius = 1, innerRadius = 0.5, width = 1, height = 1) {
     const shape = new THREE.Shape();
@@ -32,8 +32,9 @@ function createStarGeometry (points = 5, outerRadius = 1, innerRadius = 0.5, wid
 
 export function Star ({ outerRadius = 1, innerRadius = 0.5, color = '#ffff4f' }) {
     const { isMobile } = useMediaQueryCheck(991);
-    const width = isMobile ? 1.3 : 3.6;
-    const height = isMobile ? 1.1 : 1.8;
+    const { isLaptop } = useMediaQueryLaptopCheck(1500);
+    const width = isMobile ? 1.3 : isLaptop ? 3.6 : 5;
+    const height = isMobile ? 1.1 : isLaptop ? 1.8 : 2.6;
     const points = isMobile ? 10 : 18;
 
     const geometry = useMemo(() => createStarGeometry(points, outerRadius, innerRadius, width, height), [

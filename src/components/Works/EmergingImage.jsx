@@ -269,7 +269,7 @@ export function EmergingImage ({ width, height, url, type, color, setImageShow, 
     }, [screenSize]);
 
     return (
-        <mesh ref={setRefMesh} {...props}>
+        <mesh ref={setRefMesh} {...props} position={[0, 0, -1]}>
             <planeGeometry args={[1, 1]} />
             <emergeMaterial
                 uFillColor={new THREE.Color(color)}

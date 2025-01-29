@@ -50,7 +50,7 @@ const GlitchHoverText = ({ text, duration = 1500, frameInterval = 1 }) => {
         } else {
             setDisplayText(text);
         }
-    }, 10);
+    }, 20);
 
     useEffect(() => {
         if (isHovered.current) {

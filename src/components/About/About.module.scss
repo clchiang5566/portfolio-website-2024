@@ -31,7 +31,6 @@
          border-top: 12px solid #313131;
          border-right: 12px solid transparent;
          border-left: 12px solid transparent;
-         // margin-bottom: 3px;
        }
     }
   }
@@ -132,7 +131,7 @@
   }
 
   .container {
-    max-width: 1100px;
+    max-width: 100%;
     margin: 0 auto;
     position: relative;
     // padding: 40px;
@@ -165,7 +164,7 @@
         }
       }
       .frame {
-        background-color: hsl(60, 100%, 97%);
+        background-color: white;
         border: 1px solid;
         border-radius: 16px;
         padding: 60px 40px;
@@ -213,7 +212,7 @@
         }
         p {
            font-size: 18px;
-           font-weight: 500;
+           // font-weight: 500;
            letter-spacing: 1px;
            line-height: 2;
            margin-bottom: 20px;
