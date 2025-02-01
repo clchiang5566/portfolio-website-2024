@@ -42,6 +42,11 @@ export function Plane ({ index, material, texture, width, height, active, setIsR
                 y: active && isMobile ? viewport.height / 1.5 : active && !isMobile ? viewport.height * 1.11 : height,
                 duration: isPoster ? 0 : 1,
             });
+            gsap.to(material.current[currentIndex].material.uniforms.distort, {
+                value: 1,
+                duration: 0.4,
+                overwrite: true,
+            });
             if (active || isPoster) {
                 material.current[index].material.uniforms.isActive.value = 1;
             } else {
@@ -163,7 +168,7 @@ export function Plane ({ index, material, texture, width, height, active, setIsR
         if (material.current[currentIndex].material) {
             if (isHover) {
                 gsap.to(material.current[currentIndex].material.uniforms.distort, {
-                    value: isMobile ? 1.2 : 2.5,
+                    value: isMobile ? 1.5 : 3.5,
                     duration: 0.4,
                     overwrite: true,
                 });
@@ -184,7 +189,7 @@ export function Plane ({ index, material, texture, width, height, active, setIsR
             }}
             texture={tex}
             renderOrder={-1}
-            position={[0, 0, -1.2]}
+            position={[0, 0, -1.5]}
             transparent
             {...props}
         >

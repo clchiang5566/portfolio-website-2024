@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import style from './WorksDetail.module.scss';
 import { Headline, Subtitle } from '../Common/Text';
 import { useDispatch } from 'react-redux';
-import { setIsCarousel } from '../../redux/works/works.action';
+import { setIsCarousel, setIsTextReady } from '../../redux/works/works.action';
 import dynamic from 'next/dynamic';
 import PropTypes from 'prop-types';
 
@@ -17,6 +17,7 @@ export function Content ({ contents }) {
     const handBackClick = () => {
         setShow(false);
         dispatch(setIsCarousel(true));
+        dispatch(setIsTextReady(true));
     };
 
     useEffect(() => {
@@ -65,8 +66,7 @@ export function Content ({ contents }) {
                                         repeatCount='indefinite'
                                     />
                                     Prev - Prev - Prev - Prev - Prev - Prev - Prev - Prev - Prev - Prev - Prev - Prev -
-                                    Prev - Prev - Prev - Prev - Prev - Prev - Prev - Prev - Prev - Prev - Prev - Prev -
-                                    Prev - Prev - Prev - Prev - Prev
+                                    Prev - Prev - Prev - Prev - Prev - Prev - Prev - Prev - Prev - Prev -
                                 </textPath>
                             </text>
                         </svg>

@@ -18,7 +18,6 @@ import {
     getIsLoading,
     getIsSuccess,
     getIsVertical,
-    getIsTextReady,
 } from '../../redux/works/works.selector';
 import {
     setCurrentColor,
@@ -51,7 +50,7 @@ export function Carousel () {
     const index = isPoster ? currentIndex : 0;
     const [activePlane, setActivePlane] = useState(isPoster ? currentIndex : null);
     const currentIndexRef = useRef(isPoster ? currentIndex : null);
-    // const [isTextReady, setTextReady] = useState(isPoster);
+    const [textReady, setTextReady] = useState(isPoster);
     const { isMobile } = useMediaQueryCheck(991);
     const { isLaptop } = useMediaQueryLaptopCheck(1500);
 
@@ -73,7 +72,6 @@ export function Carousel () {
     const isCarousel = useSelector(getIsCarousel);
     const isPrevent = useSelector(getIsPrevent);
     const isVertical = useSelector(getIsVertical);
-    const isTextReady = useSelector(getIsTextReady);
 
     const isSuccess = useSelector(getIsSuccess);
     const isLoading = useSelector(getIsLoading);
@@ -126,7 +124,7 @@ export function Carousel () {
                 : active > index
                 ? $items.length * 3 + piramidalIndex * -3
                 : $items.length * -3 + piramidalIndex * 3,
-            duration: isPoster || isTextReady === false ? 0 : 2,
+            duration: isPoster || textReady === false ? 0 : 2,
         });
     };
 
@@ -137,7 +135,7 @@ export function Carousel () {
     };
 
     useEffect(() => {
-        if (wheelData !== null && isTextReady) {
+        if (wheelData !== null && textReady) {
             if (activePlane !== null) return;
             const isVerticalScroll = Math.abs(wheelData.deltaY) > Math.abs(wheelData.deltaX);
             const wheelProgress = isVerticalScroll ? wheelData.deltaY : wheelData.deltaX;
@@ -145,7 +143,7 @@ export function Carousel () {
             progress.current = progress.current + wheelProgress * speedWheel;
         }
 
-        if (pointerData !== null && isTextReady) {
+        if (pointerData !== null && textReady) {
             switch (pointerData.type) {
                 case 'pointerdown':
                     if (activePlane !== null) return;
@@ -186,11 +184,11 @@ export function Carousel () {
     }, [pointerData, wheelData]);
 
     useEffect(() => {
-        if (Math.abs(speed.current) > 10 && !isPrevent && !isPoster && isTextReady) {
+        if (Math.abs(speed.current) > 10 && !isPrevent && !isPoster && textReady) {
             dispatch(setIsPrevent(true));
             dispatch(setIsHover(false));
         }
-        if (Math.abs(speed.current) < 10 && isPrevent && !isPoster && isTextReady) {
+        if (Math.abs(speed.current) < 10 && isPrevent && !isPoster && textReady) {
             dispatch(setIsPrevent(false));
         }
     }, [speed.current]);
@@ -279,8 +277,8 @@ export function Carousel () {
                         setActivePlane={setActivePlane}
                         activePlane={activePlane}
                         material={material}
-                        // isTextReady={isTextReady}
-                        // setTextReady={setTextReady}
+                        textReady={textReady}
+                        setTextReady={setTextReady}
                         key={i}
                     />
                 ))}
@@ -291,7 +289,7 @@ export function Carousel () {
     return (
         <group>
             {renderSlider()}
-            {isTextReady && activePlane == null && <TextGroup currentIndex={currentIndexRef.current} />}
+            {textReady && activePlane == null && <TextGroup currentIndex={currentIndexRef.current} />}
             {!isPoster && activePlane == null && <Model texturePath={images[currentIndexRef.current]?.texture} />}
             <RouteWatcher />
         </group>
