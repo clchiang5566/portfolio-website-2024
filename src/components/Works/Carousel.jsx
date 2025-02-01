@@ -17,6 +17,8 @@ import {
     getDataUrl,
     getIsLoading,
     getIsSuccess,
+    getIsVertical,
+    getIsTextReady,
 } from '../../redux/works/works.selector';
 import {
     setCurrentColor,
@@ -30,10 +32,10 @@ import { Model } from './Model';
 import RouteWatcher from './RouteWatcher';
 
 const planeSettings = {
-    desktop: { width: 5.25, height: 7 },
-    laptop: { width: 3.75, height: 5 },
-    mobile: { width: 2.625, height: 3.5 },
-    gap: 3.5,
+    desktop: { width: 5.25, height: 7, gap: 5.5 },
+    laptop: { width: 3.75, height: 5, gap: 4.5 },
+    mobile: { width: 2.625, height: 3.5, gap: 0.5, verticalGap: 1.5 },
+    gap: 4.5,
 };
 
 gsap.defaults({
@@ -49,12 +51,13 @@ export function Carousel () {
     const index = isPoster ? currentIndex : 0;
     const [activePlane, setActivePlane] = useState(isPoster ? currentIndex : null);
     const currentIndexRef = useRef(isPoster ? currentIndex : null);
-    const [isTextReady, setTextReady] = useState(isPoster);
+    // const [isTextReady, setTextReady] = useState(isPoster);
     const { isMobile } = useMediaQueryCheck(991);
     const { isLaptop } = useMediaQueryLaptopCheck(1500);
 
     const progress = useRef(index ? Math.round((100 / 8) * (index + 1)) : 0);
     const startY = useRef(0);
+    const startX = useRef(0);
     const isDown = useRef(false);
     const speedWheel = 0.009;
     const speedDrag = 0.02;
@@ -69,6 +72,8 @@ export function Carousel () {
     const material = useRef({});
     const isCarousel = useSelector(getIsCarousel);
     const isPrevent = useSelector(getIsPrevent);
+    const isVertical = useSelector(getIsVertical);
+    const isTextReady = useSelector(getIsTextReady);
 
     const isSuccess = useSelector(getIsSuccess);
     const isLoading = useSelector(getIsLoading);
@@ -87,16 +92,40 @@ export function Carousel () {
             );
         }
         gsap.to(item.position, {
-            x: $items.length * -0.1 + piramidalIndex * 0.1,
-            y:
-                (index - active) *
-                -(
-                    (isMobile
-                        ? planeSettings.mobile.height
-                        : isLaptop
-                        ? planeSettings.laptop.height
-                        : planeSettings.desktop.height) + planeSettings.gap
-                ),
+            x: isVertical
+                ? $items.length * -0.1 + piramidalIndex * 0.1
+                : (index - active) *
+                  ((isMobile
+                      ? planeSettings.mobile.width
+                      : isLaptop
+                      ? planeSettings.laptop.width
+                      : planeSettings.desktop.width) +
+                      (isMobile
+                          ? planeSettings.mobile.gap
+                          : isMobile && isVertical
+                          ? planeSettings.mobile.verticalGap
+                          : isLaptop
+                          ? planeSettings.laptop.gap
+                          : planeSettings.desktop.gap)),
+            y: isVertical
+                ? (index - active) *
+                  -(
+                      (isMobile
+                          ? planeSettings.mobile.height
+                          : isLaptop
+                          ? planeSettings.laptop.height
+                          : planeSettings.desktop.height) +
+                      (isMobile && !isVertical
+                          ? planeSettings.mobile.gap
+                          : isMobile && isVertical
+                          ? planeSettings.mobile.verticalGap
+                          : isLaptop
+                          ? planeSettings.laptop.gap
+                          : planeSettings.desktop.gap)
+                  )
+                : active > index
+                ? $items.length * 3 + piramidalIndex * -3
+                : $items.length * -3 + piramidalIndex * 3,
             duration: isPoster || isTextReady === false ? 0 : 2,
         });
     };
@@ -121,13 +150,24 @@ export function Carousel () {
                 case 'pointerdown':
                     if (activePlane !== null) return;
                     isDown.current = true;
-                    startY.current =
-                        pointerData.clientY || (pointerData.touches && pointerData.touches[0].clientY) || 0;
+                    if (isVertical) {
+                        startY.current =
+                            pointerData.clientY || (pointerData.touches && pointerData.touches[0].clientY) || 0;
+                    } else {
+                        startX.current =
+                            pointerData.clientX || (pointerData.touches && pointerData.touches[0].clientX) || 0;
+                    }
                     break;
                 case 'pointermove': {
                     if (activePlane !== null || !isDown.current) return;
-                    const y = pointerData.clientY || (pointerData.touches && pointerData.touches[0].clientY) || 0;
-                    const mouseProgress = (y - startY.current) * speedDrag;
+                    let mouseProgress;
+                    if (isVertical) {
+                        const y = pointerData.clientY || (pointerData.touches && pointerData.touches[0].clientY) || 0;
+                        mouseProgress = (y - startY.current) * speedDrag;
+                    } else {
+                        const x = pointerData.clientX || (pointerData.touches && pointerData.touches[0].clientX) || 0;
+                        mouseProgress = (x - startX.current) * speedDrag;
+                    }
                     progress.current = progress.current - mouseProgress;
                     break;
                 }
@@ -239,8 +279,8 @@ export function Carousel () {
                         setActivePlane={setActivePlane}
                         activePlane={activePlane}
                         material={material}
-                        isTextReady={isTextReady}
-                        setTextReady={setTextReady}
+                        // isTextReady={isTextReady}
+                        // setTextReady={setTextReady}
                         key={i}
                     />
                 ))}
