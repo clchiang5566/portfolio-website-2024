@@ -13,3 +13,4 @@ export const getIsPrevent = state => state.works.get('isPrevent');
 export const getIsDetailPage = state => state.works.get('isDetailPage');
 export const getIsPoster = state => state.works.get('isPoster');
 export const getIsHover = state => state.works.get('isHover');
+export const getIsVertical = state => state.works.get('isVertical');

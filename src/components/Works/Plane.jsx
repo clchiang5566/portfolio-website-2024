@@ -5,7 +5,7 @@ import { useMediaQueryCheck } from '../../hooks/useMediaQueryCheck';
 import PropTypes from 'prop-types';
 import gsap from 'gsap';
 import { useSelector } from 'react-redux';
-import { getCurrentIndex, getIsPoster, getIsHover } from '../../redux/works/works.selector';
+import { getCurrentIndex, getIsPoster, getIsHover, getIsVertical } from '../../redux/works/works.selector';
 
 export function Plane ({ index, material, texture, width, height, active, setIsReady, ...props }) {
     const { viewport } = useThree();
@@ -13,6 +13,7 @@ export function Plane ({ index, material, texture, width, height, active, setIsR
     const currentIndex = useSelector(getCurrentIndex);
     const isPoster = useSelector(getIsPoster);
     const isHover = useSelector(getIsHover);
+    const isVertical = useSelector(getIsVertical);
     const { isMobile } = useMediaQueryCheck(991);
 
     useEffect(() => {
@@ -49,6 +50,14 @@ export function Plane ({ index, material, texture, width, height, active, setIsR
         }
     }, [active]);
 
+    useEffect(() => {
+        if (isVertical) {
+            material.current[index].material.uniforms.isVertical.value = 1;
+        } else {
+            material.current[index].material.uniforms.isVertical.value = 0;
+        }
+    }, [isVertical]);
+
     const shaderArgs = useMemo(
         () => ({
             uniforms: {
@@ -68,6 +77,7 @@ export function Plane ({ index, material, texture, width, height, active, setIsR
                 distort: { value: 0.8 },
                 shift: { value: 0 },
                 isActive: { value: 0 },
+                isVertical: { value: isVertical },
             },
             vertexShader: /* glsl */ `
                 varying vec2 vUv;
@@ -78,6 +88,7 @@ export function Plane ({ index, material, texture, width, height, active, setIsR
                 uniform float time;
                 uniform float distort;
                 uniform float isActive;
+                uniform float isVertical;
             
                 // Perlin noise function
                 float rand(vec2 co){
@@ -106,7 +117,10 @@ export function Plane ({ index, material, texture, width, height, active, setIsR
                 float angle = uProgress * 3.14159265 / 2.;
                 float wave = cos(angle);
                 float c = sin(length(uv - .5) * 15. + uProgress * 12.) * .5 + .5;
-                pos.y += (1.0 - isActive) * (sin(uv.x * 3.1415926535897932384626433832795) * shift * 3.0) * 0.125;
+
+                pos.y += (1.0 - isActive) * (sin(uv.x * 3.14159) * shift * 3.0) * 0.125;
+                pos.x += (1.0 - isVertical) * (1.0 - isActive) * -(sin(uv.y * 3.14159) * shift * 3.0) * 0.125;
+
                 pos.x *= mix(1., uZoomScale.x + wave * c, uProgress);
                 pos.y *= mix(1., uZoomScale.y + wave * c, uProgress);
             
@@ -170,7 +184,7 @@ export function Plane ({ index, material, texture, width, height, active, setIsR
             }}
             texture={tex}
             renderOrder={-1}
-            position={[0, 0, -1]}
+            position={[0, 0, -1.2]}
             transparent
             {...props}
         >

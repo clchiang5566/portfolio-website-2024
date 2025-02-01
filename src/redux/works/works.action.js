@@ -10,6 +10,7 @@ export const SET_IS_DETAILPAGE = 'SET_IS_DETAILPAGE';
 export const SET_IS_PREVENT = 'SET_IS_PREVENT';
 export const SET_IS_POSTER = 'SET_IS_POSTER';
 export const SET_IS_HOVER = 'SET_IS_HOVER';
+export const SET_IS_VERTICAL = 'SET_IS_VERTICAL';
 export const SET_DATA_URL = 'SET_DATA_URL';
 export const SET_CURRENT_COLOR = 'SET_CURRENT_COLOR';
 export const SET_CURRENT_INDEX = 'SET_CURRENT_INDEX';

@@ -9,6 +9,7 @@ import {
     getIsLoading,
     getIsCarousel,
     getIsPoster,
+    getIsVertical,
     getCurrentIndex,
 } from '../../redux/works/works.selector';
 import { setDataUrl, setIsLoading, setIsSuccess, setIsPrevent } from '../../redux/works/works.action';
@@ -40,6 +41,7 @@ export function CarouselItem ({
     const isActive = useSelector(getIsActive);
     const isLoading = useSelector(getIsLoading);
     const isCarousel = useSelector(getIsCarousel);
+    const isVertical = useSelector(getIsVertical);
 
     useEffect(() => {
         if (activePlane === index) {
@@ -157,7 +159,7 @@ export function CarouselItem ({
             <Text
                 ref={textRef}
                 position={[0, 0, 2]}
-                fontSize={isMobile && currentIndex === 0 ? 0.3 : isMobile ? 0.42 : isLaptop ? 0.9 : 1.2}
+                fontSize={isMobile && currentIndex === 0 ? 0.3 : isMobile ? 0.42 : isVertical && isLaptop ? 0.9 : !isVertical && isLaptop ? 0.8 : 1.2}
                 color={images[currentIndex]?.bgColor}
                 outlineWidth={0.01}
                 outlineColor='#313131'
