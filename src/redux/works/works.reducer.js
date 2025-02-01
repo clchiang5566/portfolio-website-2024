@@ -15,6 +15,7 @@ import {
     SET_IS_POSTER,
     SET_IS_HOVER,
     SET_IS_VERTICAL,
+    SET_IS_TEXTREADY,
     SET_DATA_URL,
     SET_CURRENT_COLOR,
     SET_CURRENT_INDEX,
@@ -39,7 +40,8 @@ const initialState = fromJS({
     isDetailPage: false,
     isPoster: false,
     isHover: false,
-    isVertical: false,
+    isVertical: true,
+    isTextReady: false,
     dataUrl: null,
 });
 
@@ -89,6 +91,9 @@ export const works = createReducer(initialState, builder => {
         })
         .addCase(SET_IS_VERTICAL, (state, action) => {
             return state.set('isVertical', action.payload);
+        })
+        .addCase(SET_IS_TEXTREADY, (state, action) => {
+            return state.set('isTextReady', action.payload);
         })
         .addCase(SET_DATA_URL, (state, action) => {
             return state.set('dataUrl', action.payload);

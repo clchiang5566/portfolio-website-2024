@@ -11,6 +11,7 @@ export const SET_IS_PREVENT = 'SET_IS_PREVENT';
 export const SET_IS_POSTER = 'SET_IS_POSTER';
 export const SET_IS_HOVER = 'SET_IS_HOVER';
 export const SET_IS_VERTICAL = 'SET_IS_VERTICAL';
+export const SET_IS_TEXTREADY = 'SET_IS_TEXTREADY';
 export const SET_DATA_URL = 'SET_DATA_URL';
 export const SET_CURRENT_COLOR = 'SET_CURRENT_COLOR';
 export const SET_CURRENT_INDEX = 'SET_CURRENT_INDEX';
@@ -123,6 +124,24 @@ export const setIsHover = isHover => {
         dispatch({
             type: SET_IS_HOVER,
             payload: isHover,
+        });
+    };
+};
+
+export const setIsVertical = isVertical => {
+    return async dispatch => {
+        dispatch({
+            type: SET_IS_VERTICAL,
+            payload: isVertical,
+        });
+    };
+};
+
+export const setIsTextReady = isTextReady => {
+    return async dispatch => {
+        dispatch({
+            type: SET_IS_TEXTREADY,
+            payload: isTextReady,
         });
     };
 };

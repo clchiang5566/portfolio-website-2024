@@ -10,24 +10,15 @@ import {
     getIsCarousel,
     getIsPoster,
     getIsVertical,
+    getIsTextReady,
     getCurrentIndex,
 } from '../../redux/works/works.selector';
-import { setDataUrl, setIsLoading, setIsSuccess, setIsPrevent } from '../../redux/works/works.action';
+import { setDataUrl, setIsLoading, setIsSuccess, setIsPrevent, setIsTextReady } from '../../redux/works/works.action';
 import { EmergingImage } from './EmergingImage';
 import images from './data';
 import PropTypes from 'prop-types';
 
-export function CarouselItem ({
-    index,
-    width,
-    height,
-    setActivePlane,
-    activePlane,
-    item,
-    isTextReady,
-    material,
-    setTextReady,
-}) {
+export function CarouselItem ({ index, width, height, setActivePlane, activePlane, item, material }) {
     const $root = useRef();
     const textRef = useRef();
     const isPoster = useSelector(getIsPoster);
@@ -42,6 +33,7 @@ export function CarouselItem ({
     const isLoading = useSelector(getIsLoading);
     const isCarousel = useSelector(getIsCarousel);
     const isVertical = useSelector(getIsVertical);
+    const isTextReady = useSelector(getIsTextReady);
 
     useEffect(() => {
         if (activePlane === index) {
@@ -92,7 +84,7 @@ export function CarouselItem ({
                     ease: 'power2.inOut',
                     onComplete: () => {
                         setTimeout(() => {
-                            setTextReady(true);
+                            dispatch(setIsTextReady(true));
                             dispatch(setIsPrevent(false));
                         }, 200);
                     },
@@ -159,7 +151,9 @@ export function CarouselItem ({
             <Text
                 ref={textRef}
                 position={[0, 0, 2]}
-                fontSize={isMobile && currentIndex === 0 ? 0.3 : isMobile ? 0.42 : isVertical && isLaptop ? 0.9 : !isVertical && isLaptop ? 0.8 : 1.2}
+                fontSize={
+                    isMobile && currentIndex === 0 ? 0.3 : isMobile ? 0.42 : isLaptop ? 0.8 : isVertical ? 1.2 : 1
+                }
                 color={images[currentIndex]?.bgColor}
                 outlineWidth={0.01}
                 outlineColor='#313131'
@@ -185,8 +179,6 @@ CarouselItem.propTypes = {
     setActivePlane: PropTypes.func,
     activePlane: PropTypes.number,
     item: PropTypes.object,
-    isTextReady: PropTypes.bool,
     material: PropTypes.object,
-    setTextReady: PropTypes.func,
     apiUrl: PropTypes.string,
 };

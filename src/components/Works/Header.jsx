@@ -2,8 +2,16 @@ import React, { useRef } from 'react';
 import { UseCanvas, useScrollRig, ScrollScene } from '@14islands/r3f-scroll-rig';
 import { Carousel } from './Carousel';
 import { useSelector, useDispatch } from 'react-redux';
-import { setWheelData, setPointerData, setIsActive, setIsHover } from '../../redux/works/works.action';
-import { getIsPrevent, getIsDetailPage, getIsHover } from '../../redux/works/works.selector';
+import { setWheelData, setPointerData, setIsActive, setIsHover, setIsVertical } from '../../redux/works/works.action';
+import {
+    getIsPrevent,
+    getIsDetailPage,
+    getIsHover,
+    getCurrentColor,
+    getIsVertical,
+    getIsTextReady,
+} from '../../redux/works/works.selector';
+import { lightenHex } from '../../utils/common';
 import style from '../WorksDetail/WorksDetail.module.scss';
 
 export function Header () {
@@ -12,7 +20,10 @@ export function Header () {
     const { hasSmoothScrollbar } = useScrollRig();
     const isPrevent = useSelector(getIsPrevent);
     const isHover = useSelector(getIsHover);
+    const isVertical = useSelector(getIsVertical);
     const isDetailPage = useSelector(getIsDetailPage);
+    const isTextReady = useSelector(getIsTextReady);
+    const currentColor = useSelector(getCurrentColor);
 
     return (
         <header
@@ -39,6 +50,20 @@ export function Header () {
                         dispatch(setIsActive(true));
                     }}
                 />
+            )}
+            {isTextReady && !isDetailPage && (
+                <div
+                    className={[style.switchButton, isVertical ? style.isVertical : null].join(' ')}
+                    style={{ backgroundColor: `${currentColor}` }}
+                >
+                    <div className={style.active} style={{ backgroundColor: `${lightenHex(currentColor, -20)}` }} />
+                    <div className={style.button} onClick={() => (!isVertical ? dispatch(setIsVertical(true)) : null)}>
+                        ┆
+                    </div>
+                    <div className={style.button} onClick={() => (isVertical ? dispatch(setIsVertical(false)) : null)}>
+                        ┄
+                    </div>
+                </div>
             )}
         </header>
     );

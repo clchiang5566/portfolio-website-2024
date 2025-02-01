@@ -17,7 +17,8 @@ import {
     getDataUrl,
     getIsLoading,
     getIsSuccess,
-    getIsVertical
+    getIsVertical,
+    getIsTextReady,
 } from '../../redux/works/works.selector';
 import {
     setCurrentColor,
@@ -31,9 +32,9 @@ import { Model } from './Model';
 import RouteWatcher from './RouteWatcher';
 
 const planeSettings = {
-    desktop: { width: 5.25, height: 7 },
-    laptop: { width: 3.75, height: 5 },
-    mobile: { width: 2.625, height: 3.5 },
+    desktop: { width: 5.25, height: 7, gap: 5.5 },
+    laptop: { width: 3.75, height: 5, gap: 4.5 },
+    mobile: { width: 2.625, height: 3.5, gap: 0.5, verticalGap: 1.5 },
     gap: 4.5,
 };
 
@@ -50,7 +51,7 @@ export function Carousel () {
     const index = isPoster ? currentIndex : 0;
     const [activePlane, setActivePlane] = useState(isPoster ? currentIndex : null);
     const currentIndexRef = useRef(isPoster ? currentIndex : null);
-    const [isTextReady, setTextReady] = useState(isPoster);
+    // const [isTextReady, setTextReady] = useState(isPoster);
     const { isMobile } = useMediaQueryCheck(991);
     const { isLaptop } = useMediaQueryLaptopCheck(1500);
 
@@ -72,6 +73,7 @@ export function Carousel () {
     const isCarousel = useSelector(getIsCarousel);
     const isPrevent = useSelector(getIsPrevent);
     const isVertical = useSelector(getIsVertical);
+    const isTextReady = useSelector(getIsTextReady);
 
     const isSuccess = useSelector(getIsSuccess);
     const isLoading = useSelector(getIsLoading);
@@ -90,8 +92,40 @@ export function Carousel () {
             );
         }
         gsap.to(item.position, {
-            x: isVertical ? $items.length * -0.1 + piramidalIndex * 0.1 : (index - active) * ((isMobile ? planeSettings.mobile.width : isLaptop ? planeSettings.laptop.width : planeSettings.desktop.width) + planeSettings.gap),
-            y: isVertical ? (index - active) * -((isMobile ? planeSettings.mobile.height : isLaptop ? planeSettings.laptop.height : planeSettings.desktop.height) + planeSettings.gap) : active > index ? $items.length * 3 + piramidalIndex * -3 : $items.length * -3 + piramidalIndex * 3,
+            x: isVertical
+                ? $items.length * -0.1 + piramidalIndex * 0.1
+                : (index - active) *
+                  ((isMobile
+                      ? planeSettings.mobile.width
+                      : isLaptop
+                      ? planeSettings.laptop.width
+                      : planeSettings.desktop.width) +
+                      (isMobile
+                          ? planeSettings.mobile.gap
+                          : isMobile && isVertical
+                          ? planeSettings.mobile.verticalGap
+                          : isLaptop
+                          ? planeSettings.laptop.gap
+                          : planeSettings.desktop.gap)),
+            y: isVertical
+                ? (index - active) *
+                  -(
+                      (isMobile
+                          ? planeSettings.mobile.height
+                          : isLaptop
+                          ? planeSettings.laptop.height
+                          : planeSettings.desktop.height) +
+                      (isMobile && !isVertical
+                          ? planeSettings.mobile.gap
+                          : isMobile && isVertical
+                          ? planeSettings.mobile.verticalGap
+                          : isLaptop
+                          ? planeSettings.laptop.gap
+                          : planeSettings.desktop.gap)
+                  )
+                : active > index
+                ? $items.length * 3 + piramidalIndex * -3
+                : $items.length * -3 + piramidalIndex * 3,
             duration: isPoster || isTextReady === false ? 0 : 2,
         });
     };
@@ -132,9 +166,9 @@ export function Carousel () {
                         mouseProgress = (y - startY.current) * speedDrag;
                     } else {
                         const x = pointerData.clientX || (pointerData.touches && pointerData.touches[0].clientX) || 0;
-                        mouseProgress = (x - startX.current) * speedDrag;  
+                        mouseProgress = (x - startX.current) * speedDrag;
                     }
-                    progress.current = progress.current - mouseProgress; 
+                    progress.current = progress.current - mouseProgress;
                     break;
                 }
                 case 'pointerup':
@@ -245,8 +279,8 @@ export function Carousel () {
                         setActivePlane={setActivePlane}
                         activePlane={activePlane}
                         material={material}
-                        isTextReady={isTextReady}
-                        setTextReady={setTextReady}
+                        // isTextReady={isTextReady}
+                        // setTextReady={setTextReady}
                         key={i}
                     />
                 ))}
