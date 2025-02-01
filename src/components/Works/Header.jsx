@@ -10,6 +10,7 @@ import {
     getCurrentColor,
     getIsVertical,
     getIsTextReady,
+    getIsPoster,
 } from '../../redux/works/works.selector';
 import { lightenHex } from '../../utils/common';
 import style from '../WorksDetail/WorksDetail.module.scss';
@@ -23,6 +24,7 @@ export function Header () {
     const isVertical = useSelector(getIsVertical);
     const isDetailPage = useSelector(getIsDetailPage);
     const isTextReady = useSelector(getIsTextReady);
+    const isPoster = useSelector(getIsPoster);
     const currentColor = useSelector(getCurrentColor);
 
     return (
@@ -51,12 +53,12 @@ export function Header () {
                     }}
                 />
             )}
-            {isTextReady && !isDetailPage && (
+            {isTextReady && !isPoster && (
                 <div
                     className={[style.switchButton, isVertical ? style.isVertical : null].join(' ')}
                     style={{ backgroundColor: `${currentColor}` }}
                 >
-                    <div className={style.active} style={{ backgroundColor: `${lightenHex(currentColor, -20)}` }} />
+                    <div className={style.active} style={{ backgroundColor: `${lightenHex(currentColor, -15)}` }} />
                     <div className={style.button} onClick={() => (!isVertical ? dispatch(setIsVertical(true)) : null)}>
                         ┆
                     </div>

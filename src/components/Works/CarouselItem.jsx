@@ -10,7 +10,6 @@ import {
     getIsCarousel,
     getIsPoster,
     getIsVertical,
-    getIsTextReady,
     getCurrentIndex,
 } from '../../redux/works/works.selector';
 import { setDataUrl, setIsLoading, setIsSuccess, setIsPrevent, setIsTextReady } from '../../redux/works/works.action';
@@ -18,7 +17,17 @@ import { EmergingImage } from './EmergingImage';
 import images from './data';
 import PropTypes from 'prop-types';
 
-export function CarouselItem ({ index, width, height, setActivePlane, activePlane, item, material }) {
+export function CarouselItem ({
+    index,
+    width,
+    height,
+    setActivePlane,
+    activePlane,
+    item,
+    material,
+    textReady,
+    setTextReady,
+}) {
     const $root = useRef();
     const textRef = useRef();
     const isPoster = useSelector(getIsPoster);
@@ -33,11 +42,11 @@ export function CarouselItem ({ index, width, height, setActivePlane, activePlan
     const isLoading = useSelector(getIsLoading);
     const isCarousel = useSelector(getIsCarousel);
     const isVertical = useSelector(getIsVertical);
-    const isTextReady = useSelector(getIsTextReady);
 
     useEffect(() => {
         if (activePlane === index) {
             setIsAnimation(activePlane === index);
+            dispatch(setIsTextReady(false));
             $root.current.visible = true;
             if (!isPoster) {
                 setActivePlane(currentIndex);
@@ -84,6 +93,7 @@ export function CarouselItem ({ index, width, height, setActivePlane, activePlan
                     ease: 'power2.inOut',
                     onComplete: () => {
                         setTimeout(() => {
+                            setTextReady(true);
                             dispatch(setIsTextReady(true));
                             dispatch(setIsPrevent(false));
                         }, 200);
@@ -119,7 +129,7 @@ export function CarouselItem ({ index, width, height, setActivePlane, activePlan
     }, [isReady]);
 
     useEffect(() => {
-        if (isActive && currentIndex === index && isTextReady) {
+        if (isActive && currentIndex === index && textReady) {
             // console.log('isActive', 'isReady:', isReady, 'isLoading:', isLoading, 'isPoster:', isPoster);
             setActivePlane(currentIndex);
         }
@@ -181,4 +191,6 @@ CarouselItem.propTypes = {
     item: PropTypes.object,
     material: PropTypes.object,
     apiUrl: PropTypes.string,
+    textReady: PropTypes.bool,
+    setTextReady: PropTypes.func,
 };
