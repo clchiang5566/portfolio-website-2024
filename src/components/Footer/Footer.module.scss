@@ -16,11 +16,15 @@
     min-height: 80vh;
   }
   .headline {
-    font-size: 54px;
+    font-size: 72px;
     font-weight: bold;
     position: relative;
     z-index: 1;
     letter-spacing: 3px;
+    margin: 10px 0;
+    @include desktop-l {
+      font-size: 54px;
+    }
     @include tablet {
       font-size: 32px;
       text-align: center;
@@ -28,27 +32,38 @@
   }
   .links {
     display: flex;
-    font-size: 18px;
-    margin-top: 10px;
+    font-size: 28px;
+    margin-top: 20px;
+    overflow: hidden;
+    @include desktop-l {
+      font-size: 18px;
+      margin-top: 10px;
+    }
     @include tablet {
       font-size: 14px;
     }
     b {
-      margin: 0 10px;
-      padding-top: 10px;
+      margin: 0 14px;
+      padding-top: 13px;
+      @include tablet {
+        margin: 0 10px;
+      }
+      @include mobile-m {
+        margin: 0 8px;
+      }
     }
   }
   :global .button {
     // margin-top: 20px;
-    padding: 7px 0;
+    padding: 12px 0;
     position: relative;
     display: inline-block;
     overflow: hidden;
-  @include mobile {
-    margin-top: 0;
-  }	
+    @include mobile {
+      margin-top: 0;
+    }	
     a {
-      font-size: 14px;
+      font-size: 24px;
       letter-spacing: 1px;
       position: relative;
       color: $color-text;
@@ -57,6 +72,10 @@
           white-space: nowrap;
       &:hover :global .button__graphic--slide {
         transform: translate3d(-66.6%, 0, 0);
+    }
+    @include desktop-l {
+      font-size: 16px;
+      padding-bottom: 12px;
     }
     @include mobile {
       font-size: 12px;
@@ -77,7 +96,7 @@
 
   &__graphic--slide {
       top: -3px;
-      stroke-width: 2px;
+      // stroke-width: 2px;
       transition: transform 0.7s;
       transition-timing-function: cubic-bezier(0, 0.25, 0.5, 1);
   }

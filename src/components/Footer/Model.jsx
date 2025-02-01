@@ -26,18 +26,20 @@ export function Model ({ url, texturePath }) {
                     child.material.opacity = 0;
                 }
             });
-            gsap.to(loadedScene.children, {
-                opacity: 1,
-                duration: 2,
-                delay: 0.5,
-                onUpdate: function () {
-                    loadedScene.traverse(child => {
-                        if (child.isMesh) {
-                            child.material.opacity = this.targets()[0].opacity;
-                        }
-                    });
-                },
-            });
+            if (loadedScene.children) {
+                gsap.to(loadedScene.children, {
+                    opacity: 1,
+                    duration: 2,
+                    delay: 0.5,
+                    onUpdate: function () {
+                        loadedScene.traverse(child => {
+                            if (child.isMesh) {
+                                child.material.opacity = this.targets()[0].opacity;
+                            }
+                        });
+                    },
+                });
+            }
         });
     }, [url]);
 

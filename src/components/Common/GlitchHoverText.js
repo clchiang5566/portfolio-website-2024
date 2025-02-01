@@ -1,3 +1,4 @@
+/* eslint-env browser */
 import React, { useState, useEffect, useRef } from 'react';
 import { throttle } from 'lodash';
 import PropTypes from 'prop-types';
@@ -49,7 +50,7 @@ const GlitchHoverText = ({ text, duration = 1500, frameInterval = 1 }) => {
         } else {
             setDisplayText(text);
         }
-    }, 10);
+    }, 20);
 
     useEffect(() => {
         if (isHovered.current) {

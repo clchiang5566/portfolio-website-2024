@@ -6,12 +6,34 @@
     @include tablet {
         padding: 15px;
     }
+    .bg {
+        width: 100vw;
+        height: calc(var(--vh, 1vh) * 100);
+        position: absolute;
+        top: 0;
+        left: 0;
+        transition: all 0.2s ease-in-out;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        .clickButton {
+            width: 26vw;
+            height: 55vh;
+            // background-color: rgba($color: #000000, $alpha: 0.5);
+            cursor: pointer;
+            @include tablet {
+                width: 60vw;
+                height: 50vh;
+            }
+        }
+    }
     .container {
-      max-width: $container-md;
+      // max-width: $container-md;
       margin: 100px auto 0 auto;
+      padding: 0 15px;
       @include desktop-l {
-        max-width: $desktop-sm-bp;
-        padding: 0 22px;
+        // max-width: $desktop-sm-bp;
+        padding: 0 10px;
       }
       @include tablet {
         padding: 0;
@@ -24,11 +46,21 @@
         @include tablet {
             height: inherit;
         }
+        &.show {
+            .arrow {
+                opacity: 1;
+            }
+            .back {
+                opacity: 1;
+            }
+        }
         .arrow {
             position: absolute;
             right: 42px;
             top: calc(100vh - 100px); 
             z-index: 2;
+            opacity: 0;
+            transition: all 0.4s ease-in-out;
             @include tablet {
              right: 22px;
              top: calc(100vh - 80px); 
@@ -61,11 +93,19 @@
         }
     }
     .back {
-        width: 180px;
-        height: 180px;
+        width: 220px;
+        height: 220px;
         font-size: 36px;
         margin-bottom: 100px;
         cursor: pointer;
+        opacity: 0;
+        transition: opacity 0.5s ease-in-out;
+        margin-left: 10px;
+        @include desktop-l {
+            width: 180px;
+            height: 180px;
+            font-size: 32px;
+        }
         @include tablet {
             width: 140px;
             height: 140px;
@@ -73,6 +113,8 @@
             position: absolute;
             top: 9vh;
             margin-bottom: 0;
+            margin-left: 0;
+            margin-left: 12px;
         }
         & > div {
             width: 100%;
@@ -114,8 +156,10 @@
             letter-spacing: 10px;
             white-space: pre-line;
             line-height: 1.6;
+            letter-spacing: 30px;
             @include desktop-l {
                 font-size: 68px;
+                letter-spacing: 15px;
             }
             @include tablet {
                 font-size: 40px;
@@ -123,7 +167,7 @@
                 line-height: 2;
             }
             @include mobile {
-                font-size: 36px;
+                font-size: 32px;
             }
             @include mobile-m {
                 font-size: 30px;
@@ -134,74 +178,21 @@
         h3 {
             max-width: 100%;
             font-weight: bold;
-            font-size: 32px;
-            letter-spacing: 4px;
+            font-size: 42px;
+            letter-spacing: 15px;
             line-height: 1.6;
             margin-top: 30px;
             margin-bottom: 40px;
             // margin-left: -10px;
+            @include desktop-l {
+                font-size: 32px;
+                letter-spacing: 10px;
+            }
             @include mobile {
+                letter-spacing: 5px;
                 font-size: 18px;
                 margin-top: 30px;
                 margin-bottom: 30px;
-            }
-        }
-    }
-    .bg {
-        width: 100vw;
-        height: 100vh;
-        position: absolute;
-        top: 0;
-        left: 0;
-        transition: all 0.2s ease-in-out;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        & > div {
-            width: 50vw;
-            height: 106vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            overflow: hidden;
-            img {
-                width: auto;
-                height: 100%;
-                max-width: inherit;
-                max-height: inherit;
-            }
-            @include desktop-m {
-                width: 60vw;
-            }
-            @include tablet {
-                width: calc(100vw - 40px);
-                height: 120vw;
-                img {
-                    width: 100%;
-                    height: auto;
-                }
-            }
-        }
-        :global .title {
-            font-size: 36px;
-        }
-        :global .button {
-            margin-top: 20px;
-            padding: 7px 0;
-            position: relative;
-            display: inline-block;
-            overflow: hidden;
-            a {
-                font-size: 14px;
-                letter-spacing: 1px;
-                position: relative;
-                color: $color-text;
-                cursor: pointer;
-                padding-bottom: 12px;
-                white-space: nowrap;
-                &:hover :global .button__graphic--slide {
-                    transform: translate3d(-66.6%, 0, 0);
-                }
             }
         }
     }
@@ -255,8 +246,8 @@
             margin-top: 30px;
             margin-bottom: 30px;
             @include tablet {
-                margin-top: 20px;
-                margin-bottom: 20px;  
+                margin-top: 14px;
+                margin-bottom: 14px;  
             }
             img {
                 width: 100%;
@@ -398,4 +389,15 @@
             }
         }
     }
+}
+.bg {
+    width: 100vw;
+    height: 100vh;
+    // position: absolute;
+    // top: 0;
+    // left: 0;
+    transition: all 0.2s ease-in-out;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }

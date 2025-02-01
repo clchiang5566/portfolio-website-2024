@@ -1,7 +1,6 @@
+/* eslint-env browser */
 import React, { useRef, useState, useMemo, useEffect, Suspense } from 'react';
-import { UseCanvas, useScrollRig, useImageAsTexture } from '@14islands/r3f-scroll-rig';
-import { ParallaxScrollScene } from '@14islands/r3f-scroll-rig/powerups';
-// import { useMediaQueryCheck } from '../../hooks/useMediaQueryCheck';
+import { UseCanvas, useScrollRig, useImageAsTexture, ScrollScene } from '@14islands/r3f-scroll-rig';
 import { Image as DreiImage } from '@react-three/drei';
 import { useFrame, useThree } from '@react-three/fiber';
 import { lerp } from '../../utils/common';
@@ -9,36 +8,28 @@ import gsap from 'gsap';
 import PropTypes from 'prop-types';
 import Image from 'next/image';
 import { EffectImage } from './EffectImage';
+import { useMediaQueryCheck } from '../../hooks/useMediaQueryCheck';
 
-export function Images ({ src, parallaxSpeed, color, ...props }) {
+export function Images ({ src, color }) {
     const el = useRef();
     const img = useRef();
     const { hasSmoothScrollbar } = useScrollRig();
 
     return (
         <>
-            <div ref={el} {...props}>
-                <Image
-                    className='imageHidden'
-                    decode='async'
-                    ref={img}
-                    src={src}
-                    layout='responsive'
-                    width={700}
-                    height={475}
-                    alt='image'
-                />
+            <div ref={el}>
+                <Image className='imageHidden' ref={img} src={src} width={700} height={475} alt='image' />
             </div>
 
             {hasSmoothScrollbar && (
                 <UseCanvas debug={false}>
-                    <ParallaxScrollScene track={el} speed={parallaxSpeed}>
+                    <ScrollScene track={el}>
                         {props => (
                             <Suspense fallback=''>
                                 <WebglImage el={el} img={img} src={src} color={color} {...props} />
                             </Suspense>
                         )}
-                    </ParallaxScrollScene>
+                    </ScrollScene>
                 </UseCanvas>
             )}
         </>
@@ -47,7 +38,6 @@ export function Images ({ src, parallaxSpeed, color, ...props }) {
 
 Images.propTypes = {
     src: PropTypes.string,
-    parallaxSpeed: PropTypes.number,
     color: PropTypes.string,
 };
 
@@ -55,7 +45,6 @@ function WebglImage ({ el, img, src, color, scrollState, ...props }) {
     const [imageShow, setImageShow] = useState(true);
     const [isVisible, setIsVisible] = useState(false);
     const [elementSize, setElementSize] = useState([0, 0]);
-    // const tex = useImageAsTexture(img);
     const { viewport, size } = useThree();
     const pxToUnits = px => (px / size.width) * viewport.width;
 
@@ -81,9 +70,11 @@ function WebglImage ({ el, img, src, color, scrollState, ...props }) {
     }, []);
 
     useEffect(() => {
-        const width = pxToUnits(img.current.offsetWidth);
-        const height = pxToUnits(img.current.offsetHeight);
-        setElementSize([width, height]);
+        if (img.current) {
+            const width = pxToUnits(img.current?.offsetWidth);
+            const height = pxToUnits(img.current?.offsetHeight);
+            setElementSize([width, height]);
+        }
     }, [viewport]);
 
     return (
@@ -118,6 +109,7 @@ function CustomImage ({ imgRef, url, scrollState, ...props }) {
     const tex = useImageAsTexture(imgRef);
     const { viewport } = useThree();
     const [scrollSpeed, setScrollSpeed] = useState(0);
+    const { isMobile } = useMediaQueryCheck(991);
     const distort = 0.5;
 
     const gcd = (a, b) => {
@@ -174,7 +166,11 @@ function CustomImage ({ imgRef, url, scrollState, ...props }) {
     useFrame((state, delta) => {
         if ($mesh.current) {
             $mesh.current.uniforms.time.value += delta * 0.5;
-            $mesh.current.uniforms.shift.value = lerp($mesh.current.uniforms.shift.value, scrollSpeed, 0.02);
+            $mesh.current.uniforms.shift.value = lerp(
+                $mesh.current.uniforms.shift.value,
+                scrollSpeed,
+                isMobile ? 0.015 : 0.01
+            );
         }
     });
 

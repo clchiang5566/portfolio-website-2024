@@ -1,14 +1,14 @@
 import React, { useRef, useEffect, useState } from 'react';
 import { useFrame, useThree } from '@react-three/fiber';
-import { useGLTF, Float, PresentationControls } from '@react-three/drei';
+import { useGLTF, Float } from '@react-three/drei';
 import PropTypes from 'prop-types';
 import gsap from 'gsap';
 import * as THREE from 'three';
 import { useMediaQueryCheck } from '../../hooks/useMediaQueryCheck';
 
-export function Model ({ url, texturePath }) {
+export function Model ({ texturePath }) {
     const group = useRef();
-    const { scene, animations } = useGLTF(url);
+    const { scene, animations } = useGLTF('/models/down/scene.gltf');
     const { viewport } = useThree();
     const mixer = useRef();
     const [isShow, setIsShow] = useState(false);
@@ -16,10 +16,12 @@ export function Model ({ url, texturePath }) {
     const { isMobile } = useMediaQueryCheck(991);
 
     useEffect(() => {
-        const loader = new THREE.TextureLoader();
-        loader.load(texturePath, texture => {
-            setNewTexture(texture);
-        });
+        if (texturePath) {
+            const loader = new THREE.TextureLoader();
+            loader.load(texturePath, texture => {
+                setNewTexture(texture);
+            });
+        }
     }, [texturePath]);
 
     useEffect(() => {
@@ -52,11 +54,6 @@ export function Model ({ url, texturePath }) {
                 tl.to(materials, {
                     opacity: 1,
                     duration: 1,
-                    // onUpdate: () => {
-                    //     materials.forEach(material => {
-                    //         material.needsUpdate = true;
-                    //     });
-                    // },
                     onComplete: () => {
                         scene.traverse(child => {
                             if (child.isMesh && child.material) {
@@ -101,7 +98,6 @@ export function Model ({ url, texturePath }) {
                 ? [viewport.width / 2 - scale - scale / 10, -viewport.height / 2 + scale, 0]
                 : [viewport.width / 2 - scale - scale / 10, -viewport.height / 2 + scale / 2, 0];
             group.current.position.set(...position);
-            // group.current.rotation.set([0,0,0]);
         }
     }, [isMobile, viewport.width, viewport.height]);
 
@@ -117,20 +113,12 @@ export function Model ({ url, texturePath }) {
     return (
         <group ref={group}>
             <Float speed={6}>
-                <PresentationControls
-                    config={{ mass: 5, tension: 1500 }}
-                    snap={{ mass: 5, tension: 1500 }}
-                    polar={[-Math.PI / 2, Math.PI / 2]}
-                    azimuth={[-Infinity, Infinity]}
-                >
-                    <primitive object={scene} scale={0.004} />
-                </PresentationControls>
+                <primitive object={scene} scale={0.004} />
             </Float>
         </group>
     );
 }
 
 Model.propTypes = {
-    url: PropTypes.string,
     texturePath: PropTypes.string,
 };

@@ -13,3 +13,16 @@ export const useMediaQueryCheck = pixels => {
 
     return { isMobile };
 };
+
+export const useMediaQueryLaptopCheck = pixels => {
+    const laptopQuery = useMediaQuery(`only screen and (min-width: 992px) and (max-width: ${pixels}px)`);
+    const [isLaptop, setIsLaptop] = useState(laptopQuery);
+
+    useEffect(() => {
+        if (laptopQuery !== isLaptop) {
+            setIsLaptop(laptopQuery);
+        }
+    }, [laptopQuery]);
+
+    return { isLaptop };
+};

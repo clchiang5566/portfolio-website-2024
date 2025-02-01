@@ -1,56 +1,67 @@
-import { React, Suspense, useState, useEffect } from 'react';
+import { React, Suspense, useRef, useState, useEffect } from 'react';
+import { GlobalCanvas, SmoothScrollbar } from '@14islands/r3f-scroll-rig';
 import { Environment } from '@react-three/drei';
-import { Canvas } from '@react-three/fiber';
-import { Carousel } from './Carousel';
-import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
-import { getWorks } from '../../redux/works/works.selector';
+import { getCurrentColor, getPageContent, getIsDetailPage } from '../../redux/works/works.selector';
 import { WebGLBackground } from '../Common/WebGLBackground';
 import { Lens } from '../Common/Lens';
 import Head from 'next/head';
-import style from './Works.module.scss';
-import { Model } from './Model';
+import style from '../WorksDetail/WorksDetail.module.scss';
 import { useMediaQueryCheck } from '../../hooks/useMediaQueryCheck';
+import { Header } from './Header';
+import { Content } from '../WorksDetail/Content';
 
-export function Works ({ setThemeColor }) {
-    const state = useSelector(state => state);
-    const works = getWorks(state)[0];
-    const [bgColor, setBgColor] = useState(works?.color && works.isBack ? `${works.color}` : '#cce1f3');
-    const [currentTexture, setCurrentTexture] = useState('/models/down/Material_body.png');
-    const [posterActive, setPosterActive] = useState(false);
+export function Works () {
+    const eventSource = useRef();
+    const currentColor = useSelector(getCurrentColor);
+    const isDetailPage = useSelector(getIsDetailPage);
+    const pageContent = useSelector(getPageContent);
     const { isMobile } = useMediaQueryCheck(991);
+    const [key, setKey] = useState(0);
 
     useEffect(() => {
-        setThemeColor(bgColor);
-    }, [works, bgColor]);
+        const handleResize = () => {
+            if (!isDetailPage) setKey(prevKey => prevKey + 1);
+        };
+        window.addEventListener('resize', handleResize);
+        return () => window.removeEventListener('resize', handleResize);
+    }, []);
 
     return (
         <>
             <Head>
-                <style>{`html { overflow: hidden; } canvas { border: ${
-                    isMobile ? '15px' : '20px'
-                } solid ${bgColor} }`}</style>
+                <style>{`canvas { border: ${isMobile ? '15px' : '20px'} solid ${currentColor} }`}</style>
             </Head>
-            <div className={style.el} style={{ background: `${bgColor}` }}>
-                <Canvas scalemultiplier={0.01} eventPrefix='client' flat camera={{ fov: 14 }}>
-                    <Lens scale='0.16'>
-                        <WebGLBackground color={bgColor} />
-                        <Suspense>
-                            <Environment files='../env/empty_warehouse_01_1k.hdr' />
-                            <Carousel
-                                setBgColor={setBgColor}
-                                setCurrentTexture={setCurrentTexture}
-                                setPosterActive={setPosterActive}
-                            />
-                            {!posterActive && <Model url='/models/down/scene.gltf' texturePath={currentTexture} />}
-                        </Suspense>
-                    </Lens>
-                </Canvas>
+            <div ref={eventSource} className={style.el}>
+                <GlobalCanvas
+                    debug={false}
+                    scaleMultiplier={0.01}
+                    eventSource={eventSource}
+                    eventPrefix='client'
+                    flat
+                    camera={{ fov: 14 }}
+                >
+                    {globalChildren => (
+                        <Lens>
+                            <WebGLBackground color={currentColor} />
+                            <Suspense>
+                                <Environment files='../env/empty_warehouse_01_1k.hdr' />
+                                {globalChildren}
+                            </Suspense>
+                        </Lens>
+                    )}
+                </GlobalCanvas>
+                <SmoothScrollbar config={{ syncTouch: true }}>
+                    {bind => (
+                        <section {...bind}>
+                            <Header key={key} />
+                            {isDetailPage && pageContent && <Content contents={pageContent} />}
+                        </section>
+                    )}
+                </SmoothScrollbar>
             </div>
         </>
     );
 }
 
-Works.propTypes = {
-    setThemeColor: PropTypes.func,
-};
+Works.propTypes = {};

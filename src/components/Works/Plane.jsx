@@ -4,39 +4,50 @@ import { useTexture, Image as DreiImage } from '@react-three/drei';
 import { useMediaQueryCheck } from '../../hooks/useMediaQueryCheck';
 import PropTypes from 'prop-types';
 import gsap from 'gsap';
+import { useSelector } from 'react-redux';
+import { getCurrentIndex, getIsPoster, getIsHover } from '../../redux/works/works.selector';
 
-export function Plane ({ index, material, texture, width, height, active, activeIndex, isBack, setIsReady, ...props }) {
+export function Plane ({ index, material, texture, width, height, active, setIsReady, ...props }) {
     const { viewport } = useThree();
     const tex = useTexture(texture);
+    const currentIndex = useSelector(getCurrentIndex);
+    const isPoster = useSelector(getIsPoster);
+    const isHover = useSelector(getIsHover);
     const { isMobile } = useMediaQueryCheck(991);
 
     useEffect(() => {
-        if (material.current[index].material) {
+        if (material.current[index].material && index === currentIndex) {
             material.current[index].material.uniforms.uZoomScale.value.x = isMobile
-                ? viewport.width / 1.2 / width
-                : viewport.width / 2 / width;
+                ? viewport.width / 1.08 / width
+                : (viewport.width / 2 / width) * 1.12;
             material.current[index].material.uniforms.uZoomScale.value.y = isMobile
                 ? viewport.height / 1.6 / height
-                : viewport.height / height;
+                : (viewport.height / height) * 1.12;
             gsap.to(material.current[index].material.uniforms.uProgress, {
                 value: active ? 1 : 0,
-                duration: isBack ? 0 : 2.5,
+                duration: isPoster ? 0 : 2.5,
                 onComplete: () => {
-                    if (active && !isBack) setIsReady(true);
+                    // console.log('isAnimation', 'active:', active, 'isPoster:', isPoster);
+                    if (active && !isPoster) setIsReady(true);
                 },
             });
             gsap.to(material.current[index].material.uniforms.uRes.value, {
-                x: active && isMobile ? viewport.width / 1.1 : active && !isMobile ? viewport.width / 2 : width,
-                y: active && isMobile ? viewport.height / 1.5 : active && !isMobile ? viewport.height : height,
-                duration: isBack ? 0 : 2.5,
+                x:
+                    active && isMobile
+                        ? viewport.width / 1.1
+                        : active && !isMobile
+                        ? (viewport.width / 2) * 1.11
+                        : width,
+                y: active && isMobile ? viewport.height / 1.5 : active && !isMobile ? viewport.height * 1.11 : height,
+                duration: isPoster ? 0 : 1,
             });
-            if (active || isBack) {
+            if (active || isPoster) {
                 material.current[index].material.uniforms.isActive.value = 1;
             } else {
                 material.current[index].material.uniforms.isActive.value = 0;
             }
         }
-    }, [viewport, active]);
+    }, [active]);
 
     const shaderArgs = useMemo(
         () => ({
@@ -44,14 +55,19 @@ export function Plane ({ index, material, texture, width, height, active, active
                 uProgress: { value: 0 },
                 uZoomScale: { value: { x: 1, y: 1 } },
                 uTex: { value: tex },
-                uRes: { value: { x: 1, y: 1 } },
+                uRes: {
+                    value: {
+                        x: active && isMobile ? viewport.width / 1.1 : active && !isMobile ? viewport.width / 2 : width,
+                        y: active && isMobile ? viewport.height / 1.5 : active && !isMobile ? viewport.height : height,
+                    },
+                },
                 uImageRes: {
                     value: { x: tex.source.data.width, y: tex.source.data.height },
                 },
                 time: { value: 0 },
-                distort: { value: isMobile ? 0.6 : 0.1 },
+                distort: { value: 0.8 },
                 shift: { value: 0 },
-                isActive: { value: 1 },
+                isActive: { value: 0 },
             },
             vertexShader: /* glsl */ `
                 varying vec2 vUv;
@@ -90,7 +106,7 @@ export function Plane ({ index, material, texture, width, height, active, active
                 float angle = uProgress * 3.14159265 / 2.;
                 float wave = cos(angle);
                 float c = sin(length(uv - .5) * 15. + uProgress * 12.) * .5 + .5;
-                pos.y += (1.0 - isActive) * (sin(uv.x * 3.1415926535897932384626433832795) * shift * 1.0) * 0.125;
+                pos.y += (1.0 - isActive) * (sin(uv.x * 3.1415926535897932384626433832795) * shift * 3.0) * 0.125;
                 pos.x *= mix(1., uZoomScale.x + wave * c, uProgress);
                 pos.y *= mix(1., uZoomScale.y + wave * c, uProgress);
             
@@ -129,36 +145,33 @@ export function Plane ({ index, material, texture, width, height, active, active
         [tex]
     );
 
-    const handlePointerEnter = e => {
-        if (material.current[activeIndex].material) {
-            gsap.to(material.current[activeIndex].material.uniforms.distort, {
-                value: 0.5,
-                duration: 1,
-                overwrite: true,
-            });
+    useEffect(() => {
+        if (material.current[currentIndex].material) {
+            if (isHover) {
+                gsap.to(material.current[currentIndex].material.uniforms.distort, {
+                    value: isMobile ? 1.2 : 2.5,
+                    duration: 0.4,
+                    overwrite: true,
+                });
+            } else {
+                gsap.to(material.current[currentIndex].material.uniforms.distort, {
+                    value: 0.8,
+                    duration: 0.4,
+                    overwrite: true,
+                });
+            }
         }
-    };
-
-    const handlePointerLeave = () => {
-        if (material.current[activeIndex].material) {
-            gsap.to(material.current[activeIndex].material.uniforms.distort, {
-                value: 0.1,
-                duration: 0.8,
-                overwrite: true,
-            });
-        }
-    };
+    }, [isHover]);
 
     return (
         <DreiImage
-            onPointerEnter={handlePointerEnter}
-            // onPointerMove={handlePointerMove}
-            onPointerLeave={handlePointerLeave}
             ref={node => {
                 material.current[index] = node;
             }}
             texture={tex}
             renderOrder={-1}
+            position={[0, 0, -1]}
+            transparent
             {...props}
         >
             <planeGeometry args={[width, height, 30, 30]} transparent />
@@ -172,9 +185,7 @@ Plane.propTypes = {
     width: PropTypes.number,
     height: PropTypes.number,
     active: PropTypes.bool,
-    isBack: PropTypes.bool,
     index: PropTypes.number,
-    activeIndex: PropTypes.number,
     material: PropTypes.object,
     setIsReady: PropTypes.func,
 };

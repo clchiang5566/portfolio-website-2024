@@ -5,7 +5,7 @@ import { useFrame, extend } from '@react-three/fiber';
 // import { useMediaQueryCheck } from '../../hooks/useMediaQueryCheck';
 import style from './About.module.scss';
 import PropTypes from 'prop-types';
-import { useMediaQueryCheck } from '../../hooks/useMediaQueryCheck';
+import { useMediaQueryCheck, useMediaQueryLaptopCheck } from '../../hooks/useMediaQueryCheck';
 import * as THREE from 'three';
 
 class MeshSineMaterial extends THREE.MeshBasicMaterial {
@@ -36,6 +36,7 @@ function Banner ({ path, repeat, reverse, ...props }) {
     texture.wrapS = texture.wrapT = THREE.RepeatWrapping;
     const { scroll } = useScrollbar();
     const { isMobile } = useMediaQueryCheck(991);
+    const { isLaptop } = useMediaQueryLaptopCheck(1500);
 
     useFrame((state, delta) => {
         const speed = scroll.velocity * 0.5 * 0.01;
@@ -51,7 +52,7 @@ function Banner ({ path, repeat, reverse, ...props }) {
         }
     });
     return (
-        <mesh ref={ref} {...props} scale={isMobile ? [3, 3, 3] : [4, 4, 4]}>
+        <mesh ref={ref} {...props} scale={isMobile ? [3, 3, 3] : isLaptop ? [4.2, 4.2, 4.2] : [5.5, 5.5, 5.5]}>
             <cylinderGeometry args={[1.6, 1.6, 0.15, 128, 16, true]} />
             <meshSineMaterial
                 map={texture}

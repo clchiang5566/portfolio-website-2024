@@ -7,8 +7,21 @@ import Layout from '../../layout';
 import data from '../../pages/api/dummypage/data.json';
 import WorksDetail from '../../components/WorksDetail';
 import Contents from '../../pages/api/data/tomorrow';
+import { updateInitialFields } from '../../redux/works/works.action';
+import { useDispatch } from 'react-redux';
 
 const WorksDetailPage = ({ Global, Seo }) => {
+    const dispatch = useDispatch();
+    dispatch(
+        updateInitialFields({
+            currentColor: Contents.color,
+            currentIndex: Contents.index,
+            isDetailPage: true,
+            isPoster: true,
+            pageContent: Contents,
+        })
+    );
+
     return (
         <Layout {...Global} color={Contents.color}>
             <NextSeo title={Seo.pageTitle} description={Seo.pageDescription} canonical={Seo.pageUrl} />
