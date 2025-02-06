@@ -16,31 +16,35 @@ export function Model ({ url, texturePath }) {
 
     useEffect(() => {
         const loader = new GLTFLoader();
+        let isMounted = true;
+
         loader.load(url, gltf => {
             const loadedScene = gltf.scene;
             clonedScene.current = loadedScene.clone();
-            setScene(loadedScene);
             loadedScene.traverse(child => {
                 if (child.isMesh) {
                     child.material.transparent = true;
                     child.material.opacity = 0;
+                    gsap.to(child.material, {
+                        opacity: 1,
+                        duration: 2,
+                        delay: 0.5,
+                        onUpdate: function () {
+                            loadedScene.traverse(child => {
+                                if (child.isMesh) {
+                                    child.material.opacity = this.targets()[0].opacity;
+                                }
+                            });
+                        },
+                    });
                 }
             });
-            if (loadedScene.children) {
-                gsap.to(loadedScene.children, {
-                    opacity: 1,
-                    duration: 2,
-                    delay: 0.5,
-                    onUpdate: function () {
-                        loadedScene.traverse(child => {
-                            if (child.isMesh) {
-                                child.material.opacity = this.targets()[0].opacity;
-                            }
-                        });
-                    },
-                });
-            }
+            if (isMounted) setScene(loadedScene);
         });
+        return () => {
+            isMounted = false;
+            loader.manager.itemEnd(url);
+        };
     }, [url]);
 
     useEffect(() => {
