@@ -10,7 +10,7 @@ export function Model ({ url, index, isWireframe, color }) {
     const [scene, setScene] = useState();
     const [mixer, setMixer] = useState();
     const { isMobile } = useMediaQueryCheck(991);
-    const scale = isMobile ? 0.015 : 0.011;
+    const scale = isMobile ? 0.018 : 0.011;
     const [originalMaterial, setOriginalMaterial] = useState();
 
     useEffect(() => {

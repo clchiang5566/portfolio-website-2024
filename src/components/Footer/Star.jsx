@@ -34,7 +34,7 @@ export function Star ({ outerRadius = 1, innerRadius = 0.5, color = '#ffff4f' })
     const { isMobile } = useMediaQueryCheck(991);
     const { isLaptop } = useMediaQueryLaptopCheck(1500);
     const width = isMobile ? 1.3 : isLaptop ? 3.6 : 5;
-    const height = isMobile ? 1.1 : isLaptop ? 1.8 : 2.6;
+    const height = isMobile ? 1.3 : isLaptop ? 1.8 : 2.6;
     const points = isMobile ? 10 : 18;
 
     const geometry = useMemo(() => createStarGeometry(points, outerRadius, innerRadius, width, height), [
