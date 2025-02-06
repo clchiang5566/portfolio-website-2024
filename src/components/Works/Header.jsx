@@ -43,7 +43,7 @@ export function Header () {
                     <ScrollScene track={el}>{props => <Carousel />}</ScrollScene>
                 </UseCanvas>
             )}
-            {!isPrevent && !isDetailPage && (
+            {!isPrevent && isTextReady && !isPoster && (
                 <div
                     className={style.clickButton}
                     onPointerEnter={() => (!isHover ? dispatch(setIsHover(true)) : null)}

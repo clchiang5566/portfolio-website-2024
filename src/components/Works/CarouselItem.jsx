@@ -92,14 +92,15 @@ export function CarouselItem ({
                     duration: 1,
                     ease: 'power2.inOut',
                     onComplete: () => {
-                        setTimeout(() => {
+                        if (index === currentIndex) {
+                            // console.log('text ready')
                             setTextReady(true);
                             dispatch(setIsTextReady(true));
                             dispatch(setIsPrevent(false));
-                        }, 200);
+                        }
                     },
                 });
-            }, 300);
+            }, 500);
         }
     }, [isImageShow]);
 

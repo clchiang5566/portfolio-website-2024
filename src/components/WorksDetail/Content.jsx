@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import style from './WorksDetail.module.scss';
 import { Headline, Subtitle } from '../Common/Text';
 import { useDispatch } from 'react-redux';
@@ -12,6 +12,7 @@ const Block = dynamic(() => import('./Block').then(mod => mod.Block), { ssr: fal
 export function Content ({ contents }) {
     const { title, subtitle, content, color, footerTexture } = contents;
     const [show, setShow] = useState(false);
+    const svgRef = useRef(null);
     const dispatch = useDispatch();
 
     const handBackClick = () => {
@@ -23,7 +24,12 @@ export function Content ({ contents }) {
     useEffect(() => {
         setTimeout(() => {
             setShow(true);
-        }, 1000);
+        }, 500);
+
+        const animateElement = svgRef.current?.querySelector('animate');
+        if (animateElement) {
+            animateElement.beginElement();
+        }
 
         const handlePopState = event => {
             handBackClick();
@@ -46,7 +52,7 @@ export function Content ({ contents }) {
                 </div>
                 <div className={style.back} onClick={() => handBackClick()}>
                     <div>
-                        <svg xmlns='http://www.w3.org/2000/svg' x='0px' y='0px' viewBox='0 0 288 288'>
+                        <svg ref={svgRef} xmlns='http://www.w3.org/2000/svg' x='0px' y='0px' viewBox='0 0 288 288'>
                             <path id='wavepath' fillOpacity='0%'>
                                 <animate
                                     repeatCount='indefinite'
