@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
 import { selectIsFloating, selectIsActive } from '../../redux/home/home.selector';
 
-const Face = ({ event, isLoaded }) => {
+const Face = ({ event, isLoaded, isScrollDown, setIsScrollDown }) => {
     const plane = useRef(null);
     const eyeballs = [];
     const [isShow, setIsShow] = useState(false);

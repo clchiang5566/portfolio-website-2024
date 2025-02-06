@@ -9,13 +9,13 @@ import data from '../pages/api/dummypage/data.json';
 
 const IndexPage = ({ Global, Seo }) => {
     return (
-        <Layout {...Global} color='#60d394'>
+        <Layout {...Global} color='#4169e1'>
             <NextSeo title={Seo.pageTitle} description={Seo.pageDescription} canonical={Seo.pageUrl} />
             <Head>
                 <link rel='shortcut icon' href={Global.favicon?.url} />
                 <meta name='title' content={Seo.pageTitle} />
                 <meta name='keywords' content={Seo.pageKeywords} />
-                <meta name='theme-color' content='#60d394' />
+                <meta name='theme-color' content='#4169e1' />
                 <meta property='og:url' content={Seo.pageUrl} />
                 <meta property='og:title' content={Seo.pageOgTitle} />
                 <meta property='og:description' content={Seo.pageOgDescription} />

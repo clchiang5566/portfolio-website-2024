@@ -22,6 +22,7 @@ export default function Home () {
     const enabled = true;
     const [mouseMove, handleMouseMove] = useState(false);
     const [isLoaded, setIsLoaded] = useState(false);
+    const [isScrollDown, setIsScrollDown] = useState(false);
     const isFloating = useSelector(selectIsFloating);
     const isActive = useSelector(selectIsActive);
 
@@ -76,21 +77,29 @@ export default function Home () {
                     </Lens>
                 )}
             </GlobalCanvas>
-            <SmoothScrollbar enabled={enabled} config={{ syncTouch: true }} />
-            <section ref={headerEl}>
-                <div className={[style.container, 'container'].join(' ')}>
-                    {isLoaded && <Shape isLoaded={isLoaded} handleClick={handleClick} />}
-                    {isLoaded && <Face event={mouseMove} isLoaded={isLoaded} />}
-                </div>
-                <div className={style.headerContainer}>
-                    <Header headerEl={headerEl} />
-                </div>
-            </section>
-            <div className={style.arrow}>
-                <div className={style.triangle} />
-                <div className={style.triangle} />
-                <div className={style.triangle} />
-            </div>
+            <SmoothScrollbar enabled={enabled} config={{ syncTouch: true }}>
+                {bind => (
+                    <section {...bind} ref={headerEl}>
+                        <section {...bind} ref={headerEl}>
+                            <div className={[style.container, 'container'].join(' ')}>
+                                {isLoaded && (
+                                    <Shape isLoaded={isLoaded} handleClick={handleClick} isScrollDown={isScrollDown} />
+                                )}
+                                {isLoaded && <Face event={mouseMove} isLoaded={isLoaded} />}
+                            </div>
+                            <div className={style.headerContainer}>
+                                <div className={style.item} />
+                                <Header headerEl={headerEl} setIsScrollDown={setIsScrollDown} />
+                            </div>
+                        </section>
+                        <div className={style.arrow}>
+                            <div className={style.triangle} />
+                            <div className={style.triangle} />
+                            <div className={style.triangle} />
+                        </div>
+                    </section>
+                )}
+            </SmoothScrollbar>
         </div>
     );
 }
