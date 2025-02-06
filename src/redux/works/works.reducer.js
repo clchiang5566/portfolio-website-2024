@@ -104,6 +104,7 @@ export const works = createReducer(initialState, builder => {
                 .set('currentIndex', initialState.get('currentIndex'))
                 .set('isDetailPage', initialState.get('isDetailPage'))
                 .set('isPoster', initialState.get('isPoster'))
+                .set('isTextReady', initialState.get('isTextReady'))
                 .set('pageContent', initialState.get('pageContent'));
         })
         .addCase(UPDATE_INITIAL_FIELDS, (state, action) => {

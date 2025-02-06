@@ -34,7 +34,6 @@ const planeSettings = {
     desktop: { width: 5.25, height: 7, gap: 5.5 },
     laptop: { width: 3.75, height: 5, gap: 4.5 },
     mobile: { width: 2.625, height: 3.5, gap: 0.5, verticalGap: 1.5 },
-    gap: 4.5,
 };
 
 gsap.defaults({
@@ -122,8 +121,8 @@ export function Carousel () {
                           : planeSettings.desktop.gap)
                   )
                 : active > index
-                ? $items.length * 3 + piramidalIndex * -3
-                : $items.length * -3 + piramidalIndex * 3,
+                ? $items.length * 2.5 + piramidalIndex * -2.5
+                : $items.length * -2.5 + piramidalIndex * 2.5,
             duration: isPoster || textReady === false ? 0 : 2,
         });
     };

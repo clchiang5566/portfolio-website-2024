@@ -123,10 +123,6 @@ function ShaderPlane ({ color, isHome }) {
         </mesh>
     );
 }
-// octaves={3.5}
-// lacunarity={4}
-// octaves={2}
-// lacunarity={1}
 
 ShaderPlane.propTypes = {
     color: PropTypes.string,

@@ -1,12 +1,12 @@
 import React, { useRef, useEffect, useState } from 'react';
 import { useFrame } from '@react-three/fiber';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
-import { Float, PresentationControls } from '@react-three/drei';
+import { Float } from '@react-three/drei';
 import * as THREE from 'three';
 import PropTypes from 'prop-types';
 import gsap from 'gsap';
 
-export function Model ({ url, position, index, scale, isFloating, isTwist, twistAmount, twistTime }) {
+export function Model ({ url, position, index, scale, isFloating, isTwist, twistAmount, twistTime, scrollState }) {
     const group = useRef();
     const [scene, setScene] = useState();
     const [defindMaterial, setDefindMaterial] = useState();
@@ -15,6 +15,8 @@ export function Model ({ url, position, index, scale, isFloating, isTwist, twist
 
     useEffect(() => {
         const loader = new GLTFLoader();
+        let isMounted = true;
+
         loader.load(url, gltf => {
             const loadedScene = gltf.scene;
             const animations = gltf.animations;
@@ -31,37 +33,31 @@ export function Model ({ url, position, index, scale, isFloating, isTwist, twist
                 });
             }
 
+            if (isMounted) {
+                setScene(loadedScene);
+                setMixer(newMixer);
+            }
+
             loadedScene.traverse(child => {
                 if (child.isMesh) {
                     const originalMaterial = child.material;
                     setDefindMaterial(originalMaterial);
                     child.material = isTwist ? buildTwistMaterial : originalMaterial;
-                }
-            });
-
-            setScene(loadedScene);
-            setMixer(newMixer);
-
-            loadedScene.traverse(child => {
-                if (child.isMesh) {
                     child.material.transparent = true;
                     child.material.opacity = 0;
+                    gsap.to(child.material, {
+                        opacity: 1,
+                        duration: 0.5,
+                        delay: 1 + index * 0.2,
+                        ease: 'power2.inOut',
+                    });
                 }
             });
-
-            gsap.to(loadedScene.children, {
-                opacity: 1,
-                duration: 1.2,
-                delay: 1 + index * 0.3,
-                onUpdate: function () {
-                    loadedScene.traverse(child => {
-                        if (child.isMesh) {
-                            child.material.opacity = this.targets()[0].opacity;
-                        }
-                    });
-                },
-            });
         });
+        return () => {
+            isMounted = false;
+            loader.manager.itemEnd(url);
+        };
     }, [url]);
 
     useEffect(() => {
@@ -107,6 +103,8 @@ export function Model ({ url, position, index, scale, isFloating, isTwist, twist
     }, [isFloating]);
 
     useFrame((state, delta) => {
+        if (group.current) group.current.rotation.z = scrollState.progress * (Math.PI * 2);
+
         if (mixer) {
             mixer.update(delta);
         }
@@ -125,16 +123,9 @@ export function Model ({ url, position, index, scale, isFloating, isTwist, twist
 
     return (
         <group ref={group} position={position}>
-            <PresentationControls
-                config={{ mass: 5, tension: 1500 }}
-                snap={{ mass: 5, tension: 1500 }}
-                polar={[-Math.PI / 2, Math.PI / 2]}
-                azimuth={[-Infinity, Infinity]}
-            >
-                <Float speed={3} floatIntensity={10} rotationIntensity={rotationIntensity}>
-                    <primitive object={scene} scale={[scale, scale, scale]} />
-                </Float>
-            </PresentationControls>
+            <Float speed={5} floatIntensity={6} rotationIntensity={rotationIntensity}>
+                <primitive object={scene} scale={scale} />
+            </Float>
         </group>
     );
 }

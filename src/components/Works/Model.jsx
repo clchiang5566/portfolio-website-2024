@@ -47,22 +47,20 @@ export function Model ({ texturePath }) {
                     child.material.transparent = true;
                     child.material.opacity = 0;
                     materials.push(child.material);
+                    gsap.to(child.material, {
+                        delay: 2.5,
+                        opacity: 1,
+                        duration: 1,
+                        onComplete: () => {
+                            scene.traverse(child => {
+                                if (child.isMesh && child.material) {
+                                    child.material.transparent = false;
+                                }
+                            });
+                        },
+                    });
                 }
             });
-            setTimeout(() => {
-                const tl = gsap.timeline();
-                tl.to(materials, {
-                    opacity: 1,
-                    duration: 1,
-                    onComplete: () => {
-                        scene.traverse(child => {
-                            if (child.isMesh && child.material) {
-                                child.material.transparent = false;
-                            }
-                        });
-                    },
-                });
-            }, 2500);
         }
 
         if (group.current) {

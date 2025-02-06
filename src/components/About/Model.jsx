@@ -10,11 +10,13 @@ export function Model ({ url, index, isWireframe, color }) {
     const [scene, setScene] = useState();
     const [mixer, setMixer] = useState();
     const { isMobile } = useMediaQueryCheck(991);
-    const scale = isMobile ? 0.015 : 0.011;
+    const scale = isMobile ? 0.018 : 0.011;
     const [originalMaterial, setOriginalMaterial] = useState();
 
     useEffect(() => {
         const loader = new GLTFLoader();
+        let isMounted = true;
+
         loader.load(url, gltf => {
             const loadedScene = gltf.scene;
             const animations = gltf.animations;
@@ -36,34 +38,34 @@ export function Model ({ url, index, isWireframe, color }) {
                         wireframe: true,
                     });
                     child.material = isWireframe ? wireframeMaterial : material;
-                }
-            });
 
-            loadedScene.traverse(child => {
-                if (child.isMesh) {
                     child.material.transparent = true;
                     child.material.opacity = 0;
+
+                    gsap.to(child.material, {
+                        opacity: 1,
+                        duration: 1,
+                        delay: 0.2 + index * 0.3,
+                        onUpdate: function () {
+                            loadedScene.traverse(child => {
+                                if (child.isMesh) {
+                                    child.material.opacity = this.targets()[0].opacity;
+                                }
+                            });
+                        },
+                    });
                 }
             });
 
-            setScene(loadedScene);
-            setMixer(newMixer);
-
-            if (loadedScene.children) {
-                gsap.to(loadedScene.children, {
-                    opacity: 1,
-                    duration: 2,
-                    delay: 0.2 + index * 0.3,
-                    onUpdate: function () {
-                        loadedScene.traverse(child => {
-                            if (child.isMesh) {
-                                child.material.opacity = this.targets()[0].opacity;
-                            }
-                        });
-                    },
-                });
+            if (isMounted) {
+                setScene(loadedScene);
+                setMixer(newMixer);
             }
         });
+        return () => {
+            isMounted = false;
+            loader.manager.itemEnd(url);
+        };
     }, [url]);
 
     useEffect(() => {
@@ -94,7 +96,7 @@ export function Model ({ url, index, isWireframe, color }) {
 
     if (!scene) return null;
 
-    return <primitive object={scene} scale={[scale, scale, scale]} />;
+    return <primitive object={scene} scale={scale} />;
 }
 
 Model.propTypes = {

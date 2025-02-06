@@ -5,32 +5,44 @@ import { Model } from './Model';
 import gsap from 'gsap';
 import * as THREE from 'three';
 import PropTypes from 'prop-types';
-import { useMediaQueryCheck } from '../../hooks/useMediaQueryCheck';
+import { useMediaQueryCheck, useMediaQueryLaptopCheck } from '../../hooks/useMediaQueryCheck';
 import { selectIsFloating } from '../../redux/home/home.selector';
 import { useSelector, useDispatch } from 'react-redux';
 import { toggleModelActive } from '../../redux/home/home.action';
 import { mix } from '@popmotion/popcorn';
 import { easeQuadInOut } from 'd3-ease';
+// import { easing } from 'maath'
 
-export function Circle ({ setIsActive, headerEl, ...props }) {
+export function Circle ({ setIsActive, headerEl, setIsScrollDown, ...props }) {
     const group = useRef();
     const { isMobile } = useMediaQueryCheck(991);
-    const radius = isMobile ? 1.2 : 3;
-    const scale = isMobile ? 0.005 : 0.01;
+    const { isLaptop } = useMediaQueryLaptopCheck(1500);
+    const radius = isMobile ? 0.5 : 3.5;
+    const scale = isMobile ? 0.004 : isLaptop ? 0.009 : 0.012;
     const { scrollState } = useTracker(headerEl);
     const isFloating = useSelector(selectIsFloating);
     const [isTwist, setIsTwist] = useState(false);
     const [twistAmount, setTwistAmount] = useState(36);
     const [twistTime, setTwistTime] = useState(0.1);
+    const prevScroll = useRef(scrollState.progress);
     const dispatch = useDispatch();
 
     const urls = [
         '/models/dance/scene1.gltf',
         '/models/dance/scene2.gltf',
         '/models/dance/scene3.gltf',
-        '/models/dance/scene1.gltf',
         '/models/dance/scene3.gltf',
+        '/models/dance/scene1.gltf',
     ];
+
+    const modelsPosition = {
+        0: isMobile ? [-1.5, 0, 0] : isLaptop ? [-3, 0, 0] : [-4, 0, 0],
+        1: isMobile ? [-1, 1, 0] : isLaptop ? [-0.5, 3, 0] : [-1.5, 3, 0],
+        2: isMobile ? [-0.5, -1, 0] : isLaptop ? [0, -2, 0] : [0, -2, 0],
+        3: isMobile ? [0.5, 1, 0] : isLaptop ? [2.5, 3, 0] : [3.5, 3, 0],
+        4: isMobile ? [0.5, 0, 0] : isLaptop ? [3, 0, 0] : [4, 0, 0],
+    };
+
     const timeOffsets = useRef(urls.map(() => Math.random() * 1000));
     const { onScroll } = useScrollbar();
 
@@ -52,13 +64,25 @@ export function Circle ({ setIsActive, headerEl, ...props }) {
         onScroll(() => {
             setTwistAmount(getTwistAmount(scrollState.visibility));
             setTwistTime(getTwistTime(scrollState.visibility));
+
             if (scrollState.progress > 0.25) {
                 setIsTwist(true);
             } else {
                 setIsTwist(false);
             }
+
+            const currentScroll = scrollState.progress;
+            const delta = currentScroll - prevScroll.current;
+
+            if (delta > 0) {
+                setIsScrollDown(true);
+            } else if (delta < 0) {
+                setIsScrollDown(false);
+            }
+
+            prevScroll.current = currentScroll;
         });
-    }, [onScroll, scrollState]);
+    }, [onScroll]);
 
     useEffect(() => {
         if (group.current) {
@@ -84,25 +108,9 @@ export function Circle ({ setIsActive, headerEl, ...props }) {
             } else {
                 group.current.children.forEach((child, index) => {
                     gsap.to(child.position, {
-                        x: isMobile ? index * 0.7 - 0.5 : index * 2.5 - 3.5,
-                        y:
-                            isMobile && index === 2
-                                ? 3
-                                : isMobile && (index === 0 || index === 4)
-                                ? 1
-                                : isMobile && (index === 1 || index === 3)
-                                ? -2
-                                : index === 2
-                                ? 2.5
-                                : index === 0 || index === 4
-                                ? 1
-                                : -1,
-                        z: isMobile ? index - 4 : 0,
-                        duration: 3 + index * 0.2,
-                        ease: 'power2.inOut',
-                    });
-                    gsap.to(child.rotation, {
-                        z: 0,
+                        x: modelsPosition[index][0],
+                        y: modelsPosition[index][1],
+                        z: modelsPosition[index][2],
                         duration: 3 + index * 0.2,
                         ease: 'power2.inOut',
                     });
@@ -121,56 +129,47 @@ export function Circle ({ setIsActive, headerEl, ...props }) {
     }, [isFloating]);
 
     useFrame((state, delta) => {
-        if (group.current && isFloating) {
-            const randomRotationX = THREE.MathUtils.lerp(
-                group.current.rotation.x,
-                THREE.MathUtils.randFloatSpread(0.5),
-                0.1
-            );
-            const randomRotationY = THREE.MathUtils.lerp(
-                group.current.rotation.y,
-                THREE.MathUtils.randFloatSpread(0.5),
-                0.1
-            );
-            group.current.rotation.x = randomRotationX * delta;
-            group.current.rotation.y = randomRotationY * delta;
+        if (group.current) {
+            group.current.rotation.z = -scrollState.progress * (Math.PI * 2);
+            group.current.position.x = scrollState.progress * 0.5 + 1;
 
-            group.current.children.forEach((child, index) => {
-                const time = state.clock.getElapsedTime() + timeOffsets.current[index];
-                child.position.x += Math.sin(time * 0.5) * 0.01;
-                child.position.y += Math.cos(time * 0.3) * 0.01;
-                child.rotation.z += Math.sin(time * 0.2) * 0.02;
-            });
+            if (isFloating) {
+                const randomRotationX = THREE.MathUtils.lerp(
+                    group.current.rotation.x,
+                    THREE.MathUtils.randFloatSpread(0.5),
+                    0.1
+                );
+                const randomRotationY = THREE.MathUtils.lerp(
+                    group.current.rotation.y,
+                    THREE.MathUtils.randFloatSpread(0.5),
+                    0.1
+                );
+                group.current.rotation.x = randomRotationX * delta;
+                group.current.rotation.y = randomRotationY * delta;
+                group.current.children.forEach((child, index) => {
+                    const time = state.clock.getElapsedTime() + timeOffsets.current[index];
+                    child.position.x += Math.sin(time * 0.5) * 0.01;
+                    child.position.y += Math.cos(time * 0.3) * 0.01;
+                    child.rotation.z += Math.sin(time * 0.2) * 0.02;
+                });
+            }
         }
     });
 
     return (
-        <group ref={group} position={[0, 0, 2]}>
+        <group ref={group} position={[0, 0, 3]}>
             {urls.map((url, index) => (
                 <Model
                     key={index}
                     index={index}
                     url={url}
-                    position={[
-                        isMobile ? index * 0.7 - 0.5 : index * 2.5 - 3.5,
-                        isMobile && index === 2
-                            ? 3
-                            : isMobile && (index === 0 || index === 4)
-                            ? 1
-                            : isMobile && (index === 1 || index === 3)
-                            ? -2
-                            : index === 2
-                            ? 2.5
-                            : index === 0 || index === 4
-                            ? 1
-                            : -1,
-                        isMobile ? index - 4 : 0,
-                    ]}
+                    position={modelsPosition[index]}
                     scale={scale}
                     isFloating={isFloating}
                     isTwist={isTwist}
                     twistAmount={twistAmount}
                     twistTime={twistTime}
+                    scrollState={scrollState}
                 />
             ))}
         </group>
