@@ -23,13 +23,15 @@ export function Content ({ contents }) {
 
     useEffect(() => {
         setTimeout(() => {
+            const animateElement = svgRef.current?.querySelector('animate');
+            if (animateElement) {
+                animateElement.beginElement();
+            } 
+        }, 200);
+
+        setTimeout(() => {
             setShow(true);
         }, 500);
-
-        const animateElement = svgRef.current?.querySelector('animate');
-        if (animateElement) {
-            animateElement.beginElement();
-        }
 
         const handlePopState = event => {
             handBackClick();
