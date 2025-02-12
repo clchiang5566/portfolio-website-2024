@@ -80,14 +80,10 @@ export default function About ({ headline, content, image, index, color }) {
                                         </p>
                                         <p>
                                             With 10 years of experience working on digital products alongside APAC
-                                            teams, I have partnered with local and international brands to bring their
-                                            ideas to life, contributing to hundreds of websites, focusing on creating
-                                            digital solutions.
-                                        </p>
-                                        <p>
-                                            My interests span graphics programming (GLSL shaders, AR/VR, game
-                                            development, etc.), the aesthetics of mathematics, and exploring innovative
-                                            interaction techniques.
+                                            teams, I have partnered with local and international brands, with hundreds of websites, focusing on creative
+                                            digital solutions. My interests span graphics programming (GLSL shaders, game
+                                            development, etc.), the aesthetics of mathematics, and innovative
+                                            interaction.
                                         </p>
                                     </div>
                                 </section>

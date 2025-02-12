@@ -56,4 +56,4 @@ Lens.propTypes = {
     scale: PropTypes.string,
 };
 
-useGLTF.preload('/models/lens-transformed2.glb');
+// useGLTF.preload('/models/lens-transformed2.glb');

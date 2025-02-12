@@ -6,7 +6,7 @@ import { useFrame, useThree } from '@react-three/fiber';
 import { lerp } from '../../utils/common';
 import gsap from 'gsap';
 import PropTypes from 'prop-types';
-import Image from 'next/image';
+// import Image from 'next/image';
 import { EffectImage } from './EffectImage';
 import { useMediaQueryCheck } from '../../hooks/useMediaQueryCheck';
 
@@ -18,7 +18,7 @@ export function Images ({ src, color }) {
     return (
         <>
             <div ref={el}>
-                <Image className='imageHidden' ref={img} src={src} width={700} height={475} alt='image' />
+                <img className='imageHidden' ref={img} src={src} alt='image' />
             </div>
 
             {hasSmoothScrollbar && (

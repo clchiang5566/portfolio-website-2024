@@ -15,7 +15,7 @@ const Shape = ({ isLoaded, isScrollDown, handleClick }) => {
             if (animateElement) {
                 animateElement.beginElement();
             }
-        }, 200);
+        }, 300);
     }, []);
 
     return (
