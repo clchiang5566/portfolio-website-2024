@@ -27,7 +27,7 @@ export function Content ({ contents }) {
             const animateElement = svgRef.current?.querySelector('animate');
             if (animateElement) {
                 animateElement.beginElement();
-            } 
+            }
         }, 200);
 
         setTimeout(() => {
@@ -48,7 +48,7 @@ export function Content ({ contents }) {
     return (
         <div className={[style.container, 'container'].join(' ')}>
             <header className={[style.header, show ? style.show : null].join(' ')}>
-                <Arrow  />
+                <Arrow />
                 <div className={style.back} onClick={() => handBackClick()}>
                     <div>
                         <svg ref={svgRef} xmlns='http://www.w3.org/2000/svg' x='0px' y='0px' viewBox='0 0 288 288'>

@@ -104,7 +104,6 @@ export function Model ({ url, position, index, scale, isFloating, isTwist, twist
 
     useFrame((state, delta) => {
         if (group.current) group.current.rotation.z = scrollState.progress * (Math.PI * 2);
-
         if (mixer) {
             mixer.update(delta);
         }

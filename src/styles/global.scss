@@ -459,7 +459,7 @@ h4, .h4 {
 }
 
 .arrow {
-  height: 60px;
+  height: 70px;
   transition: all 0.3s ease-in-out;
   position: fixed;
   right: 34px;
@@ -473,7 +473,7 @@ h4, .h4 {
   animation: arrow 2s ease-in-out infinite;
   @include tablet {
     right: 22px;
-    bottom: 22px;
+    bottom: 32px;
   }
   &::before, &::after {
     content: ' ';

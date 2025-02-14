@@ -54,14 +54,24 @@ export function Header () {
                 />
             )}
             <div
-                className={[style.switchButton, isVertical ? style.isVertical : null, isTextReady && !isPoster ? style.isShow : null].join(' ')}
+                className={[
+                    style.switchButton,
+                    isVertical ? style.isVertical : null,
+                    isTextReady && !isPoster ? style.isShow : null,
+                ].join(' ')}
                 style={{ backgroundColor: `${currentColor}` }}
             >
                 <div className={style.active} style={{ backgroundColor: `${lightenHex(currentColor, -15)}` }} />
-                <div className={style.button} onClick={() => (!isVertical && !isPoster ? dispatch(setIsVertical(true)) : null)}>
+                <div
+                    className={style.button}
+                    onClick={() => (!isVertical && !isPoster ? dispatch(setIsVertical(true)) : null)}
+                >
                     ┆
                 </div>
-                <div className={style.button} onClick={() => (isVertical && !isPoster ? dispatch(setIsVertical(false)) : null)}>
+                <div
+                    className={style.button}
+                    onClick={() => (isVertical && !isPoster ? dispatch(setIsVertical(false)) : null)}
+                >
                     ┄
                 </div>
             </div>

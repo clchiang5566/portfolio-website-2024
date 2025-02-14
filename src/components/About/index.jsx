@@ -77,10 +77,10 @@ export default function About ({ headline, content, image, index, color }) {
                                         </p>
                                         <p>
                                             With 10 years of experience working on digital products alongside APAC
-                                            teams, I have partnered with local and international brands, with hundreds of websites, focusing on creative
-                                            digital solutions. My interests span graphics programming (GLSL shaders, game
-                                            development, etc.), the aesthetics of mathematics, and innovative
-                                            interaction.
+                                            teams, I have partnered with local and international brands, with hundreds
+                                            of websites, focusing on creative digital solutions. My interests span
+                                            graphics programming (GLSL shaders, game development, etc.), the aesthetics
+                                            of mathematics, and innovative interaction.
                                         </p>
                                     </div>
                                 </section>

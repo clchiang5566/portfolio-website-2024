@@ -1,7 +1,7 @@
 import * as THREE from 'three';
 import { React, useState } from 'react';
 import { createPortal, useFrame, useThree } from '@react-three/fiber';
-import { useFBO, useGLTF } from '@react-three/drei';
+import { useFBO } from '@react-three/drei';
 // import { easing } from 'maath';
 import PropTypes from 'prop-types';
 
