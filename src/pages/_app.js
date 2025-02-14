@@ -54,15 +54,15 @@ const MyApp = ({ Component, pageProps }) => {
     );
 };
 
-MyApp.getInitialProps = async ({ Component, ctx }) => {
-    const { res } = ctx;
-    const pageProps = Component.getInitialProps ? await Component.getInitialProps(ctx) : {};
-    if (res) {
-        res.setHeader('Cache-Control', 's-maxage=86400, stale-while-revalidate');
-    }
+// MyApp.getInitialProps = async ({ Component, ctx }) => {
+//     const { res } = ctx;
+//     const pageProps = Component.getInitialProps ? await Component.getInitialProps(ctx) : {};
+//     if (res) {
+//         res.setHeader('Cache-Control', 's-maxage=86400, stale-while-revalidate');
+//     }
 
-    return { pageProps: pageProps };
-};
+//     return { pageProps: pageProps };
+// };
 
 MyApp.propTypes = {
     Component: PropTypes.func,
