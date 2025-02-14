@@ -1,13 +1,13 @@
-import React, { useRef, useState, useMemo, useEffect, Suspense } from 'react';
+import React, { useRef, useMemo, useEffect, Suspense } from 'react';
 import { UseCanvas, useScrollRig, useImageAsTexture } from '@14islands/r3f-scroll-rig';
 import { ParallaxScrollScene } from '@14islands/r3f-scroll-rig/powerups';
 import { useMediaQueryCheck } from '../../hooks/useMediaQueryCheck';
 import { Image as DreiImage, useTexture } from '@react-three/drei';
 import { useFrame, useThree } from '@react-three/fiber';
-import { lerp } from '../../utils/common';
 import gsap from 'gsap';
 import PropTypes from 'prop-types';
 import Image from 'next/image';
+import * as THREE from 'three';
 
 export function Poster ({ src, parallaxSpeed, isPoster, ...props }) {
     const el = useRef();
@@ -53,10 +53,10 @@ Poster.propTypes = {
 function CustomImage ({ imgRef, url, scrollState, dir, headline, isPoster, ...props }) {
     const ref = useRef();
     const $mesh = useRef();
+    const scrollSpeed = useRef();
     const tex = isPoster ? useTexture(url) : useImageAsTexture(imgRef);
     const { viewport } = useThree();
     const { isMobile } = useMediaQueryCheck(991);
-    const [scrollSpeed, setScrollSpeed] = useState(0);
     const distort = isPoster ? 3 : 0.5;
 
     const gcd = (a, b) => {
@@ -84,7 +84,7 @@ function CustomImage ({ imgRef, url, scrollState, dir, headline, isPoster, ...pr
 
             if (deltaTime > 0) {
                 const speed = deltaY / deltaTime;
-                setScrollSpeed(speed);
+                scrollSpeed.current = speed;
             }
 
             lastScrollY = currentScrollY;
@@ -121,7 +121,11 @@ function CustomImage ({ imgRef, url, scrollState, dir, headline, isPoster, ...pr
     useFrame((state, delta) => {
         if ($mesh.current) {
             $mesh.current.uniforms.time.value += delta * 0.5;
-            $mesh.current.uniforms.shift.value = lerp($mesh.current.uniforms.shift.value, scrollSpeed, 0.02);
+            $mesh.current.uniforms.shift.value = THREE.MathUtils.lerp(
+                $mesh.current.uniforms.shift.value,
+                scrollSpeed.current,
+                isMobile ? 0.02 : 0.01
+            );
             $mesh.current.uniforms.zoom.value = 1 + scrollState.progress * 0.15;
         }
         // $mesh.current.uniforms.scale.value = 0.1;

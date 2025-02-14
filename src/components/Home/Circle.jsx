@@ -17,7 +17,7 @@ export function Circle ({ setIsActive, headerEl, setIsScrollDown, ...props }) {
     const group = useRef();
     const { isMobile } = useMediaQueryCheck(991);
     const { isLaptop } = useMediaQueryLaptopCheck(1500);
-    const radius = isMobile ? 0.5 : 3.5;
+    const radius = isMobile ? 0.5 : isLaptop ? 3 : 3.5;
     const scale = isMobile ? 0.004 : isLaptop ? 0.009 : 0.012;
     const { scrollState } = useTracker(headerEl);
     const isFloating = useSelector(selectIsFloating);
@@ -26,6 +26,7 @@ export function Circle ({ setIsActive, headerEl, setIsScrollDown, ...props }) {
     const [twistTime, setTwistTime] = useState(0.1);
     const prevScroll = useRef(scrollState.progress);
     const dispatch = useDispatch();
+    const rotationZ = useRef(0);
 
     const urls = [
         '/models/dance/scene1.gltf',
@@ -130,7 +131,13 @@ export function Circle ({ setIsActive, headerEl, setIsScrollDown, ...props }) {
 
     useFrame((state, delta) => {
         if (group.current) {
-            group.current.rotation.z = -scrollState.progress * (Math.PI * 2);
+            rotationZ.current = THREE.MathUtils.damp(
+                rotationZ.current,
+                -scrollState.progress * (Math.PI * 2),
+                4,
+                delta
+            );
+            group.current.rotation.z = rotationZ.current;
             group.current.position.x = scrollState.progress * 0.5 + 1;
 
             if (isFloating) {

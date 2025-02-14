@@ -5,6 +5,7 @@ import { useDispatch } from 'react-redux';
 import { setIsCarousel, setIsTextReady } from '../../redux/works/works.action';
 import dynamic from 'next/dynamic';
 import PropTypes from 'prop-types';
+import Arrow from '../Common/Arrow';
 
 const Footer = dynamic(() => import('../Footer').then(mod => mod.Footer), { ssr: false });
 const Block = dynamic(() => import('./Block').then(mod => mod.Block), { ssr: false });
@@ -23,13 +24,15 @@ export function Content ({ contents }) {
 
     useEffect(() => {
         setTimeout(() => {
+            const animateElement = svgRef.current?.querySelector('animate');
+            if (animateElement) {
+                animateElement.beginElement();
+            }
+        }, 200);
+
+        setTimeout(() => {
             setShow(true);
         }, 500);
-
-        const animateElement = svgRef.current?.querySelector('animate');
-        if (animateElement) {
-            animateElement.beginElement();
-        }
 
         const handlePopState = event => {
             handBackClick();
@@ -45,11 +48,7 @@ export function Content ({ contents }) {
     return (
         <div className={[style.container, 'container'].join(' ')}>
             <header className={[style.header, show ? style.show : null].join(' ')}>
-                <div className={style.arrow}>
-                    <div className={style.triangle} />
-                    <div className={style.triangle} />
-                    <div className={style.triangle} />
-                </div>
+                <Arrow />
                 <div className={style.back} onClick={() => handBackClick()}>
                     <div>
                         <svg ref={svgRef} xmlns='http://www.w3.org/2000/svg' x='0px' y='0px' viewBox='0 0 288 288'>
@@ -72,22 +71,11 @@ export function Content ({ contents }) {
                                         repeatCount='indefinite'
                                     />
                                     Prev - Prev - Prev - Prev - Prev - Prev - Prev - Prev - Prev - Prev - Prev - Prev -
-                                    Prev - Prev - Prev - Prev - Prev - Prev - Prev - Prev - Prev - Prev -
+                                    Prev - Prev - Prev - Prev - Prev - Prev - Prev - Prev -
                                 </textPath>
                             </text>
                         </svg>
-                        <svg
-                            className={style.icon}
-                            xmlns='http://www.w3.org/2000/svg'
-                            width='31'
-                            height='17'
-                            viewBox='0 0 31 17'
-                        >
-                            <g fill='none' fillRule='evenodd' stroke='#313131' transform='matrix(-1 0 0 1 31 0)'>
-                                <path d='M30,8.07692308 L0,8.07692308' />
-                                <polyline points='21.923 0 30 8.077 21.923 16.154' />
-                            </g>
-                        </svg>
+                        <div className={style.icon} />
                     </div>
                 </div>
                 <div className={style.head}>

@@ -3,7 +3,7 @@ import { useFrame } from '@react-three/fiber';
 import { useSelector, useDispatch } from 'react-redux';
 import gsap from 'gsap';
 import { CarouselItem } from './CarouselItem';
-import { lerp, getPiramidalIndex } from '../../utils/common';
+import { getPiramidalIndex } from '../../utils/common';
 import images from './data';
 import { TextGroup } from './TextGroup';
 import { useMediaQueryCheck, useMediaQueryLaptopCheck } from '../../hooks/useMediaQueryCheck';
@@ -29,6 +29,7 @@ import {
 } from '../../redux/works/works.action';
 import { Model } from './Model';
 import RouteWatcher from './RouteWatcher';
+import * as THREE from 'three';
 
 const planeSettings = {
     desktop: { width: 5.25, height: 7, gap: 5.5 },
@@ -57,6 +58,7 @@ export function Carousel () {
     const startY = useRef(0);
     const startX = useRef(0);
     const isDown = useRef(false);
+    const scrollSpeed = useRef(0);
     const speedWheel = 0.009;
     const speedDrag = 0.02;
     const oldProgress = useRef(0);
@@ -82,12 +84,19 @@ export function Carousel () {
 
         if (material.current[index]) {
             material.current[index].material.uniforms.time.value += delta * 0.5;
-            material.current[index].material.uniforms.shift.value = lerp(
-                material.current[index].material.uniforms.shift.value,
-                isMobile ? speed.current / direction : speed.current / 100,
-                isMobile ? 0.2 : 0.1
-            );
+            material.current[index].material.uniforms.shift.value = isPoster
+                ? THREE.MathUtils.lerp(
+                      material.current[index].material.uniforms.shift.value,
+                      scrollSpeed.current,
+                      isMobile ? 0.02 : 0.01
+                  )
+                : THREE.MathUtils.lerp(
+                      material.current[index].material.uniforms.shift.value,
+                      isMobile ? speed.current / direction : speed.current / 100,
+                      isMobile ? 0.2 : 0.1
+                  );
         }
+
         gsap.to(item.position, {
             x: isVertical
                 ? $items.length * -0.1 + piramidalIndex * 0.1
@@ -240,16 +249,46 @@ export function Carousel () {
         }
     }, [isLoading, isCarousel]);
 
+    useEffect(() => {
+        if (isPoster) {
+            let lastScrollY = window.scrollY;
+            let lastTimestamp = performance.now();
+
+            const handleScroll = () => {
+                const currentScrollY = window.scrollY;
+                const currentTimestamp = performance.now();
+
+                const deltaY = currentScrollY - lastScrollY;
+                const deltaTime = currentTimestamp - lastTimestamp;
+
+                if (deltaTime > 0) {
+                    const speed = deltaY / deltaTime;
+                    scrollSpeed.current = speed;
+                }
+
+                lastScrollY = currentScrollY;
+                lastTimestamp = currentTimestamp;
+            };
+
+            window.addEventListener('scroll', handleScroll);
+            return () => {
+                window.removeEventListener('scroll', handleScroll);
+            };
+        }
+    }, [isPoster]);
+
     useFrame((state, delta) => {
         progress.current = Math.max(0, Math.min(progress.current, 100));
         const active = Math.floor((progress.current / 100) * ($items.length - 1));
         $items.forEach((item, index) => displayItems(item, index, active, isPoster, delta));
-        speed.current = lerp(speed.current, Math.abs(oldProgress.current - progress.current), 0.2);
-        oldProgress.current = lerp(oldProgress.current, progress.current, 0.1);
+        speed.current = THREE.MathUtils.lerp(speed.current, Math.abs(oldProgress.current - progress.current), 0.2);
+        oldProgress.current = THREE.MathUtils.lerp(oldProgress.current, progress.current, 0.1);
         if (active !== currentIndexRef.current) {
             handleChangeOrder(active);
             currentIndexRef.current = active;
         }
+        const speedRate = speed.current < 0 ? speed.current * -1 : speed.current;
+        $root.position.z = THREE.MathUtils.damp($root.position.z, Math.max(0, speedRate * 0.03), 4, delta);
     });
 
     const renderSlider = () => {

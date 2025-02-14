@@ -3,12 +3,12 @@ import React, { useRef, useState, useMemo, useEffect, Suspense } from 'react';
 import { UseCanvas, useScrollRig, useImageAsTexture, ScrollScene } from '@14islands/r3f-scroll-rig';
 import { Image as DreiImage } from '@react-three/drei';
 import { useFrame, useThree } from '@react-three/fiber';
-import { lerp } from '../../utils/common';
 import gsap from 'gsap';
 import PropTypes from 'prop-types';
-import Image from 'next/image';
+// import Image from 'next/image';
 import { EffectImage } from './EffectImage';
 import { useMediaQueryCheck } from '../../hooks/useMediaQueryCheck';
+import * as THREE from 'three';
 
 export function Images ({ src, color }) {
     const el = useRef();
@@ -18,7 +18,7 @@ export function Images ({ src, color }) {
     return (
         <>
             <div ref={el}>
-                <Image className='imageHidden' ref={img} src={src} width={700} height={475} alt='image' />
+                <img className='imageHidden' ref={img} src={src} alt='image' />
             </div>
 
             {hasSmoothScrollbar && (
@@ -166,7 +166,7 @@ function CustomImage ({ imgRef, url, scrollState, ...props }) {
     useFrame((state, delta) => {
         if ($mesh.current) {
             $mesh.current.uniforms.time.value += delta * 0.5;
-            $mesh.current.uniforms.shift.value = lerp(
+            $mesh.current.uniforms.shift.value = THREE.MathUtils.lerp(
                 $mesh.current.uniforms.shift.value,
                 scrollSpeed,
                 isMobile ? 0.015 : 0.01

@@ -41,6 +41,8 @@
             flex-direction: column;
             text-align: center;
             font-size: 16px;
+            opacity: 0;
+            transition: opacity 0.6s ease-in-out;
             @include tablet {
                 left: 30px;
                 width: 70px;
@@ -48,6 +50,9 @@
                 top: 33vw;
                 flex-direction: row;
                 font-size: 14px;
+            }
+            &.isShow {
+                opacity: 1;
             }
             &.isVertical {
                 .active {
@@ -187,11 +192,35 @@
             }
         }
         .icon {
+            display: block;
+            margin: 30px auto;
+            width: 15px;
+            height: 15px;
+            border-top: 1px solid #313131;
+            // border-left: 1px solid #313131;
             transition: all 0.3s ease-in-out;
+            transform: rotate(-45deg);
+            position: relative;
+            @include tablet {
+                transform: scale(0.8) rotate(-45deg);
+            }
+        }
+        .icon::after {
+            content: " ";
+            display: block;
+            width: 1px;
+            height: 40px;
+            background-color: #313131;
+            transform: rotate(-45deg) translate(14px, 5px);
+            left: 0;
+            top: 0;
         }
         &:hover {
             .icon {
-                transform: translateX(-10px);
+                transform: translateX(-10px) rotate(-45deg);
+                @include tablet {
+                    transform: scale(0.8) translateX(-10px) rotate(-45deg);
+                }
             }
         }
     }
@@ -455,3 +484,12 @@
     justify-content: center;
     align-items: center;
 }
+
+@keyframes arrow {
+    from {
+      transform: rotateX(0deg);
+    }
+    to {
+      transform: rotateX(360deg);
+    }
+  }

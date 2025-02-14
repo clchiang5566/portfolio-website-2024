@@ -4,12 +4,13 @@ import { Environment } from '@react-three/drei';
 import style from './About.module.scss';
 import { Lens } from '../Common/Lens';
 import { Subtitle } from '../Common/Text';
-import PropTypes from 'prop-types';
+import Arrow from '../Common/Arrow';
 // import { Marquee } from './Marquee';
 // import { Header } from './Header';
 import { Background } from './Background';
 import Image from 'next/image';
 import dynamic from 'next/dynamic';
+import PropTypes from 'prop-types';
 
 const Header = dynamic(() => import('./Header').then(mod => mod.Header), { ssr: false });
 const Marquee = dynamic(() => import('./Marquee').then(mod => mod.Marquee), { ssr: false });
@@ -47,11 +48,7 @@ export default function About ({ headline, content, image, index, color }) {
                     <section {...bind} ref={headerEl}>
                         <div className={style.headerContainer}>
                             <Header marqueeEl={marqueeEl} headerEl={headerEl} />
-                            <div className={style.arrow}>
-                                <div className={style.triangle} />
-                                <div className={style.triangle} />
-                                <div className={style.triangle} />
-                            </div>
+                            <Arrow isAbout />
                         </div>
                         <div className={style.marqueeContainer} ref={marqueeEl}>
                             <Marquee />
@@ -80,14 +77,10 @@ export default function About ({ headline, content, image, index, color }) {
                                         </p>
                                         <p>
                                             With 10 years of experience working on digital products alongside APAC
-                                            teams, I have partnered with local and international brands to bring their
-                                            ideas to life, contributing to hundreds of websites, focusing on creating
-                                            digital solutions.
-                                        </p>
-                                        <p>
-                                            My interests span graphics programming (GLSL shaders, AR/VR, game
-                                            development, etc.), the aesthetics of mathematics, and exploring innovative
-                                            interaction techniques.
+                                            teams, I have partnered with local and international brands, with hundreds
+                                            of websites, focusing on creative digital solutions. My interests span
+                                            graphics programming (GLSL shaders, game development, etc.), the aesthetics
+                                            of mathematics, and innovative interaction.
                                         </p>
                                     </div>
                                 </section>
