@@ -458,4 +458,110 @@ h4, .h4 {
   visibility: hidden;
 }
 
+.arrow {
+  height: 60px;
+  transition: all 0.3s ease-in-out;
+  position: fixed;
+  right: 34px;
+  bottom: 35px;
+  z-index: 100;
+  padding: 0 15px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  animation: arrow 2s ease-in-out infinite;
+  @include tablet {
+    right: 22px;
+    bottom: 22px;
+  }
+  &::before, &::after {
+    content: ' ';
+    width: 3px;
+    height: 3px;
+    border: 1px solid #313131;
+    border-radius: 50%;
+    // position: absolute;
+    margin: 0 auto;
+    // left: 0;
+    // right: 0;
+    // top: 0px;
+    opacity: 0;
+    transition: all 0.3s ease-in-out;
+  }
+  &::after {
+    // top: initial;
+    // bottom: 0px;
+    opacity: 1;
+  }
+  &-guide {
+    height: 55px;
+    cursor: pointer;
+    &:hover {
+      @include linkAnimation;
+    }
+    &::before {
+      opacity: 1;
+      display: block;
+    }
+    &::after {
+      opacity: 0;
+      display: none;
+    }
+  }
+  &-pause {
+    cursor: inherit;
+    &:hover {
+      animation: none !important;
+    }
+  }
+  &-line {
+    display: block;
+    width: 1px;
+    height: 40px;
+    background: #313131;
+    margin: auto;
+    position: relative;
+    &::after {
+      content: " ";
+      display: block;
+      width: 1px;
+      height: 15px;
+      background-color: #313131;
+      transform: rotate(-45deg);
+      position: absolute;
+      left: -5px;
+      top: 28px;
+      transition: all 0.3s ease-in-out;
+    }
+    &::before {
+      content: " ";
+      display: block;
+      width: 1px;
+      height: 0px;
+      background-color: #313131;
+      transform: rotate(45deg);
+      left: -5px;
+      bottom: 27px;
+      position: absolute;
+      transition: all 0.3s ease-in-out;
+    }
+  }
+  &-up {
+    &::after {
+      height: 0px !important;
+    }
+    &::before {
+      height: 15px !important;
+    }
+  }
+}
 
+@keyframes arrow {
+  from {
+    transform: rotateY(0deg);
+  }
+  to {
+    transform: rotateY(360deg);
+  }
+}

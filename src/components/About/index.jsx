@@ -4,12 +4,13 @@ import { Environment } from '@react-three/drei';
 import style from './About.module.scss';
 import { Lens } from '../Common/Lens';
 import { Subtitle } from '../Common/Text';
-import PropTypes from 'prop-types';
+import Arrow from '../Common/Arrow';
 // import { Marquee } from './Marquee';
 // import { Header } from './Header';
 import { Background } from './Background';
 import Image from 'next/image';
 import dynamic from 'next/dynamic';
+import PropTypes from 'prop-types';
 
 const Header = dynamic(() => import('./Header').then(mod => mod.Header), { ssr: false });
 const Marquee = dynamic(() => import('./Marquee').then(mod => mod.Marquee), { ssr: false });
@@ -47,11 +48,7 @@ export default function About ({ headline, content, image, index, color }) {
                     <section {...bind} ref={headerEl}>
                         <div className={style.headerContainer}>
                             <Header marqueeEl={marqueeEl} headerEl={headerEl} />
-                            <div className={style.arrow}>
-                                <div className={style.triangle} />
-                                <div className={style.triangle} />
-                                <div className={style.triangle} />
-                            </div>
+                            <Arrow isAbout />
                         </div>
                         <div className={style.marqueeContainer} ref={marqueeEl}>
                             <Marquee />

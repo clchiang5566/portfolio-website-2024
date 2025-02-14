@@ -46,6 +46,7 @@
     "react-howler": "^5.2.0",
     "react-intersection-observer": "^9.4.1",
     "react-redux": "^8.0.2",
+    "react-scroll": "^1.9.2",
     "react-three": "^0.9.7",
     "react-use": "^17.5.1",
     "redux": "^4.2.0",

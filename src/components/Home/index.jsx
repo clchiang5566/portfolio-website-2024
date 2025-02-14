@@ -7,6 +7,7 @@ import PropTypes from 'prop-types';
 import Face from './face';
 import Shape from './shape';
 import { WebGLBackground } from '../Common/WebGLBackground';
+import Arrow from '../Common/Arrow';
 import FontFaceObserver from 'fontfaceobserver';
 import { toggleMusicPlaying, toggleModelFloating, toggleModelActive } from '../../redux/home/home.action';
 import { selectIsFloating, selectIsActive } from '../../redux/home/home.selector';
@@ -82,9 +83,7 @@ export default function Home () {
                     <section {...bind} ref={headerEl}>
                         <section {...bind} ref={headerEl}>
                             <div className={[style.container, 'container'].join(' ')}>
-                                {isLoaded && (
-                                    <Shape isLoaded={isLoaded} handleClick={handleClick} isScrollDown={isScrollDown} />
-                                )}
+                                <Shape isLoaded={isLoaded} handleClick={handleClick} isScrollDown={isScrollDown} />
                                 {isLoaded && <Face event={mouseMove} isLoaded={isLoaded} />}
                             </div>
                             <div className={style.headerContainer}>
@@ -92,11 +91,7 @@ export default function Home () {
                                 <Header headerEl={headerEl} setIsScrollDown={setIsScrollDown} />
                             </div>
                         </section>
-                        <div className={style.arrow}>
-                            <div className={style.triangle} />
-                            <div className={style.triangle} />
-                            <div className={style.triangle} />
-                        </div>
+                        <Arrow />
                     </section>
                 )}
             </SmoothScrollbar>

@@ -20,7 +20,7 @@ const Shape = ({ isLoaded, isScrollDown, handleClick }) => {
 
     return (
         <div
-            className={[style.shape, 'bg', isFloating ? style.animation : null].join(' ')}
+            className={[style.shape, isLoaded ? style.show : null, 'bg', isFloating ? style.animation : null].join(' ')}
             onClick={() => handleClick()}
         >
             <svg ref={svgRef} xmlns='http://www.w3.org/2000/svg' x='0px' y='0px' viewBox='0 0 288 288'>
