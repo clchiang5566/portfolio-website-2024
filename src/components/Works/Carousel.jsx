@@ -288,7 +288,12 @@ export function Carousel () {
             currentIndexRef.current = active;
         }
         const speedRate = speed.current < 0 ? speed.current * -1 : speed.current;
-        $root.position.z = THREE.MathUtils.damp($root.position.z, Math.max(0, speedRate * 0.03), 4, delta);
+        $root.position.z = THREE.MathUtils.damp(
+            $root.position.z,
+            Math.max(0, speedRate * isMobile ? 1 : 0.03),
+            4,
+            delta
+        );
     });
 
     const renderSlider = () => {
