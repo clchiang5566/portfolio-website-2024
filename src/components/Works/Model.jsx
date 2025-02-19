@@ -118,13 +118,20 @@ export function Model ({ texturePath, color }) {
         <group ref={group}>
             <Float speed={6}>
                 <primitive object={scene} scale={0.004} />
-                <Html portal={htmlPortal} transform position={[0, 0.3, 0]} rotation={[0, 0, 0]} scale={0.15} occlude>
+                <Html
+                    portal={htmlPortal}
+                    transform
+                    position={[0, isMobile ? 0.5 : 0.3, 0]}
+                    rotation={[0, 0, 0]}
+                    scale={isMobile ? 0.2 : 0.15}
+                    occlude
+                >
                     <div
                         ref={htmlRef}
                         className='dialog'
                         style={{
                             background: color,
-                            fontSize: isMobile ? '10px' : '13px',
+                            fontSize: '13px',
                             opacity: '0',
                         }}
                     >

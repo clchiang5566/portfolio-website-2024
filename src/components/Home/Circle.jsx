@@ -29,21 +29,36 @@ export function Circle ({ setIsActive, headerEl, setIsScrollDown, ...props }) {
     const rotationZ = useRef(0);
 
     const items = [
-        { url: '/models/dance/scene1.gltf', text: '10th', position: [-2, 0.5, 0], mobilePosition: [-1.5, 0.8, 0] },
+        {
+            url: '/models/dance/scene1.gltf',
+            text: '10th',
+            position: [-2, isLaptop ? 0.5 : 0, 0],
+            mobilePosition: [-1.5, 0.8, 0],
+        },
         { url: '/models/dance/scene2.gltf', text: 'Anniversary', position: [-1.5, 0, 0], mobilePosition: [0, 1.2, 0] },
         {
             url: '/models/dance/scene3.gltf',
             text: '(2014 – 2024)',
             position: [-3, -0.5, 0],
-            mobilePosition: [-1.5, 0.5, 0],
+            mobilePosition: [-1.5, 0, 0],
         },
-        { url: '/models/dance/scene3.gltf', text: 'Edition', position: [-1, 0.1, 0], mobilePosition: [0, 0.8, 0] },
-        { url: '/models/dance/scene1.gltf', text: 'Portfolio', position: [0, -0.5, 0], mobilePosition: [0, 0.3, 0] },
+        {
+            url: '/models/dance/scene3.gltf',
+            text: 'Edition',
+            position: [isLaptop ? -1 : -1.5, -0.3, 0],
+            mobilePosition: [0, 0.8, 0],
+        },
+        {
+            url: '/models/dance/scene1.gltf',
+            text: 'Portfolio',
+            position: [isLaptop ? 0 : -0.5, isLaptop ? -0.5 : 0, 0],
+            mobilePosition: [0, 0, 0],
+        },
     ];
 
     const modelsPosition = {
         0: isMobile ? [-1.5, 0, 0] : isLaptop ? [-3, 0, 0] : [-4, 0, 0],
-        1: isMobile ? [-1, 1, 0] : isLaptop ? [-0.5, 3, 0] : [-1.5, 3, 0],
+        1: isMobile ? [-1, 1, 0] : isLaptop ? [-0.5, 3, 0] : [-1, 3, 0],
         2: isMobile ? [-0.5, -1, 0] : isLaptop ? [0, -2, 0] : [0, -2, 0],
         3: isMobile ? [0.5, 1, 0] : isLaptop ? [2.5, 3, 0] : [3.5, 3, 0],
         4: isMobile ? [0.5, 0, 0] : isLaptop ? [3, 0, 0] : [4, 0, 0],

@@ -113,8 +113,8 @@ export default function About ({ headline, content, image, index, color }) {
                                             inner world I want to express.
                                         </p>
                                         <p>
-                                            This website is a commemorative edition of my work on the tenth year (2013 -
-                                            2023) and a collection of works. It selects some pieces of different stages
+                                            This website is a commemorative edition of my work on the tenth year (2014 -
+                                            2024) and a collection of works. It selects some pieces of different stages
                                             in the past six years. These works represent the results of my different
                                             types of work experience and global cross-border teamwork.
                                         </p>
