@@ -328,7 +328,9 @@ export function Carousel () {
         <group>
             {renderSlider()}
             {textReady && activePlane == null && <TextGroup currentIndex={currentIndexRef.current} />}
-            {!isPoster && activePlane == null && <Model texturePath={images[currentIndexRef.current]?.texture} />}
+            {!isPoster && activePlane == null && (
+                <Model texturePath={images[currentIndexRef.current]?.texture} color={images[currentIndex]?.bgColor} />
+            )}
             <RouteWatcher />
         </group>
     );

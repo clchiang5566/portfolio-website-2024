@@ -47,11 +47,11 @@ export function Plane ({ index, material, texture, width, height, active, setIsR
                 duration: 0.4,
                 overwrite: true,
             });
-            // if (active || isPoster) {
-            //     material.current[index].material.uniforms.isActive.value = 1;
-            // } else {
-            //     material.current[index].material.uniforms.isActive.value = 0;
-            // }
+            if (active || isPoster) {
+                material.current[index].material.uniforms.isVertical.value = 1;
+            } else {
+                if (!isVertical) material.current[index].material.uniforms.isVertical.value = 0;
+            }
         }
     }, [active]);
 
