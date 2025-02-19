@@ -1,16 +1,18 @@
 import React, { useRef, useEffect, useState } from 'react';
 import { useFrame, useThree } from '@react-three/fiber';
-import { useGLTF, Float } from '@react-three/drei';
+import { useGLTF, Float, Html } from '@react-three/drei';
 import PropTypes from 'prop-types';
 import gsap from 'gsap';
 import * as THREE from 'three';
 import { useMediaQueryCheck } from '../../hooks/useMediaQueryCheck';
 
-export function Model ({ texturePath }) {
+export function Model ({ texturePath, color }) {
     const group = useRef();
     const { scene, animations } = useGLTF('/models/down/scene.gltf');
-    const { viewport } = useThree();
+    const { viewport, gl } = useThree();
+    const htmlPortal = useRef(gl.domElement.parentNode);
     const mixer = useRef();
+    const htmlRef = useRef();
     const [isShow, setIsShow] = useState(false);
     const [newTexture, setNewTexture] = useState(null);
     const { isMobile } = useMediaQueryCheck(991);
@@ -56,6 +58,10 @@ export function Model ({ texturePath }) {
                                 if (child.isMesh && child.material) {
                                     child.material.transparent = false;
                                 }
+                            });
+                            gsap.to(htmlRef.current, {
+                                opacity: 1,
+                                duration: 1,
                             });
                         },
                     });
@@ -112,11 +118,30 @@ export function Model ({ texturePath }) {
         <group ref={group}>
             <Float speed={6}>
                 <primitive object={scene} scale={0.004} />
+                <Html portal={htmlPortal} transform position={[0, 0.3, 0]} rotation={[0, 0, 0]} scale={0.15} occlude>
+                    <div
+                        ref={htmlRef}
+                        className='dialog'
+                        style={{
+                            background: color,
+                            fontSize: isMobile ? '10px' : '13px',
+                            opacity: '0',
+                        }}
+                    >
+                        ZZZzz..
+                        <span
+                            style={{
+                                borderColor: color,
+                            }}
+                        />
+                    </div>
+                </Html>
             </Float>
         </group>
     );
 }
 
 Model.propTypes = {
+    color: PropTypes.string,
     texturePath: PropTypes.string,
 };

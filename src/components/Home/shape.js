@@ -42,9 +42,9 @@ const Shape = ({ isLoaded, isScrollDown, handleClick }) => {
                             dur='10s'
                             repeatCount='indefinite'
                         />
-                        10th Anniversary Edition Portfolio (2014 – 2024) 10th Anniversary Edition Portfolio (2014 –
-                        2024) 10th Anniversary Edition Portfolio (2014 – 2024) 10th Anniversary Edition Portfolio (2014
-                        – 2024) 10th Anniversary Edition Portfolio (2014 – 2024)
+                        A Freelance Creative Developer who is traveling and studying hard this year. A Freelance
+                        Creative Developer who is traveling and studying hard this year. A Freelance Creative Developer
+                        who is traveling and studying hard this year
                     </textPath>
                 </text>
             </svg>

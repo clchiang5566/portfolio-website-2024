@@ -1,17 +1,34 @@
 import React, { useRef, useEffect, useState } from 'react';
-import { useFrame } from '@react-three/fiber';
+import { useFrame, useThree } from '@react-three/fiber';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
-import { Float } from '@react-three/drei';
+import { Float, Html } from '@react-three/drei';
+import { useMediaQueryCheck } from '../../hooks/useMediaQueryCheck';
 import * as THREE from 'three';
 import PropTypes from 'prop-types';
 import gsap from 'gsap';
 
-export function Model ({ url, position, index, scale, isFloating, isTwist, twistAmount, twistTime, scrollState }) {
+export function Model ({
+    url,
+    position,
+    index,
+    scale,
+    isFloating,
+    isTwist,
+    twistAmount,
+    twistTime,
+    scrollState,
+    text,
+    htmlPosition,
+}) {
     const group = useRef();
     const [scene, setScene] = useState();
     const [defindMaterial, setDefindMaterial] = useState();
     const [mixer, setMixer] = useState();
     const [rotationIntensity, setRotationIntensity] = useState(1.5);
+    const { gl } = useThree();
+    const htmlPortal = useRef(gl.domElement.parentNode);
+    const htmlRef = useRef();
+    const { isMobile } = useMediaQueryCheck(991);
 
     useEffect(() => {
         const loader = new GLTFLoader();
@@ -50,6 +67,12 @@ export function Model ({ url, position, index, scale, isFloating, isTwist, twist
                         duration: 0.5,
                         delay: 1 + index * 0.2,
                         ease: 'power2.inOut',
+                        onComplete: () => {
+                            gsap.to(htmlRef.current, {
+                                opacity: 1,
+                                duration: 1,
+                            });
+                        },
                     });
                 }
             });
@@ -124,6 +147,18 @@ export function Model ({ url, position, index, scale, isFloating, isTwist, twist
         <group ref={group} position={position}>
             <Float speed={5} floatIntensity={6} rotationIntensity={rotationIntensity}>
                 <primitive object={scene} scale={scale} />
+                <Html portal={htmlPortal} transform position={htmlPosition} rotation={[0, 0, 0]} scale={0.5} occlude>
+                    <div
+                        className={index === 0 || index === 2 ? 'dialog-right' : 'dialog-left'}
+                        ref={htmlRef}
+                        style={{
+                            fontSize: isMobile ? '10px' : '13px',
+                            opacity: '0',
+                        }}
+                    >
+                        {text}
+                    </div>
+                </Html>
             </Float>
         </group>
     );
@@ -138,6 +173,8 @@ Model.propTypes = {
     isTwist: PropTypes.bool,
     twistAmount: PropTypes.number,
     twistTime: PropTypes.number,
+    text: PropTypes.string,
+    htmlPosition: PropTypes.array,
 };
 
 function buildTwistMaterial () {

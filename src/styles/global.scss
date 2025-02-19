@@ -465,7 +465,7 @@ h4, .h4 {
   right: 34px;
   bottom: 35px;
   z-index: 100;
-  padding: 0 15px;
+  padding: 0 10px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -557,6 +557,70 @@ h4, .h4 {
   }
 }
 
+.dialog,
+.dialog-left,
+.dialog-right {
+  padding: 6px 8px;
+  background: black;
+  color: white;
+  border-radius: 5px;
+  position: relative;
+  letter-spacing: 1px;
+  span {
+    position: absolute;
+    border-top: 20px solid #000;
+    border-right: 0px solid transparent !important;
+    border-left: 20px solid transparent !important;
+    border-bottom: 0px solid #000;
+    bottom: -10px;
+    right: 15px;
+  }
+}
+
+.dialog-left {
+  &::after {
+    content: ' ';
+    position: absolute;
+    border-top: 20px solid #000;
+    border-right: 20px solid transparent;
+    border-left: 0px solid transparent;
+    border-bottom: 0px solid #000;
+    bottom: -10px;
+    left: 15px;
+    @include tablet {
+      border-top: 10px solid #000;
+      border-right: 10px solid transparent;
+      border-left: 0px solid transparent;
+      border-bottom: 0px solid #000;
+      bottom: -10px;
+      left: 15px;
+    }
+  }
+}
+
+.dialog-right {
+  &::after {
+    content: ' ';
+    position: absolute;
+    border-top: 20px solid #000;
+    border-right: 0px solid transparent;
+    border-left: 20px solid transparent;
+    border-bottom: 0px solid #000;
+    bottom: -10px;
+    right: 15px;
+    @include tablet {
+      border-top: 10px solid #000;
+      border-right: 0px solid transparent;
+      border-left: 10px solid transparent;
+      border-bottom: 0px solid #000;
+    }
+  }
+}
+
+.dialog {
+  color: #313131;
+}
+
 @keyframes arrow {
   from {
     transform: rotateY(0deg);
@@ -565,3 +629,4 @@ h4, .h4 {
     transform: rotateY(360deg);
   }
 }
+

@@ -106,7 +106,7 @@ function ShaderPlane ({ color, isHome }) {
     }, []);
 
     return (
-        <mesh position={[0, 0, -3]}>
+        <mesh position={[0, 0, -5]}>
             <planeGeometry args={[viewport.width * 2, viewport.height * 2]} renderOrder={-3} />
             <customShaderMaterial
                 ref={materialRef}

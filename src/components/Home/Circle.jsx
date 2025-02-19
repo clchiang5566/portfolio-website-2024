@@ -17,7 +17,7 @@ export function Circle ({ setIsActive, headerEl, setIsScrollDown, ...props }) {
     const group = useRef();
     const { isMobile } = useMediaQueryCheck(991);
     const { isLaptop } = useMediaQueryLaptopCheck(1500);
-    const radius = isMobile ? 0.5 : isLaptop ? 3 : 3.5;
+    const radius = isMobile ? 0.4 : isLaptop ? 3 : 3.5;
     const scale = isMobile ? 0.004 : isLaptop ? 0.009 : 0.012;
     const { scrollState } = useTracker(headerEl);
     const isFloating = useSelector(selectIsFloating);
@@ -28,12 +28,17 @@ export function Circle ({ setIsActive, headerEl, setIsScrollDown, ...props }) {
     const dispatch = useDispatch();
     const rotationZ = useRef(0);
 
-    const urls = [
-        '/models/dance/scene1.gltf',
-        '/models/dance/scene2.gltf',
-        '/models/dance/scene3.gltf',
-        '/models/dance/scene3.gltf',
-        '/models/dance/scene1.gltf',
+    const items = [
+        { url: '/models/dance/scene1.gltf', text: '10th', position: [-2, 0.5, 0], mobilePosition: [-1.5, 0.8, 0] },
+        { url: '/models/dance/scene2.gltf', text: 'Anniversary', position: [-1.5, 0, 0], mobilePosition: [0, 1.2, 0] },
+        {
+            url: '/models/dance/scene3.gltf',
+            text: '(2014 – 2024)',
+            position: [-3, -0.5, 0],
+            mobilePosition: [-1.5, 0.5, 0],
+        },
+        { url: '/models/dance/scene3.gltf', text: 'Edition', position: [-1, 0.1, 0], mobilePosition: [0, 0.8, 0] },
+        { url: '/models/dance/scene1.gltf', text: 'Portfolio', position: [0, -0.5, 0], mobilePosition: [0, 0.3, 0] },
     ];
 
     const modelsPosition = {
@@ -44,7 +49,7 @@ export function Circle ({ setIsActive, headerEl, setIsScrollDown, ...props }) {
         4: isMobile ? [0.5, 0, 0] : isLaptop ? [3, 0, 0] : [4, 0, 0],
     };
 
-    const timeOffsets = useRef(urls.map(() => Math.random() * 1000));
+    const timeOffsets = useRef(items.map(() => Math.random() * 1000));
     const { onScroll } = useScrollbar();
 
     const getTwistAmount = scrollVisibility => {
@@ -138,7 +143,7 @@ export function Circle ({ setIsActive, headerEl, setIsScrollDown, ...props }) {
                 delta
             );
             group.current.rotation.z = rotationZ.current;
-            group.current.position.x = scrollState.progress * 0.5 + 1;
+            group.current.position.x = scrollState.progress * -0.1 + 1;
 
             if (isFloating) {
                 const randomRotationX = THREE.MathUtils.lerp(
@@ -164,12 +169,12 @@ export function Circle ({ setIsActive, headerEl, setIsScrollDown, ...props }) {
     });
 
     return (
-        <group ref={group} position={[0, 0, 3]}>
-            {urls.map((url, index) => (
+        <group ref={group} position={[0, 0, 0]}>
+            {items.map((item, index) => (
                 <Model
                     key={index}
                     index={index}
-                    url={url}
+                    url={item.url}
                     position={modelsPosition[index]}
                     scale={scale}
                     isFloating={isFloating}
@@ -177,6 +182,8 @@ export function Circle ({ setIsActive, headerEl, setIsScrollDown, ...props }) {
                     twistAmount={twistAmount}
                     twistTime={twistTime}
                     scrollState={scrollState}
+                    text={item.text}
+                    htmlPosition={isMobile ? item.mobilePosition : item.position}
                 />
             ))}
         </group>
