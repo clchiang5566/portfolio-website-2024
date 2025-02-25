@@ -169,7 +169,7 @@ function CustomImage ({ imgRef, url, scrollState, ...props }) {
             $mesh.current.uniforms.shift.value = THREE.MathUtils.lerp(
                 $mesh.current.uniforms.shift.value,
                 scrollSpeed,
-                isMobile ? 0.015 : 0.01
+                isMobile ? 0.01 : 0.005
             );
         }
     });

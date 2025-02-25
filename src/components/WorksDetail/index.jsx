@@ -6,8 +6,6 @@ import { WebGLBackground } from '../Common/WebGLBackground';
 import { Lens } from '../Common/Lens';
 import { useSelector } from 'react-redux';
 import { getCurrentColor, getPageContent, getIsDetailPage } from '../../redux/works/works.selector';
-import { useMediaQueryCheck } from '../../hooks/useMediaQueryCheck';
-import Head from 'next/head';
 import { Header } from '../Works/Header';
 import { Content } from './Content';
 
@@ -16,7 +14,6 @@ export default function WorksDetail () {
     const currentColor = useSelector(getCurrentColor);
     const isDetailPage = useSelector(getIsDetailPage);
     const pageContent = useSelector(getPageContent);
-    const { isMobile } = useMediaQueryCheck(991);
     const [key, setKey] = useState(0);
 
     useEffect(() => {
@@ -29,9 +26,6 @@ export default function WorksDetail () {
 
     return (
         <>
-            <Head>
-                <style>{`canvas { border: ${isMobile ? '15px' : '20px'} solid ${currentColor} }`}</style>
-            </Head>
             <div className={style.el} ref={eventSource}>
                 <GlobalCanvas
                     debug={false}
@@ -53,13 +47,14 @@ export default function WorksDetail () {
                 </GlobalCanvas>
                 <SmoothScrollbar config={{ syncTouch: true }}>
                     {bind => (
-                        <section {...bind}>
-                            <Header key={key} />
+                        <section {...bind} key={key}>
+                            <Header />
                             {isDetailPage && pageContent && <Content contents={pageContent} />}
                         </section>
                     )}
                 </SmoothScrollbar>
             </div>
+            <div className={style.border} style={{ borderColor: `${currentColor}` }} />
         </>
     );
 }

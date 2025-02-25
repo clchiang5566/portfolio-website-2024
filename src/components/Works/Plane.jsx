@@ -19,7 +19,7 @@ export function Plane ({ index, material, texture, width, height, active, setIsR
     useEffect(() => {
         if (material.current[index].material && index === currentIndex) {
             material.current[index].material.uniforms.uZoomScale.value.x = isMobile
-                ? viewport.width / 1.08 / width
+                ? viewport.width / 1.14 / width
                 : (viewport.width / 2 / width) * 1.12;
             material.current[index].material.uniforms.uZoomScale.value.y = isMobile
                 ? viewport.height / 1.6 / height
