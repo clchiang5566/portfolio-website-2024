@@ -17,8 +17,8 @@ export function Circle ({ setIsActive, headerEl, setIsScrollDown, ...props }) {
     const group = useRef();
     const { isMobile } = useMediaQueryCheck(991);
     const { isLaptop } = useMediaQueryLaptopCheck(1500);
-    const radius = isMobile ? 0.4 : isLaptop ? 3 : 3.5;
-    const scale = isMobile ? 0.004 : isLaptop ? 0.009 : 0.012;
+    const radius = isMobile ? 0.3 : isLaptop ? 3 : 3.5;
+    const scale = isMobile ? 0.0045 : isLaptop ? 0.009 : 0.012;
     const { scrollState } = useTracker(headerEl);
     const isFloating = useSelector(selectIsFloating);
     const [isTwist, setIsTwist] = useState(false);
@@ -158,7 +158,7 @@ export function Circle ({ setIsActive, headerEl, setIsScrollDown, ...props }) {
                 delta
             );
             group.current.rotation.z = rotationZ.current;
-            group.current.position.x = scrollState.progress * -0.1 + 1;
+            group.current.position.x = scrollState.progress * -0.1 + isLaptop ? 1 : 1.5;
 
             if (isFloating) {
                 const randomRotationX = THREE.MathUtils.lerp(

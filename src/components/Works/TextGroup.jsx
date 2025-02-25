@@ -42,11 +42,17 @@ export function TextGroup ({ currentIndex }) {
                     key={index}
                     position={[
                         isMobile
-                            ? -viewport.width / 2 + pixelToUnitWidth
-                            : -viewport.width / 2 + pixelToUnitWidth * 1.2,
+                            ? -viewport.width / 2 + pixelToUnitWidth * 1.2
+                            : -viewport.width / 2 + pixelToUnitWidth * 1.8,
                         isMobile
-                            ? -viewport.height / 2 + pixelToUnitWidth + (index + 1) * pixelToUnitWidth
-                            : -viewport.height / 2 + (index + 1) * pixelToUnitWidth + index * pixelToUnitWidth * 1.2,
+                            ? -viewport.height / 2 +
+                              pixelToUnitWidth +
+                              (index + 1) * pixelToUnitWidth +
+                              pixelToUnitWidth * 0.4
+                            : -viewport.height / 2 +
+                              (index + 1) * pixelToUnitWidth +
+                              index * pixelToUnitWidth * 1.2 +
+                              pixelToUnitWidth * 0.8,
                         0,
                     ]}
                 >
@@ -88,7 +94,7 @@ export function TextGroup ({ currentIndex }) {
             ))}
             <group
                 position={[
-                    isMobile ? viewport.width / 2 - pixelToUnitWidth : viewport.width / 2 - pixelToUnitWidth * 1.3,
+                    isMobile ? viewport.width / 2 - pixelToUnitWidth * 1.4 : viewport.width / 2 - pixelToUnitWidth * 2,
                     isMobile ? viewport.height / 2 - pixelToUnitWidth * 4 : viewport.height / 2 - 1.7,
                     0,
                 ]}

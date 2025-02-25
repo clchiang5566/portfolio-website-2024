@@ -290,7 +290,7 @@ export function Carousel () {
         const speedRate = speed.current < 0 ? speed.current * -1 : speed.current;
         $root.position.z = THREE.MathUtils.damp(
             $root.position.z,
-            Math.max(0, speedRate * isMobile ? 1 : 0.03),
+            Math.max(0, speedRate * isMobile ? 0.5 : 0.02),
             4,
             delta
         );

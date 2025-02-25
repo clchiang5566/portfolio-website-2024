@@ -4,7 +4,7 @@ import { useGLTF, Float, Html } from '@react-three/drei';
 import PropTypes from 'prop-types';
 import gsap from 'gsap';
 import * as THREE from 'three';
-import { useMediaQueryCheck } from '../../hooks/useMediaQueryCheck';
+import { useMediaQueryCheck, useMediaQueryLaptopCheck } from '../../hooks/useMediaQueryCheck';
 
 export function Model ({ texturePath, color }) {
     const group = useRef();
@@ -16,6 +16,7 @@ export function Model ({ texturePath, color }) {
     const [isShow, setIsShow] = useState(false);
     const [newTexture, setNewTexture] = useState(null);
     const { isMobile } = useMediaQueryCheck(991);
+    const { isLaptop } = useMediaQueryLaptopCheck(1500);
 
     useEffect(() => {
         if (texturePath) {
@@ -121,9 +122,9 @@ export function Model ({ texturePath, color }) {
                 <Html
                     portal={htmlPortal}
                     transform
-                    position={[0, isMobile ? 0.5 : 0.3, 0]}
+                    position={[0, isMobile ? 0.35 : 0.3, 0]}
                     rotation={[0, 0, 0]}
-                    scale={isMobile ? 0.2 : 0.15}
+                    scale={isMobile ? 0.2 : isLaptop ? 0.15 : 0.1}
                     occlude
                 >
                     <div

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import Head from 'next/head';
 import { NextSeo } from 'next-seo';
@@ -11,9 +11,14 @@ import { useSelector } from 'react-redux';
 
 const WorksPage = ({ Global, Seo }) => {
     const currentColor = useSelector(getCurrentColor);
+    const [color, setColor] = useState(currentColor);
+
+    useEffect(() => {
+        setColor(currentColor);
+    }, [currentColor]);
 
     return (
-        <Layout {...Global} color={currentColor}>
+        <Layout {...Global} color={color}>
             <NextSeo title={Seo.pageTitle} description={Seo.pageDescription} canonical={Seo.pageUrl} />
             <Head>
                 <link rel='shortcut icon' href={Global?.favicon?.url} />
