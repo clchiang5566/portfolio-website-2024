@@ -44,7 +44,7 @@ export default function Home () {
             .then(() => {
                 setTimeout(() => {
                     setIsLoaded(true);
-                }, 300);
+                }, 500);
             })
             .catch(() => {
                 console.error('error');
@@ -83,7 +83,9 @@ export default function Home () {
                     <section {...bind} ref={headerEl}>
                         <section {...bind} ref={headerEl}>
                             <div className={[style.container, 'container'].join(' ')}>
-                                <Shape isLoaded={isLoaded} handleClick={handleClick} isScrollDown={isScrollDown} />
+                                {isLoaded && (
+                                    <Shape isLoaded={isLoaded} handleClick={handleClick} isScrollDown={isScrollDown} />
+                                )}
                                 {isLoaded && <Face event={mouseMove} isLoaded={isLoaded} />}
                             </div>
                             <div className={style.headerContainer}>

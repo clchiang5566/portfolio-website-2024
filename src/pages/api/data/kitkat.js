@@ -33,7 +33,16 @@ const Contents = {
         {
             type: 'text',
             text:
-                'The Chocolatory e-commerce model represents a modern take on the modern way of thinking, fully aligned with consumers for a personalized and  truly immersive experience, anytime and anywhere. Visitors can express themselves by customising their own products and gifts, as well as joining The Break Society community',
+                'The Chocolatory e-commerce platform offers a personalized and interactive shopping experience. Customers can customize products and gifts while joining The Break Society, creating a sense of community. This model provides an immersive experience that’s available anytime, anywhere.',
+        },
+        {
+            type: 'text',
+            text:
+                'The design draws inspiration from the KitKat flagship store, bringing its playful vibe online. Features like the virtual pick n’ mix and photo uploads for custom chocolate bars make shopping fun. Social media integration also makes it easy for customers to share and connect.',
+        },
+        {
+            type: 'text',
+            text: 'In this e-commerce experience, I was involved in the front-end development.',
         },
         {
             type: 'images',

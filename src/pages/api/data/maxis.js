@@ -33,12 +33,45 @@ const Contents = {
         {
             type: 'text',
             text:
-                'Lorem ipsum dolor sit amet, eius probo sententiae pri id. Id vis postea incorrupte, mea eirmod minimum accusata ad. Cu quo persius saperet indoctum, vel et corrumpit laboramus dissentiunt, vix ad probo denique. Quod discere singulis ut usu, mea cu graeci nostro equidem, eam scripta maluisset mediocritatem ne. Tempor tincidunt vis ea, inani dicit in duo. Eos ne noster vidisse veritus.',
+                'Maxis is a major telecommunications company in Malaysia, offering a variety of services including mobile phones, data plans, and fiber-optic networks. It is one of the leading communication service providers in Malaysia, with a large user base.',
+        },
+        {
+            type: 'text',
+            text:
+                'This digital device is part of a brand image design upgrade, primarily placed in store customer waiting areas. It allows customers to watch videos or play games while waiting to earn discount vouchers, making it a platform for navigation and services.',
+        },
+        {
+            type: 'text',
+            text:
+                'This experience is based on web technologies, and I am responsible for the overall architecture and full program development.',
+        },
+        {
+            type: 'images',
+            images: [
+                {
+                    image: {
+                        url: '/images/maxis/1.jpg',
+                        alt: '',
+                    },
+                },
+                {
+                    image: {
+                        url: '/images/maxis/2.jpg',
+                        alt: '',
+                    },
+                },
+                {
+                    image: {
+                        url: '/images/maxis/3.jpg',
+                        alt: '',
+                    },
+                },
+            ],
         },
         {
             type: 'video',
             video: {
-                headline: 'Screenshot',
+                headline: 'Intro Video',
                 url: '/images/maxis/video.mp4',
             },
         },
