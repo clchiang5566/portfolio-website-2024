@@ -47,7 +47,7 @@ const Contents = {
         {
             type: 'text',
             text:
-                'I was responsible for all program development and part of the animation production for this project.',
+                'In this data-driven digital experience, diverse animated content can be generated based on various parameters. I am responsible for architectural planning and front-end development.',
         },
         {
             type: 'images',
@@ -83,6 +83,13 @@ const Contents = {
                     },
                 },
             ],
+        },
+        {
+            type: 'video',
+            video: {
+                headline: 'Screenshot',
+                url: '/images/nio/video.mp4',
+            },
         },
     ],
 };

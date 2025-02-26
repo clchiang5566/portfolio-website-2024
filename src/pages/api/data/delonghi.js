@@ -38,7 +38,7 @@ const Contents = {
         {
             type: 'text',
             text:
-                'I only did part of the front-end development in this project. I mainly want to use it to present my experience in kiosk. This sort of digital experience is suitable for various retail scenarios. It can also integrate various software and hardware technologies, such as AI, IoT, face recognition, etc., to achieve diverse applications.',
+                'I was involved in only part of the front-end development for this project. I mainly want to highlight my experience with kiosks. This type of digital experience is ideal for various retail scenarios and can integrate diverse software and hardware technologies, such as AI, IoT, and facial recognition, to enable a wide range of applications.',
         },
         {
             type: 'images',

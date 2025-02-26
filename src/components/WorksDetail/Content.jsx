@@ -68,7 +68,8 @@ export function Content ({ contents }) {
                                         repeatCount='indefinite'
                                     />
                                     Prev - Prev - Prev - Prev - Prev - Prev - Prev - Prev - Prev - Prev - Prev - Prev -
-                                    Prev - Prev - Prev - Prev - Prev - Prev - Prev - Prev -
+                                    Prev - Prev - Prev - Prev - Prev - Prev - Prev - Prev - Prev - Prev - Prev - Prev -
+                                    Prev - Prev - Prev - Prev -
                                 </textPath>
                             </text>
                         </svg>

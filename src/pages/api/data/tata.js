@@ -29,12 +29,12 @@ const Contents = {
         {
             type: 'text',
             text:
-                'From running 500,000 kilometers of undersea cables, making live streaming to millions around the world possible, to automating supply chains for manufacturing giants through advanced IoT technologies, Tata Communications is not just a broadband provider, it is a global digital ecosystem enabler. ',
+                'Tata Communications is a global leader in digital infrastructure, enabling everything from undersea cables that connect the world, to live streaming for millions, and advanced IoT solutions that automate supply chains for large manufacturers. They are more than just a broadband provider—they create a global digital ecosystem.',
         },
         {
             type: 'text',
             text:
-                'We need to elevate the conversation to the elevation of its true business impact. Meet us at this summit. A vantage point and a meeting point for the like-minded. For each step you take, we bring you to a high elevation and discover how Tata Communications enables you in a digital transformation agenda. </br></br>In this website, I have been involved in front-end application development.',
+                'This digital experience helps you explore how Tata Communications can drive your digital transformation. Discover the powerful impact they have on businesses worldwide, and learn how they help organizations reach new heights. In this website, I have been involved in front-end development.',
         },
         {
             type: 'images',

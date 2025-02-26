@@ -38,7 +38,7 @@ const Contents = {
         {
             type: 'text',
             text:
-                'In this digital experience, I participated in creative discussions and feasibility testing, as well as In this digital experience, I participated in creative discussions and prototypes for feasibility testing, as well as complete front-end development within a tough schedule.',
+                'In this digital experience, I participated in creative discussions and prototypes for feasibility testing, as well as complete front-end development.',
         },
         {
             type: 'images',

@@ -64,16 +64,16 @@ export default function About ({ headline, content, image, index, color }) {
                                     <div className={style.frame}>
                                         <p>Hey, you can call me Lung.</p>
                                         <p>
-                                            I'm a meme lover, a former Blockbuster clerk, and a digital enthusiast. I
+                                            I’m a meme lover, a former Blockbuster clerk, and a digital enthusiast. I
                                             love exploring world heritage sites and learning about cooking cultures
-                                            around the world. I'm always curious about the unknown, whether it's
-                                            something new in digital or trying new flavors.
+                                            worldwide. I’m always curious about the unknown, whether it’s discovering
+                                            new trends in digital or trying out new flavors from different cultures.
                                         </p>
                                         <p>
-                                            As a web-based creative developer, I work to balance technical practices and
-                                            creative approaches to deliver functional and visually compelling projects.
-                                            I enjoy collaborating with talented individuals in the creative industry,
-                                            which brings ideas and impactful results.
+                                            As a web-based creative developer, I strive to balance technical practices
+                                            and creative approaches to deliver functional and visually compelling
+                                            projects. I enjoy collaborating with talented individuals in the creative
+                                            industry, as it brings ideas to life and leads to impactful results.
                                         </p>
                                         <p>
                                             With 10 years of experience working on digital products alongside APAC
@@ -106,17 +106,18 @@ export default function About ({ headline, content, image, index, color }) {
                                             />
                                         </div>
                                         <p>
-                                            A poem that I've recently come to love emphasizes the importance of inner
-                                            self-worth rather than conforming to external standards. It conveys a spirit
-                                            of staying true to oneself and pursuing authenticity. So I also incorporated
-                                            these characteristics into the visual design and effects. This reflects the
-                                            inner world I want to express.
+                                            A poem I’ve recently come to love highlights the importance of inner
+                                            self-worth over conforming to external standards. It speaks to staying true
+                                            to oneself and pursuing authenticity. I’ve incorporated these values into
+                                            the visual design and effects of this site, reflecting the inner world I
+                                            want to express.
                                         </p>
                                         <p>
-                                            This website is a commemorative edition of my work on the tenth year (2014 -
-                                            2024) and a collection of works. It selects some pieces of different stages
-                                            in the past six years. These works represent the results of my different
-                                            types of work experience and global cross-border teamwork.
+                                            This website is a commemorative edition celebrating my work over the past
+                                            ten years (2014 - 2024) and serves as a collection of my projects. It
+                                            features selected pieces from different stages over the past six years,
+                                            showcasing the results of my varied work experience and global cross-border
+                                            collaborations.
                                         </p>
                                         <p>You also can see some of the other works through the TV below.</p>
                                     </div>
