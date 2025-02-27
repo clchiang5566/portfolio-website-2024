@@ -1,22 +1,20 @@
 import React, { useRef, useEffect, useState } from 'react';
 import { useFrame, useThree } from '@react-three/fiber';
-import { useGLTF, Float, Html } from '@react-three/drei';
+import { useGLTF, Float } from '@react-three/drei';
 import PropTypes from 'prop-types';
 import gsap from 'gsap';
 import * as THREE from 'three';
-import { useMediaQueryCheck, useMediaQueryLaptopCheck } from '../../hooks/useMediaQueryCheck';
+import { useMediaQueryCheck } from '../../hooks/useMediaQueryCheck';
 
 export function Model ({ texturePath, color }) {
     const group = useRef();
     const { scene, animations } = useGLTF('/models/down/scene.gltf');
-    const { viewport, gl } = useThree();
-    const htmlPortal = useRef(gl.domElement.parentNode);
+    const { viewport } = useThree();
     const mixer = useRef();
     const htmlRef = useRef();
     const [isShow, setIsShow] = useState(false);
     const [newTexture, setNewTexture] = useState(null);
     const { isMobile } = useMediaQueryCheck(991);
-    const { isLaptop } = useMediaQueryLaptopCheck(1500);
 
     useEffect(() => {
         if (texturePath) {
@@ -119,31 +117,6 @@ export function Model ({ texturePath, color }) {
         <group ref={group}>
             <Float speed={6}>
                 <primitive object={scene} scale={0.004} />
-                <Html
-                    portal={htmlPortal}
-                    transform
-                    position={[0, isMobile ? 0.35 : 0.3, 0]}
-                    rotation={[0, 0, 0]}
-                    scale={isMobile ? 0.2 : isLaptop ? 0.15 : 0.1}
-                    occlude
-                >
-                    <div
-                        ref={htmlRef}
-                        className='dialog'
-                        style={{
-                            background: color,
-                            fontSize: '13px',
-                            opacity: '0',
-                        }}
-                    >
-                        ZZZzz..
-                        <span
-                            style={{
-                                borderColor: color,
-                            }}
-                        />
-                    </div>
-                </Html>
             </Float>
         </group>
     );
